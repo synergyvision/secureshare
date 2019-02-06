@@ -1,0 +1,12 @@
+{
+    "name": "Sharekey-web",
+    "description": "The web application of the sharekey system",
+    "repository": "https://github.com/synergyvision/sharekey-web",
+    "author": "Luis Liguori",
+    "license": "",
+    "dependencies": {
+        "angular": "^1.7.6",
+        "angular-route": "1.7.x",
+        "bootstrap": "3.3.x"
+    }
+}
