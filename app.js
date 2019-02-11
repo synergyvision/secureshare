@@ -1,14 +1,14 @@
 'use strict';
 
 // Declare app level module which depends on views, and core components
-angular.module('myApp', [
+angular.module('sharekey', [
   'ngRoute',
-  'myApp.view1',
-  'myApp.view2',
-  'myApp.version'
+  'sharekey.login',
+
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
 
-  $routeProvider.otherwise({redirectTo: '/view1'});
+  $routeProvider.otherwise({redirectTo: '/'});
 }]);
+
