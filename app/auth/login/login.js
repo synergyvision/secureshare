@@ -8,8 +8,13 @@ angular.module('sharekey.login', ['ngRoute','ngCookies'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/', {
-    templateUrl: 'login/login.html',
-    controller: 'LoginController'
+    templateUrl: '../auth/login/login.html',
+    controller: 'LoginController',
+    css: 'login.css'
+  }).when('/login',{
+    templateUrl: '../auth/login/login.html',
+    controller: 'LoginController',
+    css: 'login.css'
   });
 }])
 
@@ -33,7 +38,7 @@ angular.module('sharekey.login', ['ngRoute','ngCookies'])
         if (response.data.status === 'auth/wrong-password'){
           errorLogin('Su contrasena es incorrecta');
         } else if (response.data.status === 'auth/auth/user-not-found'){
-          errorLogin('Su correo es invaludo');
+          errorLogin('Su correo es invalido');
         }
       }
     })

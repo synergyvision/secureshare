@@ -1,0 +1,26 @@
+<div class="container-fullwidth">
+    <nav class="navbar navbar-light bg-dark">
+      <a class="navbar-brand" style="color:white">
+        Sharekey
+      </a>
+    </nav>
+  <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">Recuperacion de contrasena</h5>
+            <div ng-controller="CheckEmailController">
+            <form class="form-signin" ng-submit="sendEmail()">
+              <div class="form-label-group">
+                <input type="email" id="email" ng-model="email" class="form-control" placeholder="Email address" required autofocus>
+                <label for="inputEmail">Email address</label>
+              </div>
+              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Enviar correo de recuperacion</button>
+              <a class="btn btn-lg btn-light btn-block text-uppercase" href="/">Regresar</a>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
