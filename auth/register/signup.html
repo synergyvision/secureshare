@@ -1,0 +1,46 @@
+<div class="container-fullwidth">
+    <nav class="navbar navbar-light bg-dark">
+      <a class="navbar-brand" style="color:white">
+        Sharekey
+      </a>
+    </nav>
+  <div class="row">
+      <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+        <div class="card card-signin my-5">
+          <div class="card-body">
+            <h5 class="card-title text-center">Crea tu cuenta</h5>
+            <div ng-controller="SignUpController">
+            <form class="form-signin" ng-submit="sendData()">
+            <div class="form-label-group">
+                    <input type="text" id="name" ng-model="name" class="form-control" required autofocus>
+                    <label for="inputName">Nombre</label>
+            </div>
+            <div class="form-label-group">
+                    <input type="text" id="lastname" ng-model="lastname" class="form-control" required>
+                    <label for="inputLastname">Apellido</label>
+            </div>
+              <div class="form-label-group">
+                <input type="email" id="email" ng-model="email" class="form-control" placeholder="Email address" required>
+                <label for="inputEmail">Email address</label>
+              </div>
+              <div class="form-label-group">
+                <input type="password" id="password" ng-model="password" class="form-control" required>
+                <label for="inputPassword">Password</label>
+              </div>
+              <div class="form-label-group">
+                    <input type="text" id="username" ng-model="username" class="form-control" required>
+                    <label for="inputUsername">Usuario</label>
+            </div>
+            <div class="form-label-group">
+                    <input type="text" id="phone" ng-model="phone" class="form-control" required>
+                    <label for="inputPhone">Telefono</label>
+            </div>
+              <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Registrarse</button>
+              <a class="btn btn-lg btn-light btn-block text-uppercase" href="/">Regresar</a>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
