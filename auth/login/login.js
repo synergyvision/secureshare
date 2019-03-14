@@ -18,7 +18,7 @@ angular.module('sharekey.login', ['ngRoute','ngCookies'])
   });
 }])
 
-.controller('LoginController', function($scope,$http,$location,$cookies) {
+.controller('LoginController', function($scope,$http,$location,$cookies,$localStorage) {
   
   $scope.sendData = function(){
     var loginRequest = $.param({
@@ -32,8 +32,21 @@ angular.module('sharekey.login', ['ngRoute','ngCookies'])
       headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
     }).then(function(response){
       if (response.data.status == 200){
-        $cookies.id = response.data.uid;
+        $localStorage.uid = response.data.uid;
         console.log(response);
+        console.log($localStorage.uid);
+        $http({
+          url: 'http://localhost:3000/profile/' + $localStorage.uid,
+          method: 'GET',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+        }).then(function (response){
+          if (response.data.status == 200){
+              $localStorage.username = response.data.content.username;
+              $location.path('/index');
+          }else{
+            errorLogin(response.data.message);
+          }  
+        })
       }else{
         if (response.data.status === 'auth/wrong-password'){
           errorLogin('Su contrasena es incorrecta');
