@@ -12,11 +12,11 @@
             <div ng-controller="SignUpController">
             <form class="form-signin" ng-submit="sendData()">
             <div class="form-label-group">
-                    <input type="text" id="name" ng-model="name" class="form-control" required autofocus>
+                    <input type="text" id="name" ng-model="name" placeholder="nombre" class="form-control" required autofocus>
                     <label for="inputName">Nombre</label>
             </div>
             <div class="form-label-group">
-                    <input type="text" id="lastname" ng-model="lastname" class="form-control" required>
+                    <input type="text" id="lastname" ng-model="lastname" placeholder="apellido" class="form-control" required>
                     <label for="inputLastname">Apellido</label>
             </div>
               <div class="form-label-group">
@@ -24,15 +24,15 @@
                 <label for="inputEmail">Email address</label>
               </div>
               <div class="form-label-group">
-                <input type="password" id="password" ng-model="password" class="form-control" required>
+                <input type="password" id="password" ng-model="password" placeholder="contraseña" class="form-control" required>
                 <label for="inputPassword">Password</label>
               </div>
               <div class="form-label-group">
-                    <input type="text" id="username" ng-model="username" class="form-control" required>
+                    <input type="text" id="username" ng-model="username" placeholder="Usuario" class="form-control" required>
                     <label for="inputUsername">Usuario</label>
             </div>
             <div class="form-label-group">
-                    <input type="text" id="phone" ng-model="phone" class="form-control" required>
+                    <input type="text" id="phone" ng-model="phone" placeholder="telefono"class="form-control" required>
                     <label for="inputPhone">Telefono</label>
             </div>
               <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Registrarse</button>

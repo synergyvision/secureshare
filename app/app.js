@@ -1,17 +1,16 @@
 'use strict';
 
 // Declare app level module which depends on views, and core components
-angular.module('sharekey', [
+angular.module('myApp', [
   'ngRoute',
   'ngCookies',
-  'sharekey.register',
+  'ngAnimate',
   'sharekey.login',
-  'sharekey.reset'
-
+  'sharekey.reset',
+  'sharekey.register'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
 
-  $routeProvider.otherwise({redirectTo: '/'});
+  $routeProvider.otherwise({redirectTo: '/login'});
 }]);
-
