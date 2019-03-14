@@ -37,7 +37,7 @@ angular.module('sharekey.login', ['ngRoute','ngCookies'])
       }else{
         if (response.data.status === 'auth/wrong-password'){
           errorLogin('Su contrasena es incorrecta');
-        } else if (response.data.status === 'auth/auth/user-not-found'){
+        } else if (response.data.status === 'auth/user-not-found'){
           errorLogin('Su correo es invalido');
         }
       }
