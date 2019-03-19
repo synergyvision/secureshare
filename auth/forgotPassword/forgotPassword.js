@@ -11,12 +11,14 @@ function message(message){
 
 angular.module('sharekey.reset', ['ngRoute'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/checkEmail', {
+.config(['$stateProvider', function($stateProvider) {
+  $stateProvider.state('checkEmail', {
+    url: '/checkEmail',
     templateUrl: '../auth/forgotPassword/checkEmail.html',
     controller: 'CheckEmailController',
     css: 'forgotPassword.css'
-  }).when('/resetPassword',{
+  }).state('resetPassword',{
+    url: '/resetPassword',
     templateUrl: '../auth/forgotPassword/resetPassword.html',
     controller: 'ResetPasswordController',
     css: 'forgotPassword.css'
@@ -54,7 +56,7 @@ angular.module('sharekey.reset', ['ngRoute'])
             });
             console.log('doing shit');
             $http({
-                url : 'http://localhost:3000/login/resetPassword',
+                url : 'https://sharekey.herokuapp.com/login/resetPassword',
                 method: 'POST',
                 data: passwordRequest,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}

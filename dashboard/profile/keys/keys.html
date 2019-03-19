@@ -1,0 +1,15 @@
+<div class="d-sm-flex align-items-center justify-content-between mb-4" id = "title">
+    <h1 class="h3 mb-0 text-gray-800">Tus LLaves</h1>
+</div>
+
+<div class="row justify-content-center">
+ <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-init="">
+    <form ng-submit="generateKeys()">
+        <div class="form-group">
+            <label for="name">Nombre</label>
+            <input type="text" class="form-control" ng-model="name" id="name" value="{{name}}">
+          </div>
+            <button type="submit" class="btn btn-primary">Generar llaves</button>
+    </form>
+  </div>  
+</div>  
