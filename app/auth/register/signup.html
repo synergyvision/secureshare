@@ -24,7 +24,7 @@
                 <label for="inputEmail">Email address</label>
               </div>
               <div class="form-label-group">
-                <input type="password" id="password" ng-model="password" placeholder="contraseña" class="form-control" required>
+                <input type="password" id="password" ng-model="password" placeholder="contraseña" class="form-control" pattern=".{6}" required>
                 <label for="inputPassword">Password</label>
               </div>
               <div class="form-label-group">
@@ -36,7 +36,7 @@
                     <label for="inputPhone">Telefono</label>
             </div>
               <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Registrarse</button>
-              <a class="btn btn-lg btn-light btn-block text-uppercase" href="/">Regresar</a>
+              <a class="btn btn-lg btn-light btn-block text-uppercase" ui-sref="login">Regresar</a>
             </form>
             </div>
           </div>

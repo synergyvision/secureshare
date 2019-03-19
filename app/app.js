@@ -3,17 +3,20 @@
 // Declare app level module which depends on views, and core components
 angular.module('sharekey', [
   'ngRoute',
+  'ui.router',
   'ngCookies',
   'ngAnimate',
   'ngStorage',
   'sharekey.login',
   'sharekey.reset',
   'sharekey.register',
+  'sharekey.navbar',
   'sharekey.sidebar',
+  'sharekey.profile',
+  'sharekey.keys',
   'sharekey.dashboard'
 ]).
-config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+config(['$locationProvider', '$urlRouterProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {
   $locationProvider.hashPrefix('!');
 
-  $routeProvider.otherwise({redirectTo: '/login'});
 }]);

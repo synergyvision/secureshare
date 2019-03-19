@@ -12,10 +12,12 @@
     "angular-loader": "^1.7.5",
     "angular-route": "^1.7.5",
     "angular-ui-bootstrap": "^2.5.6",
+    "angular-ui-router": "^1.0.22",
     "bootstrap": "^4.3.1",
     "html5-boilerplate": "0.0.1",
     "jquery": "^3.3.1",
     "ngstorage": "^0.3.11",
+    "openpgp": "^4.4.10",
     "popper.js": "^1.14.7"
   },
   "devDependencies": {
@@ -35,7 +37,7 @@
     "postinstall": "npm run copy-libs",
     "update-deps": "npm update",
     "postupdate-deps": "npm run copy-libs",
-    "copy-libs": "cpx \"node_modules/{angular,angular-*,html5-boilerplate/dist,ngstorage}/**/*\" app/lib -C",
+    "copy-libs": "cpx \"node_modules/{angular,angular-*,html5-boilerplate/dist,ngstorage,openpgp}/**/*\" app/lib -C",
     "prestart": "npm install",
     "start": "http-server -a localhost -p 8000 -c-1 ./app",
     "pretest": "npm install",

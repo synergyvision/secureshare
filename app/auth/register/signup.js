@@ -10,8 +10,9 @@ function error(message){
 
 angular.module('sharekey.register', ['ngRoute'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/signup', {
+.config(['$stateProvider', function($stateProvider) {
+  $stateProvider.state('signup', {
+    url: '/signup',
     templateUrl: '../auth/register/signup.html',
     controller: 'SignUpController',
     css: 'signup.css'
@@ -30,7 +31,7 @@ angular.module('sharekey.register', ['ngRoute'])
       usuario: $scope.username
     });
     $http({
-      url : 'http://localhost:3000/signup',
+      url : 'https://sharekey.herokuapp.com/signup',
       method: 'POST',
       data: signUpRequest,
       headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}

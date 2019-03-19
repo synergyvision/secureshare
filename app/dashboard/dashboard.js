@@ -1,10 +1,15 @@
-angular.module('sharekey.dashboard', ['ngRoute','sharekey.sidebar'])
+angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
 
-.config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/index', {
+.config(['$stateProvider', function($stateProvider) {
+  $stateProvider.state('dash',{
+    abstract: true,
     templateUrl: '../dashboard/dashboard.html',
     css: 'css/sb-admin-2.css'
   });
+  $stateProvider.state('dash.index',{
+    url:'/index',
+    template: '<strong>Test</strong>'
+  })
 }])
 
 .controller('dashboardController', function($scope){
