@@ -2,34 +2,36 @@
     <h1 class="h3 mb-0 text-gray-800">Tus Datos</h1>
 </div>
 
-<div class="row justify-content-center">
- <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-init="requestData()">
-    <form ng-submit="updateData()">
-        <div class="form-group">
-            <label for="name">Nombre</label>
-            <input type="text" class="form-control" ng-model="name" id="name" value="{{name}}">
-          </div>
+<div ng-controller="profileController">
+  <div class="row justify-content-center">
+  <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-init="requestData()">
+      <form ng-submit="updateData()">
           <div class="form-group">
-              <label for="lastname">Apellido</label>
-              <input type="text" class="form-control" id="lastname" ng-model="lastname" value="{{lastname}}">
+              <label for="name">Nombre</label>
+              <input type="text" class="form-control" ng-model="name" id="name" value="{{name}}">
             </div>
             <div class="form-group">
-                <label for="username">Usuario</label>
-                <input type="text" class="form-control" id="usuario" ng-model="username" value="{{username}}">
-              </div>
-            <div class="form-group">
-              <label for="email">Correo Electronico</label>
-              <input type="email" class="form-control" id="email" ng-model="email" value="{{email}}">
-            </div>
-            <div class="form-group">
-                <label for="phone">Telefono</label>
-                <input type="tel" class="form-control" id="password" ng-model="phone" value="{{phone}}">
+                <label for="lastname">Apellido</label>
+                <input type="text" class="form-control" id="lastname" ng-model="lastname" value="{{lastname}}">
               </div>
               <div class="form-group">
-                  <label for="password">Contrasena</label>
-                  <input type="password" class="form-control" ng-model="password" id="password" placeholder="">
-                </div> 
-            <button type="submit" class="btn btn-primary">Actualizar Datos</button>
-    </form>
+                  <label for="username">Usuario</label>
+                  <input type="text" class="form-control" id="usuario" ng-model="username" value="{{username}}">
+                </div>
+              <div class="form-group">
+                <label for="email">Correo Electronico</label>
+                <input type="email" class="form-control" id="email" ng-model="email" value="{{email}}">
+              </div>
+              <div class="form-group">
+                  <label for="phone">Telefono</label>
+                  <input type="tel" class="form-control" id="password" ng-model="phone" value="{{phone}}">
+                </div>
+                <div class="form-group">
+                    <label for="password">Contrasena</label>
+                    <input type="password" class="form-control" ng-model="password" id="password">
+                  </div> 
+              <button type="submit" class="btn btn-primary">Actualizar Datos</button>
+      </form>
+    </div>  
   </div>  
 </div>  

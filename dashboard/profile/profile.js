@@ -8,7 +8,7 @@ function error(message){
   alert(message)
 }
 
-angular.module('sharekey.profile', ['ngRoute','ngCookies','ui.router'])
+angular.module('sharekey.profile', ['ngRoute','ui.router'])
 
 .config(['$stateProvider', function($stateProvider) {
   $stateProvider.state('dash.profile', {
@@ -39,7 +39,6 @@ angular.module('sharekey.profile', ['ngRoute','ngCookies','ui.router'])
   }
 
   $scope.updateData =  function(){
-    console.log($scope.email);
     var updateRequest = $.param({
       email: $scope.email,
       name: $scope.name,
@@ -48,7 +47,7 @@ angular.module('sharekey.profile', ['ngRoute','ngCookies','ui.router'])
       username: $scope.username
     });
     $http({
-      url: 'http://localhost:3000/profile/' + $localStorage.uid,
+      url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid,
       method: 'PUT',
       data: updateRequest,
       headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
@@ -60,7 +59,7 @@ angular.module('sharekey.profile', ['ngRoute','ngCookies','ui.router'])
                   password: $scope.password
                 })
                 $http({
-                  url: 'http://localhost:3000/profile/' + $localStorage.uid + '/resetPassword',
+                  url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid + '/resetPassword',
                   method: 'PUT',
                   data: updatePassword,
                   headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}

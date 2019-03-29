@@ -45,7 +45,7 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
         }).then(function (response){
           if (response.data.status == 200){
-              $localStorage.username = response.data.content.username;
+              $localStorage[$localStorage.uid + '-username'] = response.data.content.username;
               $location.path('/index');
           }else{
             errorLogin(response.data.message);
