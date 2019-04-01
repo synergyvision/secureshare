@@ -36,7 +36,6 @@ function encryptKeys(key,seed){
         method: 'GET',
       }).then(function (response){
         if (response.data.status == 200){
-            $localStorage[$localStorage.uid + '-words'] = response.data.message;
             $scope.words = response.data.message
         }else{
           error(response.data.message);
@@ -71,25 +70,26 @@ function encryptKeys(key,seed){
             var uid = $localStorage.uid;
             var options = {
                 userIds: [{ name: $scope.name, email: $scope.email}],
-                numBits: 4096,
+                numBits: 2048,
                 passphrase: $scope.passphrase,
             }
+            words = encodeURIComponent($scope.words);
             console.log("Generating Keys")
-            console.log($scope.words);
+            console.log(words);
             $localStorage[uid + '-keyname'] = $scope.keyname
             openpgp.generateKey(options).then(function(key){
                 var privkey = key.privateKeyArmored;
                 var pubkey = key.publicKeyArmored;
                 console.log('keys created')
-                var privateKey = encryptKeys(privkey,$localStorage[uid + '-words'])
-                var pass = encryptKeys($scope.passphrase,$localStorage[uid + '-words'])
+                var privateKey = encryptKeys(privkey,words)
+                var pass = encryptKeys($scope.passphrase,words)
                 privateKey = privateKey.toString()
                 pass = pass.toString();
                 $localStorage[uid + '-pubkey'] = pubkey;
                 $localStorage[uid + '-privateKey'] = privateKey;
                 $localStorage[uid + '-pass'] = pass;
                 console.log('keys encrypted');
-                storekeys(pubkey,privateKey,pass)
+                //storekeys(pubkey,privateKey,pass)
               }).catch(function (error){
                 console.log(error.code + '\n' + error.message);
               })
@@ -107,7 +107,7 @@ function encryptKeys(key,seed){
     $scope.decrypt = function (){
       var pass = $localStorage[uid + '-pass'];
       console.log($scope.words)
-      word = $localStorage[uid + '-words'];
+      word = encodeURIComponent($scope.words)
       //$scope.words = $localStorage[uid + '-words'];
       var bytes  = CryptoJS.AES.decrypt(pass,word);
       var plaintext = bytes.toString(CryptoJS.enc.Utf8);

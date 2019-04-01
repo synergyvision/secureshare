@@ -43,6 +43,7 @@
                         Debe resguardar en un lugar seguro esta serie de palabras, si las pierde no podra acceder a la llave
                       </div>
                       <input type="text" class="form-control" id="frase" value="{{words}}" disabled>
+                      <input type="text" class="form-control" id="frase" ng-model="$parent.words">
                     </div>
                       <button type="submit" class="btn btn-primary">Generar llaves</button>
               </form>
