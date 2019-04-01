@@ -39,11 +39,18 @@
                     </div>
                     <div class="form-group">
                       <label for="name">Frase clave</label>
-                      <div class="alert alert-danger" role="alert">
-                        Debe resguardar en un lugar seguro esta serie de palabras, si las pierde no podra acceder a la llave
+                      <div class="alert alert-info" role="alert">
+                        Debe generar una serie de 12 palabras que se usaran para resguardar su clave puede usar las generadas automaticamente o crear una serie propia
                       </div>
-                      <input type="text" class="form-control" id="frase" value="{{words}}" disabled>
-                      <input type="text" class="form-control" id="frase" ng-model="$parent.words">
+                    </div>
+                    <div class="form-group">
+                      <div class="alert alert-danger" role="alert">
+                        Debe resguardar en un lugar seguro esta serie de palabras, si las pierde no podra acceder a la llave, no deje especios al final de las palabras
+                      </div>
+                      <div class="form-group">
+                        <input type="text" class="form-control" id="phrase" value= "{{words}}" disabled>
+                      </div>
+                      <input type="text" class="form-control" id="phrase" ng-model="$parent.phrase">
                     </div>
                       <button type="submit" class="btn btn-primary">Generar llaves</button>
               </form>
