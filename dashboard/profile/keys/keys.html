@@ -11,8 +11,8 @@
                 <input type="text" class="form-control" ng-model="keyname" id="keyname" value="{{keyname}}" disabled>
               </div>
                 <button type="submit" data-toggle="modal" data-target=".deleteWarning" class="btn btn-danger">Borrar llaves</button>
-                <button type="submit" data-toggle="modal" data-target=".recoverKeys" class="btn btn-primary" >Recuperar llaves</button>
-                <button type="submit" data-toggle="modal" data-target=".deleteWarning" class="btn btn-primary">Recuperar passphrase</button>
+                <button type="submit" data-toggle="modal" data-target=".recoverKeys" class="btn btn-primary" >Recuperar passphrase</button>
+                <button type="submit" data-toggle="modal" data-target=".deleteWarning" class="btn btn-primary">Recuperar llaves</button>
         </form>
       </div>  
     </div>  
@@ -102,7 +102,7 @@
       </div>
       <div class="modal-footer">
           <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-success" ng-click="decrypt()">Continuar</button>
+        <button type="button" class="btn btn-success" ng-click="recoverPass()">Continuar</button>
       </div>
     </div>
   </div>
