@@ -113,14 +113,13 @@ function encryptKeys(key,seed){
       $window.location.reload();
     }
 
-    $scope.decrypt = function (){
+    $scope.recoverPass = function (){
       var pass = $localStorage[uid + '-pass'];
       word = translate($scope.words);
-      console.log(word);
       //$scope.words = $localStorage[uid + '-words'];
       var bytes  = CryptoJS.AES.decrypt(pass,word);
       var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-      console.log(plaintext)
+      alert('Su passphrase de la llave privada es "' + plaintext + '"');
 
 
     }
