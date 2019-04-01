@@ -7,5 +7,5 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
 })
 
 .controller('navbarController', function ($scope,$localStorage){
-    $scope.user = $localStorage.username
+    $scope.user = $localStorage[$localStorage.uid + '-username']
 });
