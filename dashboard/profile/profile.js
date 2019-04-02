@@ -19,7 +19,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
   })
 }])
 
-.controller('profileController', function($scope,$http,$localStorage,$state){
+.controller('profileController', function($scope,$http,$localStorage,$state,$location){
 
   $scope.requestData = function(){
     $http({
@@ -32,10 +32,15 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
           $scope.lastname = response.data.content.lastname;
           $scope.phone = response.data.content.phone;
           $scope.email = response.data.content.email;
-      }else{
-        error(response.data.message);
-      }  
-    })
+        }else{
+          error(response.data.message);
+        }
+    }).catch(function (e){
+      if (e.status == 401){
+          error('Su sesion ha vencido por inactividad')
+          $location.path('/login');
+        }
+      })
   }
 
   $scope.updateData =  function(){
@@ -69,9 +74,14 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
                       success('El perfil se ha actualizado exitosamente');
                       $state.reload();
                     }else{
-                      error(response.data.message)
-                    }  
-                })
+                      error(response.data.message);
+                    }
+                }).catch(function (e){
+                  if (e.status == 401){
+                      error('Su sesion ha vencido por inactividad')
+                      $location.path('/login');
+                    }
+                  })
               }else{
                 $state.reload();
                 success('El perfil se ha actualizado exitosamente');
