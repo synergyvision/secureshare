@@ -17,7 +17,6 @@ function encryptKeys(key,seed){
 		"á":"a", "é":"e", "í":"i", "ó":"o", "ú":"u","ñ":"n"}
     var expr=/[áàéèíìóòúù]/ig;
     var text= phrase.replace(expr,function(e){return chars[e]});
-    console.log(text)
     return text;
 
  }
@@ -37,6 +36,10 @@ function encryptKeys(key,seed){
     var uid = $localStorage.uid;
     $scope.key = $localStorage[uid + '-pubkey'];
     $scope.keyname = $localStorage[uid + '-keyname'];
+
+    $scope.toggleShowPassword = function() {
+      $scope.showPassword = !$scope.showPassword;
+    }
 
     $scope.generarPalabras = function (){
       console.log('fetching')
@@ -73,9 +76,24 @@ function encryptKeys(key,seed){
             }else{
               error(response.data.message);
             }
-        })
+        }).catch(function (e){
+          if (e.status == 401){
+              error('Su sesion ha vencido por inactividad')
+              $location.path('/login');
+            }
+          })
     }
+
+    checkParameters = function (){
+        if (($scope.keyname == "")  && ($scope.name == "") && ($scope.email == "") && ($scope.passphrase = "") && ($scope.phrase == "")){
+          return false;
+        }else{
+          return true;
+        }
+    }
+
     $scope.generateKeys =  function (){
+          if (checkParameters){
             var uid = $localStorage.uid;
             var options = {
                 userIds: [{ name: $scope.name, email: $scope.email}],
@@ -83,7 +101,6 @@ function encryptKeys(key,seed){
                 passphrase: $scope.passphrase,
             }
             words = translate($scope.phrase);
-            console.log(words)
             console.log("Generating Keys")
             $localStorage[uid + '-keyname'] = $scope.keyname
             openpgp.generateKey(options).then(function(key){
@@ -102,6 +119,9 @@ function encryptKeys(key,seed){
               }).catch(function (error){
                 console.log(error.code + '\n' + error.message);
               })
+            }else{
+              error('Por favor llene todos los campos')
+            }    
         }
     
         
@@ -113,15 +133,28 @@ function encryptKeys(key,seed){
       $window.location.reload();
     }
 
-    $scope.recoverPass = function (){
-      var pass = $localStorage[uid + '-pass'];
-      word = translate($scope.words);
-      //$scope.words = $localStorage[uid + '-words'];
-      var bytes  = CryptoJS.AES.decrypt(pass,word);
-      var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-      alert('Su passphrase de la llave privada es "' + plaintext + '"');
-
-
+    $scope.recoverKeys = function (){
+      console.log('enter')
+      $http({
+        url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid + '/getKeys',
+          method: 'GET',
+        }).then(function (response){
+            if (response.status == 200){
+              $localStorage[uid + '-pubkey'] = response.data.publicKey;
+              $localStorage[uid + '-privateKey'] = response.data.privateKey;
+              $localStorage[uid + '-pass'] = response.data.passphrase;
+              success('Keys retrieved')
+              console.log('got here');
+              $state.reload();
+            }else{
+              error(response.data.message);
+            }
+        }).catch(function (e){
+          if (e.status == 401){
+              error('Su sesion ha vencido por inactividad')
+              $location.path('/login');
+            }
+          })
     }
         
   })            
