@@ -8,7 +8,7 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
   });
   $stateProvider.state('dash.index',{
     url:'/index',
-    template: '<strong>Test</strong>'
+    template: '<strong>Post will be here</strong>'
   })
 }])
 
