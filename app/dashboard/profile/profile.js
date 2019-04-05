@@ -10,6 +10,7 @@ function error(message){
 
 angular.module('sharekey.profile', ['ngRoute','ui.router'])
 
+
 .config(['$stateProvider', function($stateProvider) {
   $stateProvider.state('dash.profile', {
     url: '/profile',
