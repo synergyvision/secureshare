@@ -15,6 +15,10 @@
                 <input type="text" class="form-control" id="lastname" ng-model="lastname" value="{{lastname}}">
               </div>
               <div class="form-group">
+                  <label for="lastname">Biografia</label>
+                  <input type="text" class="form-control" id="lastname" ng-model="bio" value="{{bio}}">
+                </div>  
+              <div class="form-group">
                   <label for="username">Usuario</label>
                   <input type="text" class="form-control" id="usuario" ng-model="username" value="{{username}}">
                 </div>
@@ -30,8 +34,9 @@
                     <label for="password">Contrasena</label>
                     <input type="password" class="form-control" ng-model="password" id="password">
                   </div> 
-              <button type="submit" class="btn btn-primary">Actualizar Datos</button>
+              <button type="submit" data-toggle="modal" data-target=".spinerModal" class="btn btn-primary">Actualizar Datos</button>
       </form>
     </div>  
   </div>  
 </div>  
+

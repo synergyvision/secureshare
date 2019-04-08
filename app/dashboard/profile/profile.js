@@ -33,6 +33,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
           $scope.lastname = response.data.content.lastname;
           $scope.phone = response.data.content.phone;
           $scope.email = response.data.content.email;
+          $scope.bio = response.data.content.bio;
         }else{
           error(response.data.message);
         }
@@ -50,7 +51,8 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
       name: $scope.name,
       lastname: $scope.lastname,
       phone: $scope.phone,
-      username: $scope.username
+      username: $scope.username,
+      bio: $scope.bio
     });
     $http({
       url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid,

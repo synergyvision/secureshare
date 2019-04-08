@@ -8,10 +8,10 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
   });
   $stateProvider.state('dash.index',{
     url:'/index',
-    template: '<strong>Post will be here</strong>'
   })
 }])
 
 .controller('dashboardController', function($scope){
 
 });
+
