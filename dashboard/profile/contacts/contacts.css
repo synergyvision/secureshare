@@ -1,0 +1,12 @@
+.content{
+    padding-left: 20px;
+}
+
+#card{
+    display: block;
+    width: 75%
+}
+
+#button{
+    color: white
+}
