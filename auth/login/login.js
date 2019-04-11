@@ -38,7 +38,6 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
       if (response.data.status == 200){
         $localStorage.uid = response.data.uid;
         console.log(response);
-        console.log($localStorage.uid);
         $http({
           url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid,
           method: 'GET',
