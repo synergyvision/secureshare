@@ -1,3 +1,5 @@
+
+
 angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
 
 .component('navbar',{
@@ -24,6 +26,80 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     }
 })
 
-.controller('navbarController', function ($scope,$localStorage){
+.controller('navbarController', function ($scope,$localStorage,$http,$location,$state){
     $scope.user = $localStorage[$localStorage.uid + '-username']
+    uid = $localStorage.uid;
+
+    $scope.getFriendRequest = function (){
+        $http({
+            url: 'https://sharekey.herokuapp.com/contacts/' + uid + '/requests',
+            method: 'GET'
+        }).then(function (response){
+            if (response.data.status == 200){
+                console.log('request retrived');
+                $scope.requests = response.data.data;
+                $scope.quantity = response.data.data.length;
+                console.log($scope.quantity);
+                console.log($scope.requests);
+            }
+        }).catch(function (error){
+            console.log(error);
+            if (error.status == 401){
+              alert('Su sesion ha vencido por inactividad')
+              $location.path('/login');
+            }
+        })
+    }
+
+    $scope.acceptRequest = function (id,rStatus){
+        updateStatus = $.param({
+            status: true
+        })
+        sendStatus(id,updateStatus)
+    }
+
+    $scope.rejectRequest = function (id,rStatus){
+        updateStatus = $.param({
+            status: false
+        })
+        sendStatus(id,updateStatus)
+    }
+
+    sendStatus = function (id,status){ 
+        console.log(status);
+        $http({
+            url: 'https://sharekey.herokuapp.com/contacts/' + uid + '/requests/' + id,
+            method: 'PUT',
+            data: status,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+        }).then(function (response){
+            console.log(response.data)
+            if (response.data.status == 200){
+                if (response.data.accepted == true){
+                    alert('Has aceptado la solicitud de amistad')
+                    $state.reload();
+                }else{
+                    alert('Has rechazado la soliciud');
+                }
+            }
+        }).catch(function (error){
+            if (error.status == 401){
+                alert('Su sesion ha vencido por inactividad')
+                $location.path('/login');
+              }
+        })
+    }
+
+    $scope.logout = function(){
+        $http({
+            url: 'https://sharekey.herokuapp.com/logout',
+            method: 'POST'
+        }).then(function (response){
+            if (response.data.status == 200){
+                console.log('Users has logged out')
+                $location.path('/login');
+            }
+        })
+    }
+
 });
