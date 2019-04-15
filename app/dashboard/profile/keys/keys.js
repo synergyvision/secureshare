@@ -134,7 +134,6 @@ function encryptKeys(key,seed){
     }
 
     $scope.recoverKeys = function (){
-      console.log('enter')
       $http({
         url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid + '/getKeys',
           method: 'GET',
