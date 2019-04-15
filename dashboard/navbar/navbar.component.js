@@ -30,6 +30,27 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     $scope.user = $localStorage[$localStorage.uid + '-username']
     uid = $localStorage.uid;
 
+    $scope.getUsers = function (){
+        $http({
+            url: 'https://sharekey.herokuapp.com/contacts/users',
+            method: 'GET'
+        }).then(function (response){
+            if (response.data.status == 200){
+                $scope.users = response.data.data;
+                console.log($scope.users);
+            }
+        }).catch(function (error){
+            if (error.status == 401){
+                alert('Su sesion ha vencido por inactividad')
+                $location.path('/login');
+              }
+            else{
+                console.log(error.code);
+                console.log(error.message);
+            }
+        })
+    }
+
     $scope.getFriendRequest = function (){
         $http({
             url: 'https://sharekey.herokuapp.com/contacts/' + uid + '/requests',
@@ -80,6 +101,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
                     $state.reload();
                 }else{
                     alert('Has rechazado la soliciud');
+                    $state.reload();
                 }
             }
         }).catch(function (error){

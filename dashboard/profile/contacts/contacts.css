@@ -4,7 +4,9 @@
 
 #card{
     display: block;
-    width: 75%
+    width: 75%;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #button{
