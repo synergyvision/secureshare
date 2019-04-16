@@ -60,8 +60,6 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
                 console.log('request retrived');
                 $scope.requests = response.data.data;
                 $scope.quantity = response.data.data.length;
-                console.log($scope.quantity);
-                console.log($scope.requests);
             }
         }).catch(function (error){
             console.log(error);

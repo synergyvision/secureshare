@@ -9,20 +9,14 @@
         <!-- Topbar Search -->
         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" ng-init="getUsers()">
         <div class="input-group">
-            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2"  ng-model="test">
+            <input type="text" class="form-control bg-light border-0 small" placeholder="Búsqueda..." aria-label="Search" aria-describedby="basic-addon2"  ng-model="search">
             <div class="input-group-append">
-            <button class="btn btn-primary" type="button">
+            <button class="btn btn-primary" type="button" on-click="searchUsers()">
                 <i class="fas fa-search fa-sm"></i>
             </button>
             </div>
         </div>
         </form>
-
-        <ul>
-                <li ng-repeat="x in users | filter : test">
-                  {{ x.name }}
-                </li>
-              </ul>
 
         <div id="content-wrapper" class="d-flex flex-column">
 
@@ -63,22 +57,31 @@
             <h6 class="dropdown-header">
                 Solicitudes
             </h6>
-            <div ng-repeat="request in  requests">
+            <div ng-if="quantity == '0'">
                 <a class="dropdown-item d-flex align-items-center">
-                    <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                        <i class="fas fa-file-alt text-white"></i>
-                    </div>
-                    </div>
                     <div>
-                    <span class="font-weight-bold">{{request.name}} {{request.lastname}} te ha enviado una solicitud de amistad!</span>
-                    <div id="buttons">
-                        <button type="button" class="btn btn-primary btn-sm" ng-click="acceptRequest(request.requestId)">Aceptar</button>
-                        <button type="button" class="btn btn-secondary btn-sm" ng-click="rejectRequest(request.requestId)">Rechazar</button>
-                    </div>    
+                        <span class="font-weight-bold">No hay solicitudes nuevas</span>
                     </div>
                 </a>
             </div>    
+            <div ng-if="requests.length > '0'">
+                <div ng-repeat="request in  requests">
+                    <a class="dropdown-item d-flex align-items-center">
+                        <div class="mr-3">
+                            <div class="icon-circle bg-primary">
+                                <i class="fas fa-file-alt text-white"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="font-weight-bold">{{request.name}} {{request.lastname}} te ha enviado una solicitud de amistad!</span>
+                            <div id="buttons">
+                                <button type="button" class="btn btn-primary btn-sm" ng-click="acceptRequest(request.requestId)">Aceptar</button>
+                                <button type="button" class="btn btn-secondary btn-sm" ng-click="rejectRequest(request.requestId)">Rechazar</button>
+                            </div>    
+                        </div>
+                    </a>
+                </div>  
+            </div>       
             <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
             </div>
         </li>
