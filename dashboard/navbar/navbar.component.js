@@ -26,29 +26,22 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     }
 })
 
-.controller('navbarController', function ($scope,$localStorage,$http,$location,$state){
+.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window){
     $scope.user = $localStorage[$localStorage.uid + '-username']
     uid = $localStorage.uid;
+    if ($localStorage.search){
+        $scope.search = $localStorage.search;
+    }
 
-    $scope.getUsers = function (){
-        $http({
-            url: 'https://sharekey.herokuapp.com/contacts/users',
-            method: 'GET'
-        }).then(function (response){
-            if (response.data.status == 200){
-                $scope.users = response.data.data;
-                console.log($scope.users);
+    $scope.getSearch = function (){
+        if ($scope.search){
+            if ($state.current.name == 'dash.searchContacts'){
+                console.log('hola');
+                $window.location.reload();
             }
-        }).catch(function (error){
-            if (error.status == 401){
-                alert('Su sesion ha vencido por inactividad')
-                $location.path('/login');
-              }
-            else{
-                console.log(error.code);
-                console.log(error.message);
-            }
-        })
+            $localStorage.search = $scope.search;
+            $location.path('/contacts/search') 
+        }
     }
 
     $scope.getFriendRequest = function (){
@@ -109,7 +102,6 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
               }
         })
     }
-
     $scope.logout = function(){
         $http({
             url: 'https://sharekey.herokuapp.com/logout',
