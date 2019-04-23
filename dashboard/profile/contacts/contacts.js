@@ -42,12 +42,11 @@
       $scope.getUsers = function (){
             $scope.search = $localStorage.search
             $http({
-                url: 'https://sharekey.herokuapp.com/contacts/users',
+                url: 'https://sharekey.herokuapp.com/contacts/' + uid + '/users',
                 method: 'GET'
             }).then(function (response){
                 if (response.data.status == 200){
                     $scope.users = response.data.data;
-                    delete $localStorage.search;
                 }
             }).catch(function (error){
                 if (error){
@@ -59,6 +58,35 @@
                       console.log(error.code);
                       console.log(error.message);
                   }
+                }  
+            }) 
+    }
+
+    $scope.sendRequest =  function(id){
+        var request = $.param({
+            id_to: id
+        })
+
+        $http({
+            url: 'https://sharekey.herokuapp.com/contacts/' + uid + '/requests',
+            method: 'POST',
+            data: request,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+        }).then(function (response){
+            if (response.data.status == 201){
+                alert('Se ha enviado una solicitud de amistad');
+            }
+
+        }).catch(function (error){
+                if (error){
+                if (error.status == 401){
+                    alert('Su sesion ha vencido por inactividad')
+                    $location.path('/login');
+                }
+                else{
+                    console.log(error.code);
+                    console.log(error.message);
+                }
                 }  
             }) 
     }

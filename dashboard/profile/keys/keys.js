@@ -42,7 +42,6 @@ function encryptKeys(key,seed){
     }
 
     $scope.generarPalabras = function (){
-      console.log('fetching')
       $http({
         url: 'https://sharekey.herokuapp.com/mnemonic',
         method: 'GET',
@@ -56,12 +55,32 @@ function encryptKeys(key,seed){
           
     }
 
-    storekeys = function (public,private,pass){
+    $scope.checkKeys = function(){
+      $http({
+        url: 'https://sharekey.herokuapp.com/profile/' + uid + '/getKeys',
+        method: 'GET',
+      }).then(function (response){
+            $scope.keys = response.data.data;
+      }).catch(function (error){
+        alert(error);
+      })
+          
+    }
+
+    $scope.useKeys = function (name,public,private,pass){
+        $localStorage[uid + '-pubkey'] = public;
+        $localStorage[uid + '-privateKey'] = private;
+        $localStorage[uid + '-pass'] = pass;
+        $localStorage[uid + '-keyname'] = name;
+    }
+
+    storekeys = function (public,private,pass,name){
         
         var storeRequest = $.param({
           pubkey: public,
           privkey: private,
-          pass: pass
+          pass: pass,
+          keyname: name
         })
           
         $http({
@@ -102,7 +121,6 @@ function encryptKeys(key,seed){
             }
             words = translate($scope.phrase);
             console.log("Generating Keys")
-            $localStorage[uid + '-keyname'] = $scope.keyname
             openpgp.generateKey(options).then(function(key){
                 var privkey = key.privateKeyArmored;
                 var pubkey = key.publicKeyArmored;
@@ -111,11 +129,8 @@ function encryptKeys(key,seed){
                 var pass = encryptKeys($scope.passphrase,words)
                 privateKey = privateKey.toString()
                 pass = pass.toString();
-                $localStorage[uid + '-pubkey'] = pubkey;
-                $localStorage[uid + '-privateKey'] = privateKey;
-                $localStorage[uid + '-pass'] = pass;
                 console.log('keys encrypted');
-                storekeys(pubkey,privateKey,pass)
+                storekeys(pubkey,privateKey,pass,$scope.new-keyname)
               }).catch(function (error){
                 console.log(error.code + '\n' + error.message);
               })
@@ -125,12 +140,26 @@ function encryptKeys(key,seed){
         }
     
         
-    $scope.deleteKeys  =  function (){
-      delete $localStorage[uid + '-pubkey'];
-      delete $localStorage[uid + '-privateKey'];
-      delete $localStorage[uid + '-pass'];
-      delete $localStorage[uid + '-keyname'];
-      $window.location.reload();
+    $scope.deleteKeys  =  function (keyname){
+
+      var deleteRequest = {
+        name: keyname
+      }
+
+      $http({
+        url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid + '/getKeys',
+        method: 'DELETE',
+        data: deleteRequest,
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+      }).then(function (response){
+            if (response.status == 200){
+            }
+        }).catch(function (e){
+          if (e.status == 401){
+              error('Su sesion ha vencido por inactividad')
+              $location.path('/login');
+            }
+          })
     }
 
     $scope.recoverKeys = function (){

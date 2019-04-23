@@ -32,6 +32,11 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     if ($localStorage.search){
         $scope.search = $localStorage.search;
     }
+    if (!uid){
+        alert('Inicie sesión para disfrutar de la aplicación')
+        $location.path('/login');
+    }
+
 
     $scope.getSearch = function (){
         if ($scope.search){
@@ -108,6 +113,8 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
             method: 'POST'
         }).then(function (response){
             if (response.data.status == 200){
+                delete $localStorage.uid;
+                delete $localStorage.search;
                 console.log('Users has logged out')
                 $location.path('/login');
             }

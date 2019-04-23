@@ -9,7 +9,12 @@
                     <div class="col-md-8">   
                         <div class="card-body">
                             <h5 class="card-title">{{user.name}} {{user.lastname}}</h5>
+                            <div ng-if="user.contact == true">
                             <a id="button" class="btn btn-primary">Ver perfil</a>
+                            </div>
+                            <div ng-if="user.contact == false">
+                                    <a id="button" class="btn btn-primary" ng-click="sendRequest(user.id)">Enviar solicitud</a>
+                            </div>    
                         </div>
                     </div> 
                 </div>       
