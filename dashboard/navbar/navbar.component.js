@@ -26,7 +26,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     }
 })
 
-.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window){
+.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$interval){
     $scope.user = $localStorage[$localStorage.uid + '-username']
     uid = $localStorage.uid;
     if ($localStorage.search){
@@ -55,7 +55,6 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
             method: 'GET'
         }).then(function (response){
             if (response.data.status == 200){
-                console.log('request retrived');
                 $scope.requests = response.data.data;
                 $scope.quantity = response.data.data.length;
             }

@@ -2,23 +2,28 @@
     <h1 class="h3 mb-0 text-gray-800">Tus LLaves</h1>
 </div>
 <div ng-controller="keysController">
-  <div ng-if="key">
+
     <div class="row justify-content-center">
     <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-init="checkKeys()">
-      <div ng-repeat="key in keys">
+      <div id="userKeys"  ng-repeat="key in keys">
         <form>
             <div class="form-group">
                 <label for="name">Nombre de la llave</label>
                 <input type="text" class="form-control" id="keyname" value="{{key.name}}" disabled>
               </div>
-                <button type="submit" data-toggle="modal" data-target=".deleteWarning" class="btn btn-danger">Borrar llaves</button>
-                <button type="submit" data-toggle="modal" data-target=".recoverKeys" class="btn btn-primary" >Recuperar llaves</button>
-                <button type="submit" data-toggle="modal" class="btn btn-success" ng-click="useKeys(key.name,key.publicKey,key.privateKey,key.pass)">Usar esta llave</button>
+                <div ng-if="key.name != keyname">
+                <button type="submit" data-toggle="modal" data-target=".deleteWarning" class="btn btn-danger" ng-click="getKeyname(key.name)">Borrar llaves</button>
+                <button type="submit" data-toggle="modal" class="btn btn-success" data-target=".changeKeys" ng-click="useKeys(key.name,key.publicKey,key.privateKey,key.pass)">Usar esta llave</button>
+                </div>
+                <div ng-if="key.name == keyname">
+                    <button type="submit" data-toggle="modal" data-target=".deleteWarning" class="btn btn-danger" ng-click="getKeyname(key.name)" disabled>Borrar llaves</button>
+                    <span>En uso!</span>
+                </div>
         </form>
        </div>  
       </div>  
     </div>  
-  </div>
+
   <div class="d-sm-flex align-items-center justify-content-between mb-4" id = "title">
       <h1 class="h3 mb-0 text-gray-800">Agrega otra llave</h1>
   </div>
@@ -27,7 +32,7 @@
               <form ng-submit="generateKeys()">
                   <div class="form-group">
                       <label for="keyname">Nombre de la llave</label>
-                      <input type="text" id="keyname" ng-model="new-keyname" class="form-control" required>  
+                      <input type="text" id="keyname" ng-model="newName" class="form-control" required>  
                     </div>
                     <div class="form-group">
                       <label for="name">Tu nombre</label>
@@ -41,6 +46,15 @@
                       <label for="passphrase">Clave para la llave privada (passphrase)</label>
                       <div class="input-group mb-3">
                         <input type="text" class="form-control" ng-model="passphrase" id="passphrase" ng-attr-type="{{ showPassword ? 'text':'password'}}" required>
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary" type="button" id="button-addon2" ng-click="toggleShowPassword()"><i class="far fa-eye"></i></button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="passphrase">Contraseña para proteger la llave</label>
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" ng-model="password" id="password" ng-attr-type="{{ showPassword ? 'text':'password'}}" required>
                         <div class="input-group-append">
                           <button class="btn btn-outline-secondary" type="button" id="button-addon2" ng-click="toggleShowPassword()"><i class="far fa-eye"></i></button>
                         </div>
@@ -91,30 +105,32 @@
   </div>
 </div>
 
-<div class="modal fade recoverKeys" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Informacion</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="form-group">
-          <div class="alert alert-info" role="alert">
-            Si ha eliminado alguna de sus llaves o el passhphrase, introduzca su frase de 12 palabras para recuperarlas
+
+  <div class="modal fade changeKeys" tabindex="-1" id="changeKey" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Informacion</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-          <input type="text" class="form-control" id="frase" ng-model="words" value="{{words}}" >
+          <div class="modal-body">
+            <div class="form-group">
+              <div class="alert alert-info" role="alert">
+                Para cambiar de llave, introduzca su frase de 12 palabras para recuperarlas
+              </div>
+              <input type="text" class="form-control" id="frase" ng-model="password" >
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-dark" ng-click="close()">Cancelar</button>
+            <button type="button" class="btn btn-success" ng-click="checkWords()">Continuar</button>
+          </div>
         </div>
       </div>
-      <div class="modal-footer">
-          <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-success" data-dismiss="modal" ng-click="recoverKeys()">Continuar</button>
-      </div>
     </div>
-  </div>
-</div>
+
 
 <div class="modal fade spinerModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-md">
