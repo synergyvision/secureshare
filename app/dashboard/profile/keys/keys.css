@@ -7,3 +7,20 @@
     width: 75%;
 }
 
+#activated{
+    text-align: right;
+    margin-right: 5px;
+}
+
+#borrar{
+    text-align: right;
+    margin-left: 5px;
+}
+
+.fa-check-circle{
+    color: green;
+}
+
+.fas-fa-star{
+    color: yellow
+}

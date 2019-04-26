@@ -102,7 +102,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
         }).catch(function (error){
             if (error.status == 401){
                 alert('Su sesion ha vencido por inactividad')
-                $location.path('/login');
+                state.go('login');
               }
         })
     }
@@ -115,7 +115,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
                 delete $localStorage.uid;
                 delete $localStorage.search;
                 console.log('Users has logged out')
-                $location.path('/login');
+                $state.go('login');
             }
         })
     }

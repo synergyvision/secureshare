@@ -5,22 +5,24 @@
 
     <div class="row justify-content-center">
     <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-init="checkKeys()">
-      <div id="userKeys"  ng-repeat="key in keys">
-        <form>
-            <div class="form-group">
-                <label for="name">Nombre de la llave</label>
-                <input type="text" class="form-control" id="keyname" value="{{key.name}}" disabled>
-              </div>
-                <div ng-if="key.name != keyname">
-                <button type="submit" data-toggle="modal" data-target=".deleteWarning" class="btn btn-danger" ng-click="getKeyname(key.name)">Borrar llaves</button>
-                <button type="submit" data-toggle="modal" class="btn btn-success" data-target=".changeKeys" ng-click="useKeys(key.name,key.publicKey,key.privateKey,key.pass)">Usar esta llave</button>
-                </div>
-                <div ng-if="key.name == keyname">
-                    <button type="submit" data-toggle="modal" data-target=".deleteWarning" class="btn btn-danger" ng-click="getKeyname(key.name)" disabled>Borrar llaves</button>
-                    <span>En uso!</span>
-                </div>
-        </form>
-       </div>  
+      <div class-"table-responsive-md">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Nombre<th>
+
+            </tr>
+          </thead>
+            <tbody>
+              <tr ng-repeat="key in keys">
+                <td ng-if="key.default == true">{{key.name}} <i class="fas fa-star"></i></td>
+                <td ng-if="key.default == false">{{key.name}} <button class="btn btn-link" ng-click="useKeys(key.name)"><i class="far fa-star"></i></td>
+                <td id="activated" ng-if="key.activated == true"><i class="far fa-check-circle"></i><button id="borrar" type="button" data-toggle="modal" data-target=".deleteWarning" class="btn btn-danger btn-sm" ng-click="getKeyname(key.name)">Borrar Llave</button></td>
+                <td id="activated" ng-if="key.activated == false"><button type="button" class="btn btn-link btn-sm" ng-click="getRecover(key.name)">Activar llave</button></td>
+              </tr>
+            </tbody>  
+        </table>
+        </div>
       </div>  
     </div>  
 
@@ -118,18 +120,44 @@
           <div class="modal-body">
             <div class="form-group">
               <div class="alert alert-info" role="alert">
-                Para cambiar de llave, introduzca su frase de 12 palabras para recuperarlas
+                Para activar su clave, introduzca sus frase de 12 palabras
               </div>
-              <input type="text" class="form-control" id="frase" ng-model="password" >
+              <input type="text" class="form-control" id="frase" ng-model="phraseRecovery" id="phraseRecovery" >
             </div>
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-dark" ng-click="close()">Cancelar</button>
+              <button type="button" class="btn btn-dark" ng-click="closeRecover()">Cancelar</button>
             <button type="button" class="btn btn-success" ng-click="checkWords()">Continuar</button>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="modal fade newPassword" tabindex="-1" id="newPassword" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Informacion</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <div class="alert alert-info" role="alert">
+                  Para activar la llave inserte una nueva contraseña.
+                </div>
+                <input type="password" class="form-control" id="frase" ng-model="newPass" id="newPass" >
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" ng-click="closeRecover()">Cancelar</button>
+              <button type="button" class="btn btn-success" ng-click="newPassword()">Continuar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  
 
 
 <div class="modal fade spinerModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">

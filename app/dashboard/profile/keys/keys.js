@@ -34,14 +34,18 @@ function encryptKeys(key,seed){
   
   .controller('keysController', function($scope,$http,$localStorage,$state,$window){
     var uid = $localStorage.uid;
-    $scope.key = $localStorage[uid + '-pubkey'];
-    $scope.keyname = $localStorage[uid + '-keyname'];
-    $scope.userKeys = $localStorage[uid + 'keys']
+    if ($localStorage[uid + 'keys']){
+      $scope.userKeys = $localStorage[uid + 'keys']
+    }else{
+      $scope.userKeys = [];
+    }
 
     $scope.toggleShowPassword = function() {
       $scope.showPassword = !$scope.showPassword;
     }
 
+
+    // receives a random generated 12 words phrase
     $scope.generarPalabras = function (){
       $http({
         url: 'https://sharekey.herokuapp.com/mnemonic',
@@ -50,22 +54,39 @@ function encryptKeys(key,seed){
         if (response.data.status == 200){
             $scope.words = response.data.message;
         }else{
-          error(response.data.message);
+          alert(response.data.message);
         }  
       })
           
     }
 
+    var checkActiveKeys = function (keys){
+      for (i = 0; i < keys.length; i++){
+          keys[i].activated = false;
+          for (j = 0; j < $scope.userKeys.length; j++){
+              if (keys[i].name == $scope.userKeys[j].keyname ){
+                keys[i].activated = true;
+              }
+          }
+          if (i == (keys.length -1)){
+              return keys
+          }  
+      }
+
+    }
+
+    // check the existing keys on the cloud
     $scope.checkKeys = function(){
       $http({
         url: 'https://sharekey.herokuapp.com/profile/' + uid + '/getKeys',
         method: 'GET'
       }).then(function (response){
-            $scope.keys = response.data.data;
+            var keys = response.data.data;
+            $scope.keys = checkActiveKeys(keys);
       }).catch(function (error){
-          if (e.status == 401){
-            error('Su sesion ha vencido por inactividad')
-            $location.path('/login');
+          if (error.status == 401){
+            alert('Su sesion ha vencido por inactividad')
+            $state.go('login');
           }else{
             console.log(error.data);
           }
@@ -73,41 +94,37 @@ function encryptKeys(key,seed){
           
     }
 
-    $scope.useKeys = function (name,public,private,pass){
-      
-        var newkey = {
-          name: name,
-          public: public,
-          private: private,
-          pass: pass
-        }
-        $localStorage.todelete = newkey
-        
-    }
+    //changes the default key
 
-    $scope.checkWords = function (){
-      if ($scope.password){
-        words = translate($scope.password);
-        pass = $localStorage.todelete.pass;
-        var bytes  = CryptoJS.AES.decrypt(pass, words);
-        var plaintext = bytes.toString(CryptoJS.enc.Utf8);
-        if (plaintext != ""){
-          $localStorage[uid + '-pubkey'] = $localStorage.todelete.public;
-          $localStorage[uid + '-privateKey'] = $localStorage.todelete.private;
-          $localStorage[uid + '-pass'] = $localStorage.todelete.pass;
-          $localStorage[uid + '-keyname'] = $localStorage.todelete.name;
-          var popup = angular.element("#changeKey");
-          //for hide model
-          popup.modal('hide');
-          delete $localStorage.todelete
-          $state.reload();
-        }else{
-          alert('La frase no coincide con la llave')
-        }
-      }else{
-        alert('Por favor llene el campo')
-      }  
-      
+    $scope.useKeys = function (name){
+      for (i = 0; i < $scope.userKeys.length;i++){
+          $scope.userKeys[i].default = false;
+          if ($scope.userKeys[i].keyname == name){
+              $scope.userKeys[i].default = true;
+          }
+          if (i == ($scope.userKeys.length - 1)){
+             $localStorage[uid + 'keys'] = $scope.userKeys;
+          }
+      }
+      var updateDefault = $.param({
+        name: name
+      })
+      $http({
+        url: 'https://sharekey.herokuapp.com/profile/' + uid + '/updateDefault',
+        method: 'PUT',
+        data: updateDefault,
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+      }).then(function (response){
+            console.log('Data updated on the cloud')
+            $state.reload();
+      }).catch(function (error){
+          if (error.status == 401){
+            alert('Su sesion ha vencido por inactividad')
+            $location.path('/login');
+          }else{
+            console.log(error.data);
+          }
+        })
     }
 
     $scope.close = function (){
@@ -117,14 +134,15 @@ function encryptKeys(key,seed){
       delete $localStorage.todelete
     }
 
+    //function that sends keypair to the cloud
+
     storekeys = function (public,private,pass,name){
         
         var storeRequest = $.param({
           pubkey: public,
           privkey: private,
           pass: pass,
-          keyname: name,
-          default: false
+          keyname: name
         })
           
         $http({
@@ -137,15 +155,17 @@ function encryptKeys(key,seed){
                 console.log('keys stored succesfully')
                 $window.location.reload();
             }else{
-              error(response.data.message);
+              alert(response.data.message);
             }
         }).catch(function (e){
           if (e.status == 401){
-              error('Su sesion ha vencido por inactividad')
+              alert('Su sesion ha vencido por inactividad')
               $location.path('/login');
             }
           })
     }
+
+    //store the newly created pair on local storage
 
     var localStorekeys = function(public,private,pass,name){
       var newKey = {
@@ -156,9 +176,11 @@ function encryptKeys(key,seed){
         default: false
       }
 
-      $scope.userKeys = $scope.userKeys.push(newKey);
+      $scope.userKeys.push(newKey);
       $localStorage[uid + 'keys'] = $scope.userKeys;
     }
+
+    //funciton that checks form fields
 
     checkParameters = function (){
         if (($scope.keyname == "")  && ($scope.name == "") && ($scope.email == "") && ($scope.passphrase = "") && ($scope.phrase == "")){
@@ -169,7 +191,7 @@ function encryptKeys(key,seed){
     }
 
 
-
+    //function that generates a new key pair
     $scope.generateKeys =  function (){
           if (checkParameters){
             var uid = $localStorage.uid;
@@ -203,15 +225,27 @@ function encryptKeys(key,seed){
                 console.log(error.code + '\n' + error.message);
               })
             }else{
-              error('Por favor llene todos los campos')
+              alert('Por favor llene todos los campos')
             }    
         }
-    
+        
+    //get a keyname for deletion    
+
     $scope.getKeyname = function (name){
       $localStorage.keyDelete = name;
       
     }
-        
+
+    //get a keyname to recover
+
+    $scope.getRecover = function (name){
+      $localStorage.KeyRecover = name;
+      console.log(name);
+      $scope.recoverKeys();
+    }
+    
+    //deletes a keypair
+    
     $scope.deleteKeys  =  function (){
 
       name = $localStorage.keyDelete;
@@ -232,10 +266,94 @@ function encryptKeys(key,seed){
             }
         }).catch(function (e){
           if (e.status == 401){
-              error('Su sesion ha vencido por inactividad')
+              alert('Su sesion ha vencido por inactividad')
               $location.path('/login');
+            }else{
+              console.log(e.data)
             }
           })
     }
 
-  })            
+    $scope.recoverKeys = function (){
+      name = $localStorage.KeyRecover;
+      var recoverRequest = $.param({
+        name: name
+      })
+
+      $http({
+        url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid + '/recoverKey',
+        method: 'POST',
+        data: recoverRequest,
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+      }).then(function (response){
+          if (response.data.status == 200){
+              console.log('the key has been retrieved from cloud');
+              var popup = angular.element("#changeKey");
+              //for hide model
+              popup.modal('show');
+              $localStorage.recoveryKey = response.data.data;
+          }else{
+            alert(response.data.message);
+          }
+      }).catch(function (e){
+          if (e.status == 401){
+              alert('Su sesion ha vencido por inactividad')
+              $location.path('/login');
+            }else{
+              console.log(e.data);
+            }
+          })
+
+    }
+
+    $scope.closeRecover = function (){
+      var popup = angular.element("#changeKey");
+      //for hide model
+      popup.modal('hide');
+      delete $localStorage.KeyRecover;
+      delete $localStorage.recoveryKey;
+    }
+
+    $scope.checkWords = function (){
+      console.log($localStorage.recoveryKey.passphrase);
+      words = translate($scope.phraseRecovery)
+      var bytes  = CryptoJS.AES.decrypt($localStorage.recoveryKey.passphrase,words);
+      var pass = bytes.toString(CryptoJS.enc.Utf8);
+      if (pass != ""){
+          $localStorage.recoveryKey.passphrase = pass;
+          var bytes  = CryptoJS.AES.decrypt($localStorage.recoveryKey.PrivKey,words);
+           $localStorage.recoveryKey.PrivKey = bytes.toString(CryptoJS.enc.Utf8);
+          var popup = angular.element("#changeKey");
+          //for hide model
+          popup.modal('hide');
+          var popup = angular.element("#newPassword");
+          //for hide model
+          popup.modal('show');
+          
+      }else{
+        alert("La clave insertada no es correcta")
+      }
+      
+    }
+
+    $scope.newPassword = function (){
+      words = translate($scope.newPass)
+      var localPrivateKey = encryptKeys($localStorage.recoveryKey.PrivKey,words)
+      var localPass = encryptKeys($localStorage.recoveryKey.passphrase,words)
+      localPrivateKey = localPrivateKey.toString();
+      localPass = localPass.toString();
+      localStorekeys($localStorage.recoveryKey.PubKey,localPrivateKey,localPass,$localStorage.recoveryKey.name);
+      var popup = angular.element("#newPassword");
+      //for hide model
+      popup.modal('hide');
+      alert("LLave activada exitosamente");
+      delete $localStorage.recoveryKey
+      $window.location.reload();
+      
+    }
+
+
+
+
+
+})            
