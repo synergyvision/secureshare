@@ -1,38 +1,47 @@
-<div class="container-fullwidth">
-  <nav class="navbar navbar-light bg-dark">
-    <a class="navbar-brand" style="color:white">
-      Sharekey
-    </a>
-  </nav>
-<div class="row">
-    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
-      <div class="card card-signin my-5">
-        <div class="card-body">
-          <h5 class="card-title text-center">Sign In</h5>
-          <div ng-controller="LoginController">
-          <form class="form-signin" ng-submit="sendData()">
-            <div class="form-label-group">
-              <input type="email" id="email" ng-model="email" class="form-control" placeholder="Email address" required>
-              <label for="inputEmail">Email address</label>
-            </div>
+<div class="container">
 
-            <div class="form-label-group">
-              <input type="password" id="password" ng-model="password" placeholder="contraseña"class="form-control" required>
-              <label for="inputPassword">Password</label>
-            </div>
+  <!-- Outer Row -->
+  <div class="row justify-content-center">
 
-            <div class="form-label-group">
-              <a ui-sref="checkEmail"><h5><small>Olvido su contrasena?</small></h5></a>
-              <a ui-sref="signup"><h5><small>Usuario nuevo? Clickea para registrarte</small></h5></a>
+    <div class="col-xl-10 col-lg-12 col-md-9">
+
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+            <div class="col-lg-6">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4">Bienvenido!</h1>
+                </div>
+                <div ng-controller="LoginController">
+                <form class="user" ng-submit="sendData()">
+                  <div class="form-group">
+                    <input type="email" class="form-control form-control-user" id="email" ng-model="email" aria-describedby="emailHelp" placeholder="Introduzca su direccion de correo...">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" class="form-control form-control-user" id="password" ng-model="password" placeholder="Contraseña" required>
+                  </div>
+                  <button type="submit" class="btn btn-primary btn-user btn-block">
+                    Iniciar Sesión
+                  </button>
+                </form>
+                <hr>
+                <div class="text-center">
+                  <a ui-sref="checkEmail"><h5><small>Olvido su contrasena?</small></h5></a>
+                </div>
+                <div class="text-center">
+                  <a ui-sref="signup"><h5><small>Usuario nuevo? Clickea para registrarte</small></h5></a>
+                </div>
+              </div>
             </div>
-            <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Sign in</button>
-            <hr class="my-4">
-            <!--<button class="btn btn-lg btn-google btn-block text-uppercase" type="submit" id="btn-google"><i class="fab fa-google mr-2"></i> Sign in with Google</button>
-            <button class="btn btn-lg btn-facebook btn-block text-uppercase" type="submit" id="btn-facebook"><i class="fab fa-facebook-f mr-2"></i> Sign in with Facebook</button>!-->
-          </form>
           </div>
         </div>
       </div>
+
     </div>
+
   </div>
-</div>  
+
+</div>
