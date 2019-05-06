@@ -16,7 +16,7 @@
             <tbody>
               <tr ng-repeat="key in keys">
                 <td ng-if="key.default == true"><i class="fas fa-star"></i> {{key.name}} </td>
-                <td ng-if="key.default == false"> <i class="far fa-star"></i> {{key.name}} <button class="btn btn-link" ng-click="useKeys(key.name)"></td>
+                <td ng-if="key.default == false"><button class="btn btn-sm-link" ng-click="useKeys(key.name)"><i class="far fa-star"></i>{{key.name}}</button>  </td>
                 <td id="activated" ng-if="key.activated == true"><i class="far fa-check-circle"></i><button id="borrar" type="button" data-toggle="modal" data-target=".deleteWarning" class="btn btn-danger btn-sm" ng-click="getKeyname(key.name)">Borrar Llave</button></td>
                 <td id="activated" ng-if="key.activated == false"><button type="button" class="btn btn-link btn-sm" ng-click="getRecover(key.name)">Activar llave</button></td>
               </tr>

@@ -16,7 +16,7 @@
       })
   }])
 
-  .controller('contactsController', function($scope,$http,$localStorage,$state,$window,$location){
+  .controller('contactsController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage){
       uid = $localStorage.uid;
 
       $scope.getContacts = function (){
@@ -88,6 +88,14 @@
                 }
                 }  
             }) 
+    }
+
+    $scope.sendMessage = function (name,id){
+        $sessionStorage.user = {
+            name: name,
+            id: id
+        }
+        $state.go('dash.messages');
     }
 
   })
