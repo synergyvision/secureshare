@@ -33,10 +33,10 @@
                 <a class="collapse-item" ui-sref="dash.contacts">Contactos</a>
                 </div>
             </div>
-            <a class="nav-link collapsed" aria-expanded="true" ui-sref="dash.messages">
+           <!-- <a class="nav-link collapsed" aria-expanded="true" ui-sref="dash.messages">
                 <i class="fas fa-user-circle"></i>
                 <span>Chats</span>
-            </a>
+            </a> -->
             </li>
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -52,8 +52,60 @@
             <!-- Main Content -->
         <div id="content">
             <navbar></navbar>
-            <div id="container-fluid">
-                <ui-view></ui-view>
+            <div id="container-fluid" ng-controller="dashboardController">
+
+                    <ui-view></ui-view>
+
+            <!--Modal to ask for the app key -->
+            <div class="modal fade appPassword" tabindex="-1" id="appPassword" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                            <div class="alert alert-info" role="alert">
+                                Para continuar introduzca su clave de aplicación, si es la primera vez que ingresa esta clave sera guardada.
+                            </div>
+                            <div ng-if="message">
+                                <div class="alert alert-danger" role="alert">
+                                        {{message}}
+                                </div>
+                            </div>
+                            <input type="password" class="form-control" id="frase" ng-model="appKey" id="appKey" >
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <div ng-if="storedKey">
+                                <button type="button" class="btn btn-dark" ng-click="requestConfirm()">Reestablecer Clave</button>
+                            </div>
+                            <button type="button" class="btn btn-success" ng-click="setAppKey()">Continuar</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade confirmReset" tabindex="-1" id="confirmReset" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                            <div class="alert alert-danger" role="alert">
+                                Reestablecer su clave de aplicación borrara toda su información en el dispositivo, es decir tendra que reactivar sus llaves.
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-dark" ng-click="cancel()">Cancelar</button>
+                            <button type="button" class="btn btn-success" ng-click="resetAppKey()">Continuar</button>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>    

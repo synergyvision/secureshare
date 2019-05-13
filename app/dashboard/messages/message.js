@@ -111,7 +111,7 @@
             }
             openpgp.encrypt(options).then(ciphertext => {
               encrypted = ciphertext.data // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
-              createChat(encrypted);
+              sendToChat(encrypted);
               console.log('message encrypted');
           }).catch(function (error){
             console.log(error)
@@ -121,28 +121,54 @@
 
   }
 
-  var createChat = function (messageEncripted){
-      chatRequest = $.param({
+  var sendToChat = function (messageEncripted){
+      var chatRequest = $.param({
         title: $sessionStorage.user.name
       })
       $http({
-          url: "https://sharekey.herokuapp.com/chats",
+          url: "https://sharekey.herokuapp.com/chats/" + uid + "/checkChat",
           method: "POST",
           data: chatRequest,
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
       }).then(function (response){
-          console.log('chat created');
-          sendMessage(messageEncripted);
+          if (response.data.id){
+            sendMessage(messageEncripted,response.data.id);
+          }else{
+            createChat(messageEncripted);
+          }
       }).catch(function (error){
         console.log(error);
       })
   }
 
-  var sendMessage = function (messageEncrypted){
+  var createChat = function (messageEncripted){
+    chatRequest = $.param({
+      title: $sessionStorage.user.name,
+      participants: {
+        [uid]: true,
+        [$sessionStorage.user.id]: true
+      }
+    })
+    $http({
+          url: "https://sharekey.herokuapp.com/chats/" + uid,
+          method: "POST",
+          data: chatRequest,
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+    }).then(function (response){
+        console.log('chat created')
+        sendMessage(messageEncripted,response.data.idChat);
+    }).catch(function (error){
+      console.log(error);
+      alert('Something bad happened')
+    })
+
+  }
+
+  var sendMessage = function (messageEncrypted,id){
     messageRequest = $.param({
       id_sender: uid,
       message: messageEncrypted,
-      id_chat: '6jUd8dWmoBa9TMUQ93qU'
+      id_chat: id
     })
     $http({
       url: "https://sharekey.herokuapp.com/messages",
