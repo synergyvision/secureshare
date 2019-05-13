@@ -26,9 +26,10 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     }
 })
 
-.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$interval){
+.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage){
     $scope.user = $localStorage[$localStorage.uid + '-username']
     uid = $localStorage.uid;
+    
     if ($localStorage.search){
         $scope.search = $localStorage.search;
     }
@@ -37,11 +38,9 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
         $location.path('/login');
     }
 
-
     $scope.getSearch = function (){
         if ($scope.search){
             if ($state.current.name == 'dash.searchContacts'){
-                console.log('hola');
                 $window.location.reload();
             }
             $localStorage.search = $scope.search;
@@ -109,11 +108,12 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     $scope.logout = function(){
         $http({
             url: 'https://sharekey.herokuapp.com/logout',
-            method: 'POST'
+            method: 'GET'
         }).then(function (response){
             if (response.data.status == 200){
                 delete $localStorage.uid;
                 delete $localStorage.search;
+                delete $sessionStorage.appKey;
                 console.log('Users has logged out')
                 $state.go('login');
             }

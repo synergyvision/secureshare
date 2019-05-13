@@ -32,7 +32,7 @@ function encryptKeys(key,seed){
     })
   }])
   
-  .controller('keysController', function($scope,$http,$localStorage,$state,$window){
+  .controller('keysController', function($scope,$http,$localStorage,$state,$window,$sessionStorage){
     var uid = $localStorage.uid;
     if ($localStorage[uid + 'keys']){
       $scope.userKeys = $localStorage[uid + 'keys']
@@ -136,12 +136,11 @@ function encryptKeys(key,seed){
 
     //function that sends keypair to the cloud
 
-    storekeys = function (public,private,pass,name){
+    storekeys = function (public,private,name){
         
         var storeRequest = $.param({
           pubkey: public,
           privkey: private,
-          pass: pass,
           keyname: name
         })
           
@@ -167,12 +166,11 @@ function encryptKeys(key,seed){
 
     //store the newly created pair on local storage
 
-    var localStorekeys = function(public,private,pass,name){
+    var localStorekeys = function(public,private,name){
       var newKey = {
         keyname: name,
         publicKey: public,
         privateKey: private,
-        passphrase: pass,
         default: false
       }
 
@@ -201,7 +199,7 @@ function encryptKeys(key,seed){
                 passphrase: $scope.passphrase,
             }
             words = translate($scope.phrase);
-            password = translate($scope.password);
+            appKey = translate($sessionStorage.appKey);
             console.log("Generating Keys")
             openpgp.generateKey(options).then(function(key){
                 var privkey = key.privateKeyArmored;
@@ -209,17 +207,13 @@ function encryptKeys(key,seed){
                 console.log('keys created')
                 console.log('keys encrypted');
                 // encrypt keys on local storage
-                var localPrivateKey = encryptKeys(privkey,password)
-                var localPass = encryptKeys($scope.passphrase,password)
+                var localPrivateKey = encryptKeys(privkey,appKey)
                 localPrivateKey = localPrivateKey.toString();
-                localPass = localPass.toString();
-                localStorekeys(pubkey,localPrivateKey,localPass,$scope.newName);
+                localStorekeys(pubkey,localPrivateKey,$scope.newName);
                 // encrypt keys and send to cloud
                 var privateKey = encryptKeys(privkey,words)
-                var pass = encryptKeys($scope.passphrase,words)
                 privateKey = privateKey.toString()
-                pass = pass.toString();
-                storekeys(pubkey,privateKey,pass,$scope.newName)
+                storekeys(pubkey,privateKey,$scope.newName)
                 console.log('keys sent to cloud');
               }).catch(function (error){
                 console.log(error.code + '\n' + error.message);
@@ -240,7 +234,6 @@ function encryptKeys(key,seed){
 
     $scope.getRecover = function (name){
       $localStorage.KeyRecover = name;
-      console.log(name);
       $scope.recoverKeys();
     }
     
@@ -315,18 +308,15 @@ function encryptKeys(key,seed){
     }
 
     $scope.checkWords = function (){
-      console.log($localStorage.recoveryKey.passphrase);
       words = translate($scope.phraseRecovery)
-      var bytes  = CryptoJS.AES.decrypt($localStorage.recoveryKey.passphrase,words);
-      var pass = bytes.toString(CryptoJS.enc.Utf8);
-      if (pass != ""){
-          $localStorage.recoveryKey.passphrase = pass;
-          var bytes  = CryptoJS.AES.decrypt($localStorage.recoveryKey.PrivKey,words);
-           $localStorage.recoveryKey.PrivKey = bytes.toString(CryptoJS.enc.Utf8);
+      var bytes  = CryptoJS.AES.decrypt($localStorage.recoveryKey.PrivKey,words);
+      var priv = bytes.toString(CryptoJS.enc.Utf8);
+      if (priv != ""){
+          $localStorage.recoveryKey.PrivKey = priv;
           var popup = angular.element("#changeKey");
           //for hide model
           popup.modal('hide');
-          var popup = angular.element("#newPassword");
+          var popup = angular.element("#appPass");
           //for hide model
           popup.modal('show');
           
@@ -337,21 +327,23 @@ function encryptKeys(key,seed){
     }
 
     $scope.newPassword = function (){
-      words = translate($scope.newPass)
-      var localPrivateKey = encryptKeys($localStorage.recoveryKey.PrivKey,words)
-      var localPass = encryptKeys($localStorage.recoveryKey.passphrase,words)
-      localPrivateKey = localPrivateKey.toString();
-      localPass = localPass.toString();
-      localStorekeys($localStorage.recoveryKey.PubKey,localPrivateKey,localPass,$localStorage.recoveryKey.name);
-      var popup = angular.element("#newPassword");
-      //for hide model
-      popup.modal('hide');
-      alert("LLave activada exitosamente");
-      delete $localStorage.recoveryKey
-      $window.location.reload();
-      
+      words = translate($scope.appKey)
+      if (words == $sessionStorage.appKey){
+        console.log('here');
+        var localPrivateKey = encryptKeys($localStorage.recoveryKey.PrivKey,words)
+        localPrivateKey = localPrivateKey.toString();
+        localStorekeys($localStorage.recoveryKey.PubKey,localPrivateKey,$localStorage.recoveryKey.name);
+        var popup = angular.element("#appPass");
+        //for hide model
+        popup.modal('hide');
+        alert("LLave activada exitosamente");
+        delete $localStorage.recoveryKey
+        $window.location.reload();
+        
+      }else{
+        alert('La clave de aplicacion es incorrecta')
+      }  
     }
-
 
 
 
