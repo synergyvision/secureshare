@@ -1,6 +1,6 @@
 <div class="container">
   <div ng-controller="messagesController">
-    <form id="message" ng-submit="getPublicKey(user.id)">
+    <form id="message">
       <div class="form-group">
         <label for="user">Enviar mensaje a:</label>
         <input type="user" class="form-control" id="user" placeholder="{{user.name}}">
@@ -9,7 +9,35 @@
         <label for="exampleFormControlTextarea1">Mensage</label>
         <textarea class="form-control" id="message" ng-model="message" rows="3"></textarea>
       </div>
-      <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+      <div class="form-group">  
+        <label for="exampleFormControlSelect1">Elige tu llave de chat</label>
+        <select class="form-control" id="keys">
+          <option ng-repeat="key in userKeys" value="key.keyname" ng-model="chatKey">{{key.keyname}}</option>
+        </select>
+      </div>  
+        <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#passphrase">Enviar mensaje</button>
+      </form>
     </form>
   </div>
 </div>
+
+<div class="modal fade passphrase" tabindex="-1" id="passphrase" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+            <div class="alert alert-info" role="alert">
+                Introduzca el passphrase de este llave
+            </div>
+            <input type="password" class="form-control" id="frase" ng-model="passphrase" id="passphrase" placeholder="" >
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-success" ng-click="getPublicKey(user.id)">Continuar</button>
+        </div>
+        </div>
+    </div>

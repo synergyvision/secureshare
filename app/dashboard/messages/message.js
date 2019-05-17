@@ -18,7 +18,8 @@
 
   $scope.getPublicKey =  function (idUser){
 
-    if ($scope.message == ""){
+    console.log($scope.passphrase,$scope.message,idUser);
+    if (!$scope.message){
       alert("No puede mandar un mensaje en blanco")
     }else{
 
@@ -40,26 +41,10 @@
     }
   }
 
-  var getDefaultKey = function (){
+  var getDefaultKey = function (name){
     for (var i = 0 ; i < $scope.userKeys.length; i++){
         if ($scope.userKeys[i].default == true){
             return $scope.userKeys[i].publicKey
-        }
-    }
-  }
-
-  var getDefaultPrivate = function (){
-    for (var i = 0 ; i < $scope.userKeys.length; i++){
-        if ($scope.userKeys[i].default == true){
-            return $scope.userKeys[i].privateKey
-        }
-    }
-  }
-
-  var getDefaultPassphrase = function (){
-    for (var i = 0 ; i < $scope.userKeys.length; i++){
-        if ($scope.userKeys[i].default == true){
-            return $scope.userKeys[i].passphrase
         }
     }
   }
@@ -69,15 +54,6 @@
     return public;
   }
 
-  var readMultiplePublic = async (pubkeys) => {
-        console.log(pubkeys);
-        pubkeys = pubkeys.map(async (key) => {
-        return (await openpgp.key.readArmored(key)).keys[0]
-        });
-        console.log(pubkeys);
-      return pubkeys;
-  } 
-
   var decryptKey = function (key,password) {
     var bytes  = CryptoJS.AES.decrypt(key,password);
     var key = bytes.toString(CryptoJS.enc.Utf8);
@@ -85,29 +61,39 @@
 
   }
 
-  var readPrivate = async (key,password) => {
-    const privKeyObj = (await openpgp.key.readArmored(key)).keys[0]
-    await privKeyObj.decrypt(password)
-    return privKeyObj
-  }
+  var encryptWithMultiplePublicKeys  = async (pubkeys, privkey, passphrase, message) => {
+    const privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
+    await privKeyObj.decrypt(passphrase)
+    pubkeys = pubkeys.map(async (key) => {
+        return (await openpgp.key.readArmored(key)).keys[0]
+    });
+
+    const options = {
+        message: openpgp.message.fromText(message),
+        publicKeys: await Promise.all(pubkeys),           				  // for encryption
+        privateKeys: [privKeyObj]                                 // for signing (optional)
+    }
+    return openpgp.encrypt(options).then(ciphertext => {
+        encrypted = ciphertext.data // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
+        return encrypted
+    })
+   };
 
   $scope.encrypt = function (key) {
       console.log('begin encription')
-      //defaultPublic = getDefaultKey();
-      defaultPrivate = getDefaultPrivate();
-      defaultPass = getDefaultPassphrase();
+      //defaultPublic = getDefaultKey(name);
+      defaultPrivate = getPrivate();
       //pKeys = [defaultPublic,key]
       //publicKeys = readMultiplePublic(pKeys)
-      publicKey = readPublic(key);
+      /*publicKey = readPublic(key);
       defaultPrivate = decryptKey(defaultPrivate,'ancestralmite8');
-      passphrase = decryptKey(defaultPass,'ancestralmite8');
       privateKey = readPrivate(defaultPrivate,passphrase);
       privateKey.then(function (privateKey){
         publicKey.then(function (publicKey) {
             const options = {
               message: openpgp.message.fromText($scope.message),       // input as Message object
-              publicKeys: publicKey, // for encryption
-              privateKeys: [privateKey]                                 // for signing (optional)
+              publicKeys: publicKey // for encryption
+              //privateKeys: [privateKey]                                 // for signing (optional)
             }
             openpgp.encrypt(options).then(ciphertext => {
               encrypted = ciphertext.data // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
@@ -118,7 +104,7 @@
           })
         })
       })  
-
+      */
   }
 
   var sendToChat = function (messageEncripted){

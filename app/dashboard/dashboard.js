@@ -23,7 +23,7 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
 
 .controller('dashboardController', function($scope,$sessionStorage,$localStorage,$window){
   uid = $localStorage.uid
-  $scope.storedKey = $sessionStorage.appKey;
+  $scope.storedKeys = $localStorage[uid+'keys'];
   //$scope.message = 'hola'
   var requestAppkey = function (){
     var popup = angular.element("#appPassword");
@@ -39,8 +39,7 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
     if ($localStorage[uid+'keys']){
       words = translate($scope.appKey);
       try {
-      var bytes  = CryptoJS.AES.decrypt($localStorage[uid+'keys'][3].privateKey,words);
-      console.log(bytes);
+      var bytes  = CryptoJS.AES.decrypt($localStorage[uid+'keys'][0].privateKey,words);
       var pass = bytes.toString(CryptoJS.enc.Utf8);
           $sessionStorage.appKey = $scope.appKey;
           popup = angular.element("#appPassword");
@@ -48,6 +47,7 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
 
       }
       catch (e){
+        console.log(e);
         $scope.message = 'La clave de aplicación es incorrecta'
       }
     }else{
