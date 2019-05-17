@@ -1,4 +1,9 @@
-#message{
+#message,#user{
   display: block;
-  width: 75%;
+  width: 70%;
+}
+
+#keys{
+  display: block;
+  width: 30%;
 }
