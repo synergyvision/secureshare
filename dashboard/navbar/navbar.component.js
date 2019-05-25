@@ -105,6 +105,37 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
               }
         })
     }
+
+    var countUnread = function (messages){
+        var count = 0;
+        for (var i = 0; i < messages.length; i++){
+            if (messages[i].data.status == 'unread'){
+                count++
+            }
+            if (i == (messages.length -1)){
+                return count
+            }
+        }
+    }
+
+    $scope.getMessages = function (){
+        $http({
+            url: 'https://sharekey.herokuapp.com/messages/' + uid,
+            method: 'GET'
+        }).then(function (response){
+            if (response.data.status == 200){
+                $scope.messages = response.data.data;
+                $scope.unreadMessages = countUnread(response.data.data);
+            }
+        }).catch(function (error){
+            console.log(error);
+            if (error.status == 401){
+              alert('Su sesion ha vencido por inactividad')
+              $location.path('/login');
+            }
+        })
+    }
+
     $scope.logout = function(){
         $http({
             url: 'https://sharekey.herokuapp.com/logout',

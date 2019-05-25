@@ -239,6 +239,14 @@ function encryptKeys(key,seed){
     
     //deletes a keypair
     
+    var localDelete = function(name){
+      for (var i = 0 ; i < $scope.userKeys.length; i++){
+        if ($scope.userKeys[i].keyname == name){
+            return $scope.userKeys[i].splice(i,1);
+        }
+      }
+    }
+
     $scope.deleteKeys  =  function (){
 
       name = $localStorage.keyDelete;
@@ -255,6 +263,7 @@ function encryptKeys(key,seed){
             if (response.status == 200){
               alert('Se ha borrado una llave');
               delete $localStorage.keyDelete;
+              localDelete(name);
               $state.reload();
             }
         }).catch(function (e){
