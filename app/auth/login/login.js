@@ -52,9 +52,9 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
         })
       }else{
         if (response.data.status === 'auth/wrong-password'){
-          errorLogin('Su contrasena es incorrecta');
+          errorLogin('Su contraseña es incorrecta');
         } else if (response.data.status === 'auth/user-not-found'){
-          errorLogin('Su correo es invalido');
+          errorLogin('Su correo es inválido');
         }
       }
     })
