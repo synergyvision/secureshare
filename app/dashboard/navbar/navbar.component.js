@@ -48,6 +48,25 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
         }
     }
 
+    var updateStatus = function(id){
+        $http({
+            url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + id,
+            method: 'PUT',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+        }).then(function (response){
+            console.log(response.data)
+        }).catch(function (error){
+            alert(error)
+        })
+    }
+
+    $scope.readMessage =  function (id, status){
+        if (status == 'unread'){
+            updateStatus(id);
+        }
+        $state.go('dash.read',{'id': id})
+    }
+
     $scope.getFriendRequest = function (){
         $http({
             url: 'https://sharekey.herokuapp.com/contacts/' + uid + '/requests',
@@ -133,6 +152,21 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
               alert('Su sesion ha vencido por inactividad')
               $location.path('/login');
             }
+        })
+    }
+
+    $scope.deleteMessage = function (id){
+        $http({
+            url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + id,
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+        }).then(function (response){
+            if (response.data.status == 200){
+                alert('se ha eliminado un mensaje')
+                $state.reload();
+            }
+        }).catch(function (error){
+            alert(error)
         })
     }
 

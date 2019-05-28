@@ -91,11 +91,7 @@
     }
 
     $scope.sendMessage = function (name,id){
-        $sessionStorage.user = {
-            name: name,
-            id: id
-        }
-        $state.go('dash.messages');
+        $state.go('dash.messages',{'id': id,'name': name});
     }
 
   })
