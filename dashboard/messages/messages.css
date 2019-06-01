@@ -1,6 +1,6 @@
-#message,#user{
+#newMessage{
   display: block;
-  width: 100%;
+  width: 50%;
 }
 
 #keys{

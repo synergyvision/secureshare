@@ -1,6 +1,6 @@
 <div class="container">
   <div ng-controller="messagesController">
-    <form id="message" ng-submit="getPublicKey(user.id)">
+    <form id="newMessage" ng-submit="getPublicKey(id_recipient)">
       <div class="form-group">
         <label for="user">Enviar mensaje a:</label>
         <input type="user" class="form-control" id="user" placeholder="{{user}}" disabled>

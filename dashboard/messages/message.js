@@ -4,12 +4,8 @@
   
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.messages', {
-      url: '/messages',
+      url: '/messages?id_user&name',
       templateUrl: '../dashboard/messages/message.html',
-      params: {
-        id_user: null,
-        name: null
-      },
       controller: 'messagesController',
       css: 'messages.css'
     });
@@ -26,10 +22,9 @@
       $scope.userKeys = $localStorage[uid + 'keys'];
       $scope.id_message = $stateParams.id
       $scope.user = $stateParams.name
-      $scope.id_recipient = $stateParams.id
+      $scope.id_recipient = $stateParams.id_user
 
   $scope.getPublicKey =  function (idUser){
-
     if (!$scope.message){
       alert("No puede mandar un mensaje en blanco")
     }else{
@@ -191,6 +186,6 @@
 
   $scope.respond = function(name,id) {
     console.log(name,id)
-    $state.go('dash.messages',{'id': id,'name': name});
+    $state.go('dash.messages',{'id_user': id,'name': name});
   }
 })

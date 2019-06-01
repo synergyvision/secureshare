@@ -91,7 +91,7 @@
     }
 
     $scope.sendMessage = function (name,id){
-        $state.go('dash.messages',{'id': id,'name': name});
+        $state.go('dash.messages',{'id_user': id,'name': name});
     }
 
   })

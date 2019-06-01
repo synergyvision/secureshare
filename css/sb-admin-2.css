@@ -10980,7 +10980,8 @@ a:focus {
 .topbar .dropdown-list {
   padding: 0;
   border: none;
-  overflow: hidden;
+  overflow: auto;
+  max-height: 200px;
 }
 
 .topbar .dropdown-list .dropdown-header {
