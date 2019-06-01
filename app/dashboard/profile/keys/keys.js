@@ -36,6 +36,7 @@ function encryptKeys(key,seed){
     var uid = $localStorage.uid;
     if ($localStorage[uid + 'keys']){
       $scope.userKeys = $localStorage[uid + 'keys']
+      console.log($scope.userKeys)
     }else{
       $scope.userKeys = [];
     }
@@ -242,7 +243,7 @@ function encryptKeys(key,seed){
     var localDelete = function(name){
       for (var i = 0 ; i < $scope.userKeys.length; i++){
         if ($scope.userKeys[i].keyname == name){
-            return $scope.userKeys[i].splice(i,1);
+            $scope.userKeys.splice(i,1);
         }
       }
     }
@@ -271,7 +272,7 @@ function encryptKeys(key,seed){
               alert('Su sesion ha vencido por inactividad')
               $location.path('/login');
             }else{
-              console.log(e.data)
+              console.log(e)
             }
           })
     }
