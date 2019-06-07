@@ -42,7 +42,16 @@
         console.log('retrieved public key from server')
         $scope.encrypt(response.data.data,message);
       }).catch(function (error){
-          console.log(error);
+        if (error){
+          if (error.status == 401){
+              alert('Su sesion ha vencido por inactividad')
+              $location.path('/login');
+          }
+          else{
+              console.log(error.code);
+              console.log(error.message);
+          }
+      } 
       })  
     }
   }
@@ -131,7 +140,16 @@
       console.log(response.data);
       console.log('message sent');
     }).catch(function (error){
-      console.log(error);
+      if (error){
+        if (error.status == 401){
+            alert('Su sesion ha vencido por inactividad')
+            $location.path('/login');
+        }
+        else{
+            console.log(error.code);
+            console.log(error.message);
+        }
+    } 
     })
   }
 
@@ -144,7 +162,16 @@
       $scope.data = response.data.data
       $scope.mensaje = response.data.data.content
     }).catch(function (error){
-      console.log(error);
+      if (error){
+        if (error.status == 401){
+            alert('Su sesion ha vencido por inactividad')
+            $location.path('/login');
+        }
+        else{
+            console.log(error.code);
+            console.log(error.message);
+        }
+    } 
     })
   }
 
