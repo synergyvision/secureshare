@@ -78,14 +78,14 @@
             }
         }).catch(function (error){
                 if (error){
-                if (error.status == 401){
-                    alert('Su sesion ha vencido por inactividad')
-                    $location.path('/login');
-                }
-                else{
-                    console.log(error.code);
-                    console.log(error.message);
-                }
+                    if (error.status == 401){
+                        alert('Su sesion ha vencido por inactividad')
+                        $location.path('/login');
+                    }
+                    else{
+                        console.log(error.code);
+                        console.log(error.message);
+                    }
                 }  
             }) 
     }
