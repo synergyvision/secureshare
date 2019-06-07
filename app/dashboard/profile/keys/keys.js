@@ -153,6 +153,9 @@ function encryptKeys(key,seed){
         }).then(function (response){
             if (response.data.status == 200){
                 console.log('keys stored succesfully')
+                var popup = angular.element("#keySpinner");
+                //for hide model
+                popup.modal('hide');
                 $window.location.reload();
             }else{
               alert(response.data.message);
@@ -199,6 +202,9 @@ function encryptKeys(key,seed){
                 numBits: 4096,
                 passphrase: $scope.passphrase,
             }
+            var popup = angular.element("#keySpinner");
+            //for hide model
+            popup.modal('show');
             words = translate($scope.phrase);
             appKey = translate($sessionStorage.appKey);
             console.log("Generating Keys")

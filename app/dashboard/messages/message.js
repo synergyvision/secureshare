@@ -28,7 +28,9 @@
     if (!$scope.message){
       alert("No puede mandar un mensaje en blanco")
     }else{
-
+      var popup = angular.element("#messageSpinner");
+      //for hide model
+      popup.modal('show');
       var keyRequest = $.param({
           id: idUser
       })
@@ -138,6 +140,10 @@
       headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
     }).then(function (response){
       console.log(response.data);
+      var popup = angular.element("#messageSpinner");
+      //for hide model
+      popup.modal('hide');
+      alert('Su mensaje se ha enviado');
       console.log('message sent');
     }).catch(function (error){
       if (error){
@@ -200,12 +206,16 @@
   }
 
   $scope.decrypt = async () => {
+    var popup = angular.element("#readingSpinner");
+      //for hide model
+    popup.modal('show');
     privateKey = getPrivateKey();
     privateKey = decryptKey(privateKey,$sessionStorage.appKey);
     message = decriptMessage(privateKey, $scope.passphrase, $scope.mensaje)
     message.then(function (decrypted){
       $scope.decrypted = decrypted;
       $scope.$apply();
+      popup.modal('hide');
     }).catch(function (error){
         alert(error)
     })

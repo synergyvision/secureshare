@@ -221,14 +221,37 @@
          })
        }
 
+      var getMultipleKeys = async(keys)=>{
+          console.log(keys)
+          var keyRequest = $.param({
+            id: JSON.stringify(keys)
+          })
+         return await $http({
+            url: 'https://sharekey.herokuapp.com/profile/' + uid + '/getMultipleKeys',
+            method: 'POST',
+            data: keyRequest,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+          }).then(function (response){
+              console.log('retrieved public keys from server')
+              key = response.data.data;
+              return key;
+          }).catch(function (error){
+              console.log(error);
+          })
+      }
+
       $scope.sendToChat = function (){
         recipientId = getRecipientId($stateParams.id_chat);
-        console.log(recipientId.length);
         myPublicKey = getMyKey($scope.infoChat.members[uid]);
-        recipientKey = getRecipientKey(recipientId);
-        /*recipientKey.then(function (recipientKey){
+        if (recipientId.length > 1){
+          recipientKey = getMultipleKeys(recipientId);
+        }else{
+          recipientKey = getRecipientKey(recipientId[0]);
+        }
+        recipientKey.then(function (recipientKey){
+          console.log(recipientKey)
           publicKeys = [recipientKey,myPublicKey]
-          /*message = encryptMessage(publicKeys,$scope.chatMessage);
+          message = encryptMessage(publicKeys,$scope.chatMessage);
           message.then(function (message){
             ids = Object.keys($scope.infoChat.members);
             var messageRequest = $.param({
@@ -245,7 +268,7 @@
         }).catch(function (error){
           console.log(error)
           alert(error)
-        })*/
+        })
       }
   
       var decriptMessage = async (privateKey,passphrase,mensaje) => {
@@ -321,11 +344,17 @@
         var popup = angular.element("#addPassphrase");
         //for hide model
         popup.modal('hide');
+        var popup = angular.element("#decryptingSpinner");
+        //for hide model
+        popup.modal('show');
         $sessionStorage.passphrase = $scope.passphraseChat
         decripted = decryptMessages($scope.chatMessages)
         decripted.then (function (decripted){
           $scope.show = true;
           $scope.chatMessages = decripted;
+          var popup = angular.element("#decryptingSpinner");
+          //for hide model
+          popup.modal('hide');
           $scope.$apply();
         })
 
