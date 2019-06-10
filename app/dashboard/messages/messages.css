@@ -11,3 +11,23 @@
 #passphrase{
   width: 40%;
 }
+
+#correo{
+  width: 90%;
+}
+
+#header{
+  display: flex;
+  margin-bottom: 5px;
+  justify-content: space-between;
+  width: 90%;
+}
+#newCorreo{
+  display: right;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#messageList{
+  margin-right: -200px
+}

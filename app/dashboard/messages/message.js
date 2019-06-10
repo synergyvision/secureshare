@@ -4,7 +4,7 @@
   
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.messages', {
-      url: '/messages?id_user&name',
+      url: '/newMessages',
       templateUrl: '../dashboard/messages/message.html',
       controller: 'messagesController',
       css: 'messages.css'
@@ -15,14 +15,17 @@
       controller: 'messagesController',
       css: 'messages.css'
     })
+    $stateProvider.state('dash.messagesList', {
+      url: '/messageList',
+      templateUrl: '../dashboard/messages/messageList.html',
+      controller: 'messagesController',
+      css: 'messages.css'
+    })
   }])
 
 .controller('messagesController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage,$stateParams){
       uid = $localStorage.uid
       $scope.userKeys = $localStorage[uid + 'keys'];
-      $scope.id_message = $stateParams.id
-      $scope.user = $stateParams.name
-      $scope.id_recipient = $stateParams.id_user
 
   $scope.getPublicKey =  function (idUser){
     if (!$scope.message){
@@ -110,6 +113,26 @@
     })
     }  
    };
+
+   $scope.getContacts = function (){
+
+    $http({
+        url: 'https://sharekey.herokuapp.com/profile/' + uid + '/contacts',
+        method: 'GET'
+    }).then(function (response){
+        if (response.data.status == 200){
+            console.log('contacts received')
+            console.log(response.data.data)
+            $scope.contacts = response.data.data
+        }
+    }).catch(function (error){
+        if (error.status == 401){
+          alert('Su sesion ha vencido por inactividad')
+          $location.path('/login');
+        }
+    })
+
+  } 
 
   $scope.encrypt = function (key) {
 
@@ -225,4 +248,63 @@
     console.log(name,id)
     $state.go('dash.messages',{'id_user': id,'name': name});
   }
+
+  var getDate = function (messages){
+    for (i = 0; i < messages.length; i++){
+      sent = new Date(messages[i].data.timestamp);
+      messages[i].sent = sent.toLocaleString();
+    }
+    return messages
+  }
+
+    $scope.getMessages = function (){
+      $http({
+          url: 'https://sharekey.herokuapp.com/messages/' + uid,
+          method: 'GET'
+      }).then(function (response){
+          if (response.data.status == 200){
+              messages = response.data.data;
+              console.log(messages);
+              $scope.correos = getDate(messages);
+          }
+      }).catch(function (error){
+          console.log(error);
+      })
+  }
+
+  $scope.deleteMessage = function (id){
+      console.log(id);
+      $http({
+          url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + id,
+          method: 'DELETE',
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+      }).then(function (response){
+          if (response.data.status == 200){
+              console.log(response.data);
+              alert('se ha eliminado un mensaje')
+              $state.reload();
+          }
+      }).catch(function (error){
+          alert(error)
+      })
+  }
+
+  var updateStatus = function(id){
+    $http({
+        url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + id,
+        method: 'PUT',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+    }).then(function (response){
+        console.log(response.data)
+    }).catch(function (error){
+        alert(error)
+    })
+}
+
+  $scope.readMessage =  function (id, status){
+    if (status == 'unread'){
+        updateStatus(id);
+    }
+    $state.go('dash.read',{'id': id})
+}
 })
