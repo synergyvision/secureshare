@@ -97,39 +97,31 @@
             <h6 class="dropdown-header">
                 Mensajes
             </h6>
-            <!--<div ng-if="unreadMessages">
+            <div ng-if="!unreadMessages">
                 <a class="dropdown-item d-flex align-items-center">
                     <div>
                         <span class="font-weight-bold">No hay mensajes nuevos</span>
                     </div>
                 </a>
-            </div>  -->
+            </div>
             <div ng-if="messages.length > '0'">
                 <div ng-repeat="message in messages">
-                    <a class="dropdown-item d-flex align-items-center">
-                        <div class="dropdown-list-image mr-3">
-                            <img class="rounded-circle">
-                        <div class="status-indicator bg-success"></div>
-                        </div>
-                        <div ng-if="message.data.status == 'unread'">
+                    <div ng-if="message.data.status == 'unread'">
+                        <a class="dropdown-item d-flex align-items-center">
+                            <div class="dropdown-list-image mr-3">
+                                <img class="rounded-circle">
+                                <div class="status-indicator bg-success"></div>
+                            </div>
                             <div class="font-weight-bold">
                                 <div class="text-truncate">{{message.data.sender}} te ha enviado un mensaje!</div>
                                 <!-- <div class="small text-gray-500">Hace {{message.data.timestamp}}</div> -->
-                            </div>
-                            <div id="buttons">
-                                <button type="button" class="btn btn-primary btn-sm" ng-click="readMessage(message.id,message.data.status)">Ver</button>
-                                <button type="button" class="btn btn-secondary btn-sm" ng-click="deleteMessage(message.id)">Eliminar</button>
+                                <div id="buttons">
+                                        <button type="button" class="btn btn-primary btn-sm" ng-click="readMessage(message.id,message.data.status)">Ver</button>
+                                        <button type="button" class="btn btn-secondary btn-sm" ng-click="deleteMessage(message.id)">Eliminar</button>
+                                </div>    
                             </div>  
-                        </div>
-                        <div ng-if="message.data.status != 'unread'">
-                            <div class="text-truncate">{{message.data.sender}} te ha enviado un mensaje!</div>
-                            <!-- <div class="small text-gray-500">Hace {{message.data.timestamp}}</div> -->
-                            <div id="buttons">
-                                <button class="btn btn-primary btn-sm" ng-click="readMessage(message.id,message.data.status)">Ver</button>
-                                <button type="button" class="btn btn-secondary btn-sm" ng-click="deleteMessage(message.id)">Eliminar</button>
-                            </div>  
-                        </div>
-                    </a>
+                         </a> 
+                    </div>   
                 </div>   
             </div>     
 
