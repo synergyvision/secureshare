@@ -17,7 +17,8 @@ angular.module('sharekey', [
   'sharekey.dashboard',
   'sharekey.contacts',
   'sharekey.message',
-  'sharekey.chats'
+  'sharekey.chats',
+  'sharekey.posts'
 ]).
 config(['$locationProvider', '$urlRouterProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {
   $locationProvider.hashPrefix('!');

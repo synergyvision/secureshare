@@ -1,0 +1,11 @@
+#status{
+    border: none;
+}
+
+#status:focus{
+    outline: none
+}
+
+#posts{
+    margin-top: 20px;
+}

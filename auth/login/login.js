@@ -22,7 +22,7 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
   $urlRouterProvider.otherwise('/');
 }])
 
-.controller('LoginController', function($scope,$http,$location,$cookies,$localStorage) {
+.controller('LoginController', function($scope,$http,$location,$cookies,$localStorage,$state) {
   
   $scope.sendData = function(){
     var loginRequest = $.param({
@@ -45,7 +45,7 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
         }).then(function (response){
           if (response.data.status == 200){
               $localStorage[$localStorage.uid + '-username'] = response.data.content.username;
-              $location.path('/index');
+              $state.go('dash.posts');
           }else{
             errorLogin(response.data.message);
           }  
