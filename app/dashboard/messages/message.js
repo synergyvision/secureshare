@@ -5,19 +5,19 @@
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.messages', {
       url: '/newMessages',
-      templateUrl: '../dashboard/messages/message.html',
+      templateUrl: 'dashboard/messages/message.html',
       controller: 'messagesController',
       css: 'messages.css'
     });
     $stateProvider.state('dash.read', {
       url: '/messages?id',
-      templateUrl: '../dashboard/messages/readMessage.html',
+      templateUrl: 'dashboard/messages/readMessage.html',
       controller: 'messagesController',
       css: 'messages.css'
     })
     $stateProvider.state('dash.messagesList', {
       url: '/messageList',
-      templateUrl: '../dashboard/messages/messageList.html',
+      templateUrl: 'dashboard/messages/messageList.html',
       controller: 'messagesController',
       css: 'messages.css'
     })
