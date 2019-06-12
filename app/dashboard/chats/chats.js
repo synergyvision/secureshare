@@ -37,7 +37,7 @@
             $scope.userChats = []
           }
         }).catch(function(error){
-
+          console.log(error);
         })
       }
     
