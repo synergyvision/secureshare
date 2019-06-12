@@ -4,13 +4,13 @@
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.contacts', {
       url: '/contacts',
-      templateUrl: '../dashboard/profile/contacts/contacts.html',
+      templateUrl: 'dashboard/profile/contacts/contacts.html',
       controller: 'contactsController',
       css: 'contacts.css'
     });
     $stateProvider.state('dash.searchContacts', {
       url: '/contacts/search',
-      templateUrl: '../dashboard/profile/contacts/search.html',
+      templateUrl: 'dashboard/profile/contacts/search.html',
       controller: 'contactsController',
       css: 'contacts.css'
       })

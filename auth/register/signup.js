@@ -13,7 +13,7 @@ angular.module('sharekey.register', ['ngRoute'])
 .config(['$stateProvider', function($stateProvider) {
   $stateProvider.state('signup', {
     url: '/signup',
-    templateUrl: '../auth/register/signup.html',
+    templateUrl: 'auth/register/signup.html',
     controller: 'SignUpController',
     css: 'signup.css'
   });

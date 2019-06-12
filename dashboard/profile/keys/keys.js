@@ -26,7 +26,7 @@ function encryptKeys(key,seed){
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.keys', {
       url: '/keys',
-      templateUrl: '../dashboard/profile/keys/keys.html',
+      templateUrl: 'dashboard/profile/keys/keys.html',
       controller: 'keysController',
       css: 'keys.css'
     })

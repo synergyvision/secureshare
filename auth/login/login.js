@@ -9,13 +9,13 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
 .config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlRouterProvider) {
   $stateProvider.state('/', {
     url: '/', 
-    templateUrl: '../auth/login/login.html',
+    templateUrl: 'auth/login/login.html',
     controller: 'LoginController',
     css: '../css/sb-admin-2.css'
   });
   $stateProvider.state('login',{
     url: '/', 
-    templateUrl: '../auth/login/login.html',
+    templateUrl: 'auth/login/login.html',
     controller: 'LoginController',
     css: '../css/sb-admin-2.css'
   })

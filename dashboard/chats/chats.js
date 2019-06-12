@@ -3,14 +3,14 @@
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.chats',{
         url: '/chats',
-        templateUrl: '../dashboard/chats/chats.html',
-        css: '../dashboard/chats/chats.css',
+        templateUrl: 'dashboard/chats/chats.html',
+        css: 'dashboard/chats/chats.css',
         controller: 'chatController'
       });
     $stateProvider.state('dash.chats.messages',{
       url: '?id_chat',
-      templateUrl: '../dashboard/chats/chatMessages.html',
-      css: '../dashboard/chats/chats.css',
+      templateUrl: 'dashboard/chats/chatMessages.html',
+      css: 'dashboard/chats/chats.css',
       controller: 'chatController'
     })  
 

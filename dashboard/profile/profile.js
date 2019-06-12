@@ -14,7 +14,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
 .config(['$stateProvider', function($stateProvider) {
   $stateProvider.state('dash.profile', {
     url: '/profile',
-    templateUrl: '../dashboard/profile/profile.html',
+    templateUrl: 'dashboard/profile/profile.html',
     controller: 'profileController',
     css: 'profile.css'
   })

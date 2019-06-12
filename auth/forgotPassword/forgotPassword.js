@@ -14,12 +14,12 @@ angular.module('sharekey.reset', ['ngRoute'])
 .config(['$stateProvider', function($stateProvider) {
   $stateProvider.state('checkEmail', {
     url: '/checkEmail',
-    templateUrl: '../auth/forgotPassword/checkEmail.html',
+    templateUrl: 'auth/forgotPassword/checkEmail.html',
     controller: 'CheckEmailController',
     css: 'forgotPassword.css'
   }).state('resetPassword',{
     url: '/resetPassword',
-    templateUrl: '../auth/forgotPassword/resetPassword.html',
+    templateUrl: 'auth/forgotPassword/resetPassword.html',
     controller: 'ResetPasswordController',
     css: 'forgotPassword.css'
   });
