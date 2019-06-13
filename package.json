@@ -6,26 +6,25 @@
   "repository": "https://github.com/angular/angular-seed",
   "license": "MIT",
   "dependencies": {
-    "angular": "^1.7.5",
+    "angular": "^1.7.8",
     "angular-animate": "^1.7.8",
     "angular-cookies": "^1.7.8",
-    "angular-loader": "^1.7.5",
-    "angular-route": "^1.7.5",
+    "angular-loader": "^1.7.8",
+    "angular-route": "^1.7.8",
     "angular-ui-bootstrap": "^2.5.6",
     "angular-ui-router": "^1.0.22",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.3.1",
     "crypto-js": "^3.1.9-1",
     "html5-boilerplate": "0.0.1",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.1",
     "ngstorage": "^0.3.11",
-    "openpgp": "^4.4.10",
-    "popper.js": "^1.14.7"
+    "openpgp": "^4.5.3",
+    "popper.js": "^1.15.0"
   },
   "devDependencies": {
-    "angular-mocks": "^1.7.5",
+    "angular-mocks": "^1.7.8",
     "cpx": "^1.5.0",
-    "http-server": "^0.11.1",
     "gulp-autoprefixer": "6.0.0",
     "gulp-clean-css": "4.0.0",
     "gulp-header": "2.0.7",
@@ -33,7 +32,8 @@
     "gulp-rename": "1.4.0",
     "gulp-sass": "4.0.2",
     "gulp-uglify": "3.0.1",
-    "protractor": "^5.4.1"
+    "http-server": "^0.11.1",
+    "protractor": "^5.4.2"
   },
   "scripts": {
     "postinstall": "npm run copy-libs",
