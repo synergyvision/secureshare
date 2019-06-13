@@ -6,6 +6,14 @@
     outline: none
 }
 
+.card{
+    margin-bottom: 10px;
+}
+
 #posts{
     margin-top: 20px;
+}
+
+.card-header{
+    display: inline-block;
 }
