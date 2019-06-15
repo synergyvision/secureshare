@@ -19,7 +19,7 @@ angular.module('sharekey.register', ['ngRoute'])
   });
 }])
 
-.controller('SignUpController', function($scope,$http,$location) {
+.controller('SignUpController', function($scope,$http,$location,$state) {
   
   $scope.sendData = function(){
     var signUpRequest = $.param({
@@ -39,7 +39,7 @@ angular.module('sharekey.register', ['ngRoute'])
       if (response.data.status == 201){
         console.log(response);
         successRegister('Usuario se ha creado exitosamente');
-        $location.path('/login');
+        $state.go('dash.login');
       }else{
         if (response.data.status == 400){
           error('El nombre de usuario no esta disponible');

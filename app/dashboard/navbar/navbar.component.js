@@ -29,6 +29,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
 .controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage){
     $scope.user = $localStorage[$localStorage.uid + '-username']
     uid = $localStorage.uid;
+    var token = $localStorage.userToken;
     
     if ($localStorage.search){
         $scope.search = $localStorage.search;
@@ -52,7 +53,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
         $http({
             url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + id,
             method: 'PUT',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
             console.log(response.data)
         }).catch(function (error){
@@ -70,7 +71,8 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     $scope.getFriendRequest = function (){
         $http({
             url: 'https://sharekey.herokuapp.com/contacts/' + uid + '/requests',
-            method: 'GET'
+            method: 'GET',
+            headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
             if (response.data.status == 200){
                 $scope.requests = response.data.data;
@@ -80,7 +82,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
             console.log(error);
             if (error.status == 401){
               alert('Su sesion ha vencido por inactividad')
-              $location.path('/login');
+              $state.go('dash.login');
             }
         })
     }
@@ -105,7 +107,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
             url: 'https://sharekey.herokuapp.com/contacts/' + uid + '/requests/' + id,
             method: 'PUT',
             data: status,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
             console.log(response.data)
             if (response.data.status == 200){
@@ -119,7 +121,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
             }
         }).catch(function (error){
             if (error.status == 401){
-                alert('Su sesion ha vencido por inactividad')
+                alert('Su sesion ha vencido')
                 state.go('login');
               }
         })
@@ -140,7 +142,8 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     $scope.getMessages = function (){
         $http({
             url: 'https://sharekey.herokuapp.com/messages/' + uid,
-            method: 'GET'
+            method: 'GET',
+            headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
             if (response.data.status == 200){
                 $scope.messages = response.data.data;
@@ -149,8 +152,8 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
         }).catch(function (error){
             console.log(error);
             if (error.status == 401){
-              alert('Su sesion ha vencido por inactividad')
-              $location.path('/login');
+              alert('Su sesion ha vencido')
+              $state.go('dash.login');
             }
         })
     }
@@ -159,7 +162,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
         $http({
             url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + id,
             method: 'DELETE',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
             if (response.data.status == 200){
                 alert('se ha eliminado un mensaje')
@@ -179,6 +182,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
                 delete $localStorage.uid;
                 delete $localStorage.search;
                 delete $sessionStorage.appKey;
+                delete $localStorage.userToken;
                 console.log('Users has logged out')
                 $state.go('login');
             }

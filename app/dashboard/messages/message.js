@@ -26,6 +26,7 @@
 .controller('messagesController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage,$stateParams){
       uid = $localStorage.uid
       $scope.userKeys = $localStorage[uid + 'keys'];
+      var token = $localStorage.userToken;
 
   $scope.getPublicKey =  function (idUser){
     if (!$scope.message){
@@ -42,15 +43,15 @@
         url: 'https://sharekey.herokuapp.com/profile/' + uid + '/getPublicKey',
         method: 'POST',
         data: keyRequest,
-        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
         console.log('retrieved public key from server')
         $scope.encrypt(response.data.data,message);
       }).catch(function (error){
         if (error){
           if (error.status == 401){
-              alert('Su sesion ha vencido por inactividad')
-              $location.path('/login');
+              alert('Su sesion ha vencido')
+              $state.go('dash.login');
           }
           else{
               console.log(error.code);
@@ -118,7 +119,8 @@
 
     $http({
         url: 'https://sharekey.herokuapp.com/profile/' + uid + '/contacts',
-        method: 'GET'
+        method: 'GET',
+        headers: {'Authorization':'Bearer: ' + token}
     }).then(function (response){
         if (response.data.status == 200){
             console.log('contacts received')
@@ -127,8 +129,8 @@
         }
     }).catch(function (error){
         if (error.status == 401){
-          alert('Su sesion ha vencido por inactividad')
-          $location.path('/login');
+          alert('Su sesion ha vencido')
+          $state.go('dash.login');
         }
     })
 
@@ -160,7 +162,7 @@
       url: "https://sharekey.herokuapp.com/messages/" + uid,
       method: "POST",
       data: messageRequest,
-      headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+      headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
     }).then(function (response){
       console.log(response.data);
       var popup = angular.element("#messageSpinner");
@@ -171,8 +173,8 @@
     }).catch(function (error){
       if (error){
         if (error.status == 401){
-            alert('Su sesion ha vencido por inactividad')
-            $location.path('/login');
+            alert('Su sesion ha vencido')
+            $state.go('dash.login');
         }
         else{
             console.log(error.code);
@@ -186,15 +188,15 @@
     $http({
       url: "https://sharekey.herokuapp.com/messages/" + uid + '/' + $stateParams.id,
       method: "GET",
-      headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+      headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
     }).then(function (response){
       $scope.data = response.data.data
       $scope.mensaje = response.data.data.content
     }).catch(function (error){
       if (error){
         if (error.status == 401){
-            alert('Su sesion ha vencido por inactividad')
-            $location.path('/login');
+            alert('Su sesion ha vencido')
+            $state.go('dash.login');
         }
         else{
             console.log(error.code);
@@ -260,7 +262,8 @@
     $scope.getMessages = function (){
       $http({
           url: 'https://sharekey.herokuapp.com/messages/' + uid,
-          method: 'GET'
+          method: 'GET',
+          headers: {'Authorization':'Bearer: ' + token}
       }).then(function (response){
           if (response.data.status == 200){
               messages = response.data.data;
@@ -277,7 +280,7 @@
       $http({
           url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + id,
           method: 'DELETE',
-          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
           if (response.data.status == 200){
               console.log(response.data);
@@ -293,7 +296,7 @@
     $http({
         url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + id,
         method: 'PUT',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
     }).then(function (response){
         console.log(response.data)
     }).catch(function (error){

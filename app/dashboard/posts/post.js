@@ -11,10 +11,38 @@ angular.module('sharekey.posts', ['ui.router'])
   
   .controller('postsController', function($scope,$http,$localStorage,$state,$window,$sessionStorage){
       $scope.uid = $localStorage.uid;
+      var userKeys = $localStorage[uid + 'keys'];
+      var token = $localStorage.userToken;
 
-      $scope.newPost = function (){
+      var getMyDefaultKey = function (){
+        for (var i = 0 ; i < userKeys.length; i++){
+            if (userKeys[i].default == true){
+                return userKeys[i].publicKey
+            }
+        }
+      }
+
+      var encryptStatus = async (status) => {
+          //const privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
+          //await privKeyObj.decrypt(passphrase)
+          pubkey = await getMyDefaultKey();
+
+          const options = {
+              message: openpgp.message.fromText(status),       // input as Message object
+              publicKeys: (await openpgp.key.readArmored(pubkey)).keys // for encryption
+             // privateKeys: [privKeyObj]                                 // for signing (optional)
+          }
+      
+          return openpgp.encrypt(options).then(ciphertext => {
+              encrypted = ciphertext.data // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
+              return encrypted
+          })
+        }
+
+      $scope.newPost = async () =>{
         if (!$scope.public){
           $scope.public = false;
+          $scope.status = await encryptStatus($scope.status);
         }
         var postRequest = $.param({
           uid: uid,
@@ -25,7 +53,7 @@ angular.module('sharekey.posts', ['ui.router'])
           url: 'https://sharekey.herokuapp.com/posts',
           method: 'POST',
           data: postRequest,
-          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
           console.log(response);
           $state.reload();
@@ -46,6 +74,7 @@ angular.module('sharekey.posts', ['ui.router'])
         $http({
           url: 'https://sharekey.herokuapp.com/posts',
           method: 'GET',
+          headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
             console.log(response.data.data);
             posts = response.data.data;
@@ -69,7 +98,7 @@ angular.module('sharekey.posts', ['ui.router'])
           url: 'https://sharekey.herokuapp.com/posts/' + post_id + '/likes',
           method: 'PUT',
           data: statusRequest,
-          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
           console.log(response.data);
           $state.reload();
@@ -93,7 +122,7 @@ angular.module('sharekey.posts', ['ui.router'])
             url: 'https://sharekey.herokuapp.com/posts/' + $scope.editedPost,
             method: 'PUT',
             data: editRequest,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
           }).then(function (response){
             console.log(response.data);
             popup.modal('hide');
@@ -111,6 +140,7 @@ angular.module('sharekey.posts', ['ui.router'])
         $http({
           url: 'https://sharekey.herokuapp.com/posts/' + id,
           method: 'DELETE',
+          headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
           console.log(response.data);
           $state.reload();

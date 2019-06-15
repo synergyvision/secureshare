@@ -18,6 +18,7 @@
 
   .controller('chatController', function($scope,$http,$localStorage,$state,$sessionStorage,$stateParams,$location){
       uid = $localStorage.uid
+      var token = $localStorage.userToken;
       $scope.uid =$localStorage.uid;
       $scope.keys = $localStorage[uid + 'keys'];
       var id_chat = $stateParams.id_chat; 
@@ -29,6 +30,7 @@
        $http({
           url: 'https://sharekey.herokuapp.com/profile/' +uid+ '/chats',
           method: 'GET',
+          headers: {'Authorization':'Bearer: ' + token} 
         }).then(function (response){
           if (response.data.data){
             $scope.userChats = response.data.data
@@ -50,7 +52,8 @@
       $scope.getContacts = function (){
         $http({
           url: 'https://sharekey.herokuapp.com/profile/' + uid + '/contacts',
-          method: 'GET'
+          method: 'GET',
+          headers: {'Authorization':'Bearer: ' + token} 
         }).then(function (response){
             $scope.contacts = response.data.data;
         }).catch(function (error){
@@ -83,7 +86,7 @@
                   url: "https://sharekey.herokuapp.com/chats/" + uid,
                   method: "POST",
                   data: chatRequest,
-                  headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+                  headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8', 'Authorization':'Bearer: ' + token}
             }).then(function (response){
                 console.log('chat created')
                 storeLocalChats(response.data.Id,$scope.title,participants); 
@@ -110,6 +113,7 @@
         $http({
           url: "https://sharekey.herokuapp.com/profile/" + uid + '/chats/' + id_chat,
           method: 'DELETE',
+          headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
             console.log(response.data);
             localDeleteChat(id_chat);
@@ -146,7 +150,7 @@
             url: 'https://sharekey.herokuapp.com/profile/' + uid + '/getPublicKey',
             method: 'POST',
             data: keyRequest,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8', 'Authorization':'Bearer: ' + token}
           }).then(function (response){
             console.log('retrieved public key from server')
             key = response.data.data;
@@ -210,7 +214,7 @@
            url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + id_chat + '/messages',
            method: 'POST',
            data: request,
-           headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+           headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8', 'Authorization':'Bearer: ' + token}
          }).then(function (response){
             console.log(response.data);
             $scope.chatMessage = "";
@@ -230,7 +234,7 @@
             url: 'https://sharekey.herokuapp.com/profile/' + uid + '/getMultipleKeys',
             method: 'POST',
             data: keyRequest,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
           }).then(function (response){
               console.log('retrieved public keys from server')
               key = response.data.data;
@@ -311,7 +315,7 @@
         $http({
           url: 'https://sharekey.herokuapp.com/messages/' + uid + '/chat/' + id_chat,
           method: 'GET',
-          headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+          headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
            $scope.chatMessages = response.data.data;
            if ($sessionStorage.passphrase){
@@ -329,8 +333,8 @@
         }).catch(function (error){
           if (error){
             if (error.status == 401){
-                alert('Su sesion ha vencido por inactividad')
-                $location.path('/login');
+                alert('Su sesion ha vencido')
+                $state.go('dash.login');
             }
             else{
                 console.log(error.code);
