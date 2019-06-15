@@ -22,10 +22,13 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
 
 .controller('profileController', function($scope,$http,$localStorage,$state,$location){
 
+  var token = $localStorage.userToken;
+
   $scope.requestData = function(){
     $http({
       url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid,
       method: 'GET',
+      headers: {'Authorization':'Bearer: ' + token}
     }).then(function (response){
       if (response.data.status == 200){
           $scope.username = response.data.content.username;
@@ -39,8 +42,8 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
         }
     }).catch(function (e){
       if (e.status == 401){
-          error('Su sesion ha vencido por inactividad')
-          $location.path('/login');
+          error('Su sesion ha vencido')
+          $state.go('dash.login');
         }
       })
   }
@@ -58,7 +61,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
       url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid,
       method: 'PUT',
       data: updateRequest,
-      headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+      headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
     }).then( function (response){
         if (response.data.status == 200){
             console.log('User data updated');
@@ -70,7 +73,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
                   url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid + '/resetPassword',
                   method: 'PUT',
                   data: updatePassword,
-                  headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+                  headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
                 }).then(function (response){
                     if (response.data.status == 200){ 
                       console.log('user password updated')
@@ -81,8 +84,8 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
                     }
                 }).catch(function (e){
                   if (e.status == 401){
-                      error('Su sesion ha vencido por inactividad')
-                      $location.path('/login');
+                      error('Su sesion ha vencido')
+                      $state.go('dash.login');
                     }
                   })
               }else{

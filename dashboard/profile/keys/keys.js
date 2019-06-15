@@ -34,9 +34,9 @@ function encryptKeys(key,seed){
   
   .controller('keysController', function($scope,$http,$localStorage,$state,$window,$sessionStorage){
     var uid = $localStorage.uid;
+    var token = $localStorage.userToken;
     if ($localStorage[uid + 'keys']){
       $scope.userKeys = $localStorage[uid + 'keys']
-      console.log($scope.userKeys)
     }else{
       $scope.userKeys = [];
     }
@@ -51,6 +51,7 @@ function encryptKeys(key,seed){
       $http({
         url: 'https://sharekey.herokuapp.com/mnemonic',
         method: 'GET',
+        headers: {'Authorization':'Bearer: ' + token}
       }).then(function (response){
         if (response.data.status == 200){
             $scope.words = response.data.message;
@@ -80,13 +81,14 @@ function encryptKeys(key,seed){
     $scope.checkKeys = function(){
       $http({
         url: 'https://sharekey.herokuapp.com/profile/' + uid + '/getKeys',
-        method: 'GET'
+        method: 'GET',
+        headers: {'Authorization':'Bearer: ' + token}
       }).then(function (response){
             var keys = response.data.data;
             $scope.keys = checkActiveKeys(keys);
       }).catch(function (error){
           if (error.status == 401){
-            alert('Su sesion ha vencido por inactividad')
+            alert('Su sesion ha vencido')
             $state.go('login');
           }else{
             console.log(error.data);
@@ -114,14 +116,14 @@ function encryptKeys(key,seed){
         url: 'https://sharekey.herokuapp.com/profile/' + uid + '/updateDefault',
         method: 'PUT',
         data: updateDefault,
-        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
             console.log('Data updated on the cloud')
             $state.reload();
       }).catch(function (error){
           if (error.status == 401){
-            alert('Su sesion ha vencido por inactividad')
-            $location.path('/login');
+            alert('Su sesion ha vencido')
+            $state.go('dash.login');
           }else{
             console.log(error.data);
           }
@@ -149,7 +151,7 @@ function encryptKeys(key,seed){
           url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid + '/storeKeys',
           method: 'POST',
           data: storeRequest,
-          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
             if (response.data.status == 200){
                 console.log('keys stored succesfully')
@@ -162,8 +164,8 @@ function encryptKeys(key,seed){
             }
         }).catch(function (e){
           if (e.status == 401){
-              alert('Su sesion ha vencido por inactividad')
-              $location.path('/login');
+              alert('Su sesion ha vencido')
+              $state.go('dash.login');
             }
           })
     }
@@ -265,7 +267,7 @@ function encryptKeys(key,seed){
         url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid + '/deleteKey',
         method: 'DELETE',
         data: deleteRequest,
-        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
             if (response.status == 200){
               alert('Se ha borrado una llave');
@@ -275,8 +277,8 @@ function encryptKeys(key,seed){
             }
         }).catch(function (e){
           if (e.status == 401){
-              alert('Su sesion ha vencido por inactividad')
-              $location.path('/login');
+              alert('Su sesion ha vencido')
+              $state.go('dash.login');
             }else{
               console.log(e)
             }
@@ -293,7 +295,7 @@ function encryptKeys(key,seed){
         url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid + '/recoverKey',
         method: 'POST',
         data: recoverRequest,
-        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
           if (response.data.status == 200){
               console.log('the key has been retrieved from cloud');
@@ -306,8 +308,8 @@ function encryptKeys(key,seed){
           }
       }).catch(function (e){
           if (e.status == 401){
-              alert('Su sesion ha vencido por inactividad')
-              $location.path('/login');
+              alert('Su sesion ha vencido')
+              $state.go('dash.login');
             }else{
               console.log(e.data);
             }

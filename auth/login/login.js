@@ -35,13 +35,13 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
       data: loginRequest,
       headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
     }).then(function(response){
-      if (response.data.status == 200){
+      if (response.status == 200){
         $localStorage.uid = response.data.uid;
-        console.log(response);
+        $localStorage.userToken = response.data.token
         $http({
           url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid,
           method: 'GET',
-          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization': 'Bearer: ' + $localStorage.userToken}
         }).then(function (response){
           if (response.data.status == 200){
               $localStorage[$localStorage.uid + '-username'] = response.data.content.username;

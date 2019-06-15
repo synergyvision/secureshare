@@ -18,12 +18,13 @@
 
   .controller('contactsController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage){
       uid = $localStorage.uid;
-
+      var token = $localStorage.userToken;
       $scope.getContacts = function (){
 
         $http({
             url: 'https://sharekey.herokuapp.com/profile/' + uid + '/contacts',
-            method: 'GET'
+            method: 'GET',
+            headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
             if (response.data.status == 200){
                 console.log('contacts received')
@@ -32,8 +33,8 @@
             }
         }).catch(function (error){
             if (error.status == 401){
-              alert('Su sesion ha vencido por inactividad')
-              $location.path('/login');
+              alert('Su sesion ha vencido')
+              $state.go('dash.login');
             }
         })
 
@@ -43,7 +44,8 @@
             $scope.search = $localStorage.search
             $http({
                 url: 'https://sharekey.herokuapp.com/contacts/' + uid + '/users',
-                method: 'GET'
+                method: 'GET',
+                headers: {'Authorization':'Bearer: ' + token}
             }).then(function (response){
                 if (response.data.status == 200){
                     $scope.users = response.data.data;
@@ -51,8 +53,8 @@
             }).catch(function (error){
                 if (error){
                   if (error.status == 401){
-                      alert('Su sesion ha vencido por inactividad')
-                      $location.path('/login');
+                      alert('Su sesion ha vencido')
+                      $state.go('dash.login');
                   }
                   else{
                       console.log(error.code);
@@ -71,7 +73,7 @@
             url: 'https://sharekey.herokuapp.com/contacts/' + uid + '/requests',
             method: 'POST',
             data: request,
-            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
             if (response.data.status == 201){
                 alert('Se ha enviado una solicitud de amistad');
@@ -79,8 +81,8 @@
         }).catch(function (error){
                 if (error){
                     if (error.status == 401){
-                        alert('Su sesion ha vencido por inactividad')
-                        $location.path('/login');
+                        alert('Su sesion ha vencido')
+                        $state.go('dash.login');
                     }
                     else{
                         console.log(error.code);
