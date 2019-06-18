@@ -3,21 +3,36 @@ angular.module('sharekey.posts', ['ui.router'])
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.posts', {
       url: '/posts',
+      templateUrl: 'dashboard/posts/posts.html',
+      controller: 'postsController',
+      css: 'post.css'
+    })
+    $stateProvider.state('dash.post',{
+      url: '/posts/?post_id',
       templateUrl: 'dashboard/posts/post.html',
       controller: 'postsController',
       css: 'post.css'
     })
   }])
   
-  .controller('postsController', function($scope,$http,$localStorage,$state,$window,$sessionStorage){
+  .controller('postsController', function($scope,$http,$localStorage,$state,$window,$sessionStorage,$stateParams){
       $scope.uid = $localStorage.uid;
       var userKeys = $localStorage[uid + 'keys'];
       var token = $localStorage.userToken;
+      var post = $stateParams.post_id;
 
       var getMyDefaultKey = function (){
         for (var i = 0 ; i < userKeys.length; i++){
             if (userKeys[i].default == true){
                 return userKeys[i].publicKey
+            }
+        }
+      }
+
+      var getMyDefaultPrivateKey = function (){
+        for (var i = 0 ; i < userKeys.length; i++){
+            if (userKeys[i].default == true){
+                return userKeys[i].privateKey
             }
         }
       }
@@ -62,8 +77,22 @@ angular.module('sharekey.posts', ['ui.router'])
         })
       }
 
+        var checkLike = function (reactions){
+          if (reactions[uid]){
+            return reactions[uid];
+          }else{
+            return null;
+          }
+        }
+
+
       var getDates = function (posts){
         for (i = 0; i < posts.length; i++){
+          if (posts[i].data.reactions){
+            posts[i].reactions = checkLike(posts[i].data.reactions)
+          }else{
+            posts[i].reactions = null;
+          }
           sent = new Date(posts[i].data.timestamp);
           posts[i].data.timestamp = sent.toLocaleString();
         }
@@ -76,9 +105,9 @@ angular.module('sharekey.posts', ['ui.router'])
           method: 'GET',
           headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
-            console.log(response.data.data);
             posts = response.data.data;
             $scope.posts = getDates(posts);
+            console.log($scope.posts)
         }).catch(function (error){
             console.log(error)
         })
@@ -87,11 +116,13 @@ angular.module('sharekey.posts', ['ui.router'])
       $scope.likeStatus = function (status,post_id){
         if (status == 'like'){
             statusRequest = $.param({
-              likes: 1
+              likes: 1,
+              likedBy: uid
             })
         }else{
           statusRequest = $.param({
-            dislikes: 1
+            dislikes: 1,
+            likedBy: uid
           })
         }
         $http({
@@ -146,6 +177,64 @@ angular.module('sharekey.posts', ['ui.router'])
           $state.reload();
         }).catch(function (error){
           console.log(error)
+        })
+      }
+
+      $scope.goToPost = function (id){
+        $state.go('dash.post',{'post_id': id})
+      }
+
+      $scope.loadPost = function (){
+        $http({
+          url: 'https://sharekey.herokuapp.com/posts/' + uid + '/' + post,
+          method: 'GET',
+          headers: {'Authorization':'Bearer: ' + token} 
+        }).then(function (response){
+           $scope.$parent.post = response.data.data;
+        }).catch (function (error){
+          console.log(error.code)
+          console.log(error.message)
+        })
+      }
+
+      $scope.askPassphrase = function (content){
+        $scope.$parent.postContent = content;
+        var popup = angular.element('#Passphrase');
+        popup.modal('show')
+      }
+
+      var decryptKey = function (key) {
+        var bytes  = CryptoJS.AES.decrypt(key,$sessionStorage.appKey);
+        var key = bytes.toString(CryptoJS.enc.Utf8);
+        return key;
+    
+      }
+
+      var decryptPost = async (privateKey,passphrase,mensaje) => {
+        const privKeyObj = (await openpgp.key.readArmored(privateKey)).keys[0]
+        await privKeyObj.decrypt(passphrase)
+  
+        const options = {
+            message: await openpgp.message.readArmored(mensaje),    // parse armored message
+            //publicKeys: (await openpgp.key.readArmored(pubkey)).keys, // for verification (optional)
+            privateKeys: [privKeyObj]                                 // for decryption
+        }
+  
+        return openpgp.decrypt(options).then(plaintext => {
+            decrypted = plaintext.data;
+            return decrypted
+        })
+    }
+
+      $scope.decryptPost = function (passphrase){
+        private = getMyDefaultPrivateKey();
+        private = decryptKey(private);
+        post = decryptPost(private,passphrase,$scope.postContent)
+        post.then (function (content){
+          var popup = angular.element('#Passphrase');
+          popup.modal('hide')
+          $scope.post.data.content = content;
+          $scope.$apply();
         })
       }
 

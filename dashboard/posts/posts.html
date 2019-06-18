@@ -1,0 +1,146 @@
+<div class="container">
+    <div class="row justify-content-center" ng-controller="postsController">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    Nueva publicación 
+                </div>
+                <div class="card-body">
+                    <form class="container" name="postForm" id="postForm">
+                        <input class="border-bottom w-100 m-0" id="status" type="text" ng-model="status" placeholder="¿En qué estas pensando?">
+                        </div>
+                        <div class="card-footer text-muted">
+                            <ul class="nav justify-content-between" style="width: 100%">
+                                <li class="nav-item">
+                                    <div class="m-1">
+                                        <input type="checkbox" class="form-check-input" value="false" ng-model="public" id="public" required>
+                                        <label class="form-check-label" for="public">Contenido público</label>
+                                    </div>   
+                                </li>
+                                <!--<li class-"nav-item">
+                                    <div class="m-1">
+                                        <div class="form-inline">
+                                            <input type="checkbox" class="form-check-input" ng-disabled="public" value="false" ng-model="sign" id="sign" required>
+                                            <label class="form-check-label" for="sign">Firmar</label>
+                                            <div ng-show="sign">
+                                                <input type="password" class="form-control" id="passphrase" ng-model="$parent.passphrase" placeholder="Passphrase de la llave">
+                                            </div>
+                                        </div>    
+                                    </div>    
+                                </li>-->
+                                <li class="nav-item">
+                                    <button type="submit" class="btn btn-primary" ng-click="newPost()" ng-disabled="!status">Publicar</button>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>    
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div id="posts" ng-init="getPosts()">
+                <div ng-repeat="post in posts | orderBy: '-this.data.timestamp'">
+                    <div ng-if="post.data.public == 'true'">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row justify-content-between">
+                                    <span>{{post.name}} ha publicado</span>
+                                    <div ng-if="post.data.user_id == uid">
+                                        <ul class="navbar-nav ml-auto">
+                                            <li class="nav-item dropdown">  
+                                                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="options">
+                                                    <a class="dropdown-item" ng-click="editPost(post.id,post.data.content)">Editar</a>
+                                                    <a class="dropdown-item" ng-click="deletePost(post.id)">Eliminar</a>
+                                                </div>
+                                            </li>
+                                        </ul> 
+                                    </div>
+                                    <div ng-if="post.data.user_id != uid">
+                                        <span>{{post.data.timestamp}}</span>
+                                    </div>    
+                                </div>    
+                            </div>
+                            <div class="card-body">
+                                <p class="card-text">{{post.data.content}}</p>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <div class="row justify-content-between">
+                                    <button class="btn btn-sm-success" ng-click="seeComments()">Comentarios</button>
+                                    <div  ng-if="post.reactions == 'liked'">
+                                        <button type="button" class="btn btn-outline-danger" ng-click="likeStatus('dislike',post.id)"><i class="fas fa-thumbs-down">{{post.data.dislikes}}</i></button>
+                                        <button type="button" class="btn btn-outline-primary" ng-click="likeStatus('like',post.id)" disabled><i class="fas fa-thumbs-up"></i>{{post.data.likes}}</button>
+                                    </div>
+                                    <div  ng-if="post.reactions == 'disliked'">
+                                        <button type="button" class="btn btn-outline-danger" ng-click="likeStatus('dislike',post.id)" disabled><i class="fas fa-thumbs-down">{{post.data.dislikes}}</i></button>
+                                        <button type="button" class="btn btn-outline-primary" ng-click="likeStatus('like',post.id)" ><i class="fas fa-thumbs-up"></i>{{post.data.likes}}</button>
+                                    </div>
+                                    <div  ng-if="post.reactions == null">
+                                        <button type="button" class="btn btn-outline-danger" ng-click="likeStatus('dislike',post.id)"><i class="fas fa-thumbs-down">{{post.data.dislikes}}</i></button>
+                                        <button type="button" class="btn btn-outline-primary" ng-click="likeStatus('like',post.id)" ><i class="fas fa-thumbs-up"></i>{{post.data.likes}}</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>   
+                    </div>
+                    <div ng-if="post.data.public == 'false'">
+                        <div ng-if="post.data.user_id == uid">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="row justify-content-between">
+                                        <span>{{post.name}} ha publicado</span>
+                                        <ul class="navbar-nav ml-auto">
+                                            <li class="nav-item dropdown">  
+                                                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="options">
+                                                    <a class="dropdown-item" ng-click="editPost(post.id,post.data.content)">Editar</a>
+                                                    <a class="dropdown-item" ng-click="deletePost(post.id)">Eliminar</a>
+                                                </div>
+                                            </li>
+                                        </ul> 
+                                    </div>    
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text">{{post.data.content}}</p>
+                                </div>
+                                <div class="card-footer text-muted">
+                                    <div class="row justify-content-between">
+                                        <button class="btn btn-sm-success" ng-click="goToPost(post.id)">Ver post</button>
+                                        <div>
+                                            <button type="button" class="btn btn-outline-danger" ng-click="likeStatus('dislike',post.id)"><i class="fas fa-thumbs-down">{{post.data.dislikes}}</i></button>
+                                            <button type="button" class="btn btn-outline-primary" ng-click="likeStatus('like',post.id)"><i class="fas fa-thumbs-up"></i>{{post.data.likes}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>   
+                         </div>
+                    </div>                     
+                </div>
+            </div>
+        </div>
+    </div>           
+</div>    
+
+<div class="modal fade editPost" tabindex="-1" id="edit" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar publicación</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            <input class="border-bottom w-100 m-0" id="status" type="text"  ng-model="editedContent" placeholder="¿En qué estas pensando?">
+            <input value="{{editedPost}}" hidden>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="editPost()">Editar</button>
+        </div>
+    </div>
+    </div>
+</div>
