@@ -86,7 +86,6 @@
   }
 
   var encryptWithMultiplePublicKeys  = async (pubkeys, privkey, passphrase, message) => {
-
     pubkeys = pubkeys.map(async (key) => {
       return (await openpgp.key.readArmored(key)).keys[0]
     });
@@ -124,7 +123,6 @@
     }).then(function (response){
         if (response.data.status == 200){
             console.log('contacts received')
-            console.log(response.data.data)
             $scope.contacts = response.data.data
         }
     }).catch(function (error){
@@ -156,7 +154,8 @@
       id_sender: uid,
       username: $localStorage[uid + '-username'],
       content: messageEncrypted,
-      recipient: $scope.id_recipient
+      recipient: $scope.id_recipient,
+      publish: $scope.publish
     })
     $http({
       url: "https://sharekey.herokuapp.com/messages/" + uid,
@@ -164,7 +163,6 @@
       data: messageRequest,
       headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
     }).then(function (response){
-      console.log(response.data);
       var popup = angular.element("#messageSpinner");
       //for hide model
       popup.modal('hide');

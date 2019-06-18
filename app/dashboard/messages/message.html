@@ -24,6 +24,12 @@
                 Firmar mensaje
               </label>
           </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="publishMessage" ng-model="publish">
+            <label class="form-check-label" for="publishMessage">
+              Permitir al destinatario publicar el mensaje
+            </label>
+        </div>
           <div ng-show="signMessage">
               <input type="password" class="form-control" id="passphrase" ng-model="$parent.passphrase" placeholder="Passphrase de la llave">
           </div>
