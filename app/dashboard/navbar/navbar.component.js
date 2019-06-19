@@ -36,7 +36,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     }
     if (!uid){
         alert('Inicie sesión para disfrutar de la aplicación')
-        $location.path('/login');
+        $state.go('dash.login');
     }
 
     $scope.getSearch = function (){
@@ -122,7 +122,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
         }).catch(function (error){
             if (error.status == 401){
                 alert('Su sesion ha vencido')
-                state.go('login');
+                $state.go('login');
               }
         })
     }
