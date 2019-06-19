@@ -2,7 +2,12 @@
     <div ng-controller="messagesController">
       <form id="message" ng-init="getMessage()">
         <div class="form-group">
-          <label for="user">Mensaje de {{data.sender}}</label>
+          <div ng-if="data.sender">
+            <label for="user">Mensaje de {{data.sender}}</label>
+          </div>
+          <div ng-if="data.r_username">
+              <label for="user">Mensaje enviado a {{data.r_username}}</label>
+          </div>    
         </div>
         <div class="row">
           <div class="col-5">
@@ -24,7 +29,7 @@
               <textarea class="form-control" id="message" ng-model="decrypted" rows="10"></textarea>
             </div>
             <div ng-show="decrypted">
-                <div ng-if="data.tray != 'published'">
+                <div ng-if="data.tray != 'published' && data.publish == 'true'">
                   <button type="submit" class="btn btn-info" ng-click="publishMessage()">Publicar mensaje</button>
                 </div>
                 <div ng-if="data.tray == 'published'">

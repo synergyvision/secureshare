@@ -17,6 +17,12 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
     templateUrl: 'dashboard/profile/profile.html',
     controller: 'profileController',
     css: 'profile.css'
+  });
+  $stateProvider.state('dash.publications',{
+    url: '/publications',
+    templateUrl: 'dashboard/profile/publications.html',
+    controller: 'publicationsController',
+    css: 'feedback.css'
   })
 }])
 
@@ -98,4 +104,21 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
     })
   }
 
+})
+
+.controller('publicationsController', function($scope,$http,$localStorage,$state,$location){
+   var token = $localStorage.userToken;
+   var uid = $localStorage.uid;
+
+   $scope.getFeedbacks = function(){
+      $http({
+        url: 'https://sharekey.herokuapp.com/messages/' + uid + '/mail/published',
+        method: 'GET',
+        headers: {'Authorization':'Bearer: ' + token}
+      }).then(function (response){
+          console.log(response.data.data);
+      }).catch(function(error){
+        console.log(error);
+      })
+   }
 });
