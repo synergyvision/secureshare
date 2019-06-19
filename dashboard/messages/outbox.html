@@ -1,0 +1,31 @@
+<div class="container" ng-controller="messagesController" id="messageList">
+        <div id="header">
+            <h2>Bandeja de salida</h2>
+            <button type="button" id="newCorreo" ui-sref="dash.messages" class="btn btn-info">Redactar</button>
+        </div>
+        <div id ="trays">
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref="dash.inbox">Entrada</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active">Enviados</a>
+                </li>
+            </ul>
+        </div>    
+        <div class="list-group" ng-init="getMessages('outbox')">
+            <div ng-repeat="correo in correos | orderBy: '-this.sent'">
+                <a id="correo"class="list-group-item list-group-item-dark list-group-item-action">
+                    <div class="d-flex w-90 justify-content-between">
+                        <h5 class="sm-1">Enviaste un mensaje a </h5>
+                        <small>{{correo.sent}}</small>
+                    </div>
+                    <div class="d-flex w-90 justify-content-between">
+                        <p class="sm-1 text-truncate">{{correo.data.content}}</p>
+                        <button type="button" class="btn btn-outline-success" ng-click="readMessage(correo.id,correo.data.status)"><i class="far fa-eye"></i></button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" ng-click="deleteMessage(correo.id)"><i class="far fa-trash-alt"></i></button>
+                    </div>
+                </a>
+            </div>
+        </div>    
+    </div>

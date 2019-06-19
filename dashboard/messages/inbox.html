@@ -3,7 +3,17 @@
         <h2>Bandeja de entrada</h2>
         <button type="button" id="newCorreo" ui-sref="dash.messages" class="btn btn-info">Redactar</button>
     </div>
-    <div class="list-group" ng-init="getMessages()">
+    <div id ="trays">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" >Entrada</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" ui-sref="dash.outbox">Enviados</a>
+            </li>
+        </ul>
+    </div>    
+    <div class="list-group" ng-init="getMessages('inbox')">
         <div ng-repeat="correo in correos | orderBy: '-this.sent'">
             <div ng-if="correo.data.status == 'unread'">
                 <a id="correo" class="list-group-item list-group-item-action">

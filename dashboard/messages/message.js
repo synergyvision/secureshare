@@ -15,9 +15,15 @@
       controller: 'messagesController',
       css: 'messages.css'
     })
-    $stateProvider.state('dash.messagesList', {
-      url: '/messageList',
-      templateUrl: 'dashboard/messages/messageList.html',
+    $stateProvider.state('dash.inbox', {
+      url: '/messageInbox',
+      templateUrl: 'dashboard/messages/inbox.html',
+      controller: 'messagesController',
+      css: 'messages.css'
+    })
+    $stateProvider.state('dash.outbox', {
+      url: '/messageOutbox',
+      templateUrl: 'dashboard/messages/outbox.html',
       controller: 'messagesController',
       css: 'messages.css'
     })
@@ -150,6 +156,9 @@
     }
 
   var sendMessage = function (messageEncrypted){
+    if (!$scope.publish){
+      $scope.publish = false;
+    }
     messageRequest = $.param({
       id_sender: uid,
       username: $localStorage[uid + '-username'],
@@ -189,6 +198,7 @@
       headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
     }).then(function (response){
       $scope.data = response.data.data
+      console.log(response.data.data)
       $scope.mensaje = response.data.data.content
     }).catch(function (error){
       if (error){
@@ -229,16 +239,15 @@
   }
 
   $scope.decrypt = async () => {
-    var popup = angular.element("#readingSpinner");
-      //for hide model
-    popup.modal('show');
     privateKey = getPrivateKey();
     privateKey = decryptKey(privateKey,$sessionStorage.appKey);
     message = decriptMessage(privateKey, $scope.passphrase, $scope.mensaje)
     message.then(function (decrypted){
+      var popup = angular.element("#readingSpinner");
+        //for hide model
+      popup.modal('hide');
       $scope.decrypted = decrypted;
       $scope.$apply();
-      popup.modal('hide');
     }).catch(function (error){
         alert(error)
     })
@@ -257,15 +266,15 @@
     return messages
   }
 
-    $scope.getMessages = function (){
+    $scope.getMessages = function (tray){
       $http({
-          url: 'https://sharekey.herokuapp.com/messages/' + uid,
+          url: 'https://sharekey.herokuapp.com/messages/' + uid + '/mail/' +tray,
           method: 'GET',
-          headers: {'Authorization':'Bearer: ' + token}
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
+          console.log(response);
           if (response.data.status == 200){
               messages = response.data.data;
-              console.log(messages);
               $scope.correos = getDate(messages);
           }
       }).catch(function (error){
@@ -307,5 +316,24 @@
         updateStatus(id);
     }
     $state.go('dash.read',{'id': id})
-}
+  }
+
+  $scope.publishMessage = function (){
+    var publishRequest = $.param({
+      sender: $scope.data.sender,
+      id_sender: $scope.data.id_sender,
+      content: $scope.decrypted
+    })
+    $http({
+      url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + $stateParams.id + '/publish',
+      method: 'POST',
+      data: publishRequest,
+      headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
+    }).then(function (response){
+        console.log(response);
+        alert('Su feedback ha sido publicado exitosamente')
+    }).catch(function (error){
+        console.log(error);
+    })
+  }
 })
