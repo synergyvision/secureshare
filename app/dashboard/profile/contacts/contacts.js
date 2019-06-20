@@ -16,13 +16,13 @@
       })
   }])
 
-  .controller('contactsController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage){
+  .controller('contactsController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage,__env){
       uid = $localStorage.uid;
       var token = $localStorage.userToken;
       $scope.getContacts = function (){
 
         $http({
-            url: 'https://sharekey.herokuapp.com/profile/' + uid + '/contacts',
+            url: __env.apiUrl + __env.profile + uid + '/contacts',
             method: 'GET',
             headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
@@ -43,7 +43,7 @@
       $scope.getUsers = function (){
             $scope.search = $localStorage.search
             $http({
-                url: 'https://sharekey.herokuapp.com/contacts/' + uid + '/users',
+                url: __env.apiUrl + __env.contacts + uid + '/users',
                 method: 'GET',
                 headers: {'Authorization':'Bearer: ' + token}
             }).then(function (response){
@@ -54,7 +54,7 @@
                 if (error){
                   if (error.status == 401){
                       alert('Su sesion ha vencido')
-                      $state.go('dash.login');
+                      $state.go('login');
                   }
                   else{
                       console.log(error.code);
@@ -70,7 +70,7 @@
         })
 
         $http({
-            url: 'https://sharekey.herokuapp.com/contacts/' + uid + '/requests',
+            url: __env.apiUrl + __env.contacts + uid + '/requests',
             method: 'POST',
             data: request,
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
@@ -82,7 +82,7 @@
                 if (error){
                     if (error.status == 401){
                         alert('Su sesion ha vencido')
-                        $state.go('dash.login');
+                        $state.go('login');
                     }
                     else{
                         console.log(error.code);

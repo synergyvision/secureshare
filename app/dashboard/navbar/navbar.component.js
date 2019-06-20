@@ -26,7 +26,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     }
 })
 
-.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage){
+.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage,__env){
     $scope.user = $localStorage[$localStorage.uid + '-username']
     uid = $localStorage.uid;
     var token = $localStorage.userToken;
@@ -36,7 +36,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     }
     if (!uid){
         alert('Inicie sesión para disfrutar de la aplicación')
-        $state.go('dash.login');
+        $state.go('login');
     }
 
     $scope.getSearch = function (){
@@ -51,7 +51,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
 
     var updateStatus = function(id){
         $http({
-            url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + id,
+            url: __env.apiUrl + __env.messages + uid + '/' + id,
             method: 'PUT',
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
@@ -70,7 +70,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
 
     $scope.getFriendRequest = function (){
         $http({
-            url: 'https://sharekey.herokuapp.com/contacts/' + uid + '/requests',
+            url: __env.apiUrl + __env.contacts + uid + '/requests',
             method: 'GET',
             headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
@@ -104,7 +104,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     sendStatus = function (id,status){ 
         console.log(status);
         $http({
-            url: 'https://sharekey.herokuapp.com/contacts/' + uid + '/requests/' + id,
+            url: __env.apiUrl + __env.contacts + uid + '/requests/' + id,
             method: 'PUT',
             data: status,
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
@@ -141,7 +141,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
 
     $scope.getMessages = function (){
         $http({
-            url: 'https://sharekey.herokuapp.com/messages/' + uid,
+            url: __env.apiUrl + __env.messages + uid,
             method: 'GET',
             headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
@@ -153,14 +153,14 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
             console.log(error);
             if (error.status == 401){
               alert('Su sesion ha vencido')
-              $state.go('dash.login');
+              $state.go('login');
             }
         })
     }
 
     $scope.deleteMessage = function (id){
         $http({
-            url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + id,
+            url: __env.apiUrl + __env.messages + uid + '/' + id,
             method: 'DELETE',
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
@@ -175,7 +175,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
 
     $scope.logout = function(){
         $http({
-            url: 'https://sharekey.herokuapp.com/logout',
+            url: __env.apiUrl + 'logout',
             method: 'GET'
         }).then(function (response){
             if (response.data.status == 200){

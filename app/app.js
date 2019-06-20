@@ -1,7 +1,15 @@
 'use strict';
 
+var env = {};
+
+// Import variables if present (from env.js)
+if(window){  
+  Object.assign(env, window.__env);
+}
+
+
 // Declare app level module which depends on views, and core components
-angular.module('sharekey', [
+var ngModule = angular.module('sharekey', [
   'ngRoute',
   'ui.router',
   'ngCookies',
@@ -22,5 +30,5 @@ angular.module('sharekey', [
 ]).
 config(['$locationProvider', '$urlRouterProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {
   $locationProvider.hashPrefix('!');
-
-}]);
+}])
+.constant('__env', env);

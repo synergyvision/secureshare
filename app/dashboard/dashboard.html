@@ -6,7 +6,7 @@
             <a class="sidebar-brand d-flex align-items-center justify-content-center" ui-sref="dash.posts">
             <div class="sidebar-brand-icon rotate-n-15">
             </div>
-            <div class="sidebar-brand-text mx-3">Sharekey</div>
+            <div class="sidebar-brand-text mx-3">sharekey</div>
             </a>
         
             <!-- Divider -->
@@ -14,7 +14,7 @@
         
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-            <a class="nav-link" href="#!/index">
+            <a class="nav-link" ui-sref="dash.posts">
                 <i class="fas fa-home"></i>
                 <span>Inicio</span></a>
             </li>
@@ -31,7 +31,7 @@
                 <a class="collapse-item" ui-sref="dash.profile">Información</a>
                 <a class="collapse-item" ui-sref="dash.keys">Llaves</a>
                 <a class="collapse-item" ui-sref="dash.contacts">Contactos</a>
-                <a class="collapse-item" ui-sref="dash.publications">Publicaciones</a>
+                <a class="collapse-item" ui-sref="dash.publications({user_id: id})">Publicaciones</a>
                 </div>
             </div>
             </li>
@@ -85,7 +85,7 @@
                         </div>
                         <div class="modal-footer">
                             <div ng-if="storedKeys">
-                                <button type="button" class="btn btn-dark" ng-click="requestConfirm()">Restablecer Clave</button>
+                                <button type="button" class="btn btn-dark" ng-click="requestConfirm()">Restablecer clave</button>
                             </div>
                             <button type="button" class="btn btn-success" ng-click="setAppKey()">Continuar</button>
                         </div>

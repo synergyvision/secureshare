@@ -19,7 +19,7 @@ angular.module('sharekey.register', ['ngRoute'])
   });
 }])
 
-.controller('SignUpController', function($scope,$http,$location,$state) {
+.controller('SignUpController', function($scope,$http,$location,$state,__env) {
   
   $scope.sendData = function(){
     var signUpRequest = $.param({
@@ -31,7 +31,7 @@ angular.module('sharekey.register', ['ngRoute'])
       usuario: $scope.username
     });
     $http({
-      url : 'https://sharekey.herokuapp.com/signup',
+      url : __env.apiUrl + 'signup',
       method: 'POST',
       data: signUpRequest,
       headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}

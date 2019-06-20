@@ -22,7 +22,7 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
   $urlRouterProvider.otherwise('/');
 }])
 
-.controller('LoginController', function($scope,$http,$location,$cookies,$localStorage,$state) {
+.controller('LoginController', function($scope,$http,$location,$cookies,$localStorage,$state,__env) {
   
   $scope.sendData = function(){
     var loginRequest = $.param({
@@ -30,7 +30,7 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
       password: $scope.password
     });
     $http({
-      url : 'https://sharekey.herokuapp.com/login',
+      url : __env.apiUrl + 'login',
       method: 'POST',
       data: loginRequest,
       headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
@@ -39,7 +39,7 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
         $localStorage.uid = response.data.uid;
         $localStorage.userToken = response.data.token
         $http({
-          url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid,
+          url: __env.apiUrl +  __env.profile + $localStorage.uid,
           method: 'GET',
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization': 'Bearer: ' + $localStorage.userToken}
         }).then(function (response){

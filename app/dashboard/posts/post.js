@@ -15,7 +15,7 @@ angular.module('sharekey.posts', ['ui.router'])
     })
   }])
   
-  .controller('postsController', function($scope,$http,$localStorage,$state,$window,$sessionStorage,$stateParams){
+  .controller('postsController', function($scope,$http,$localStorage,$state,$window,$sessionStorage,$stateParams,__env){
       $scope.uid = $localStorage.uid;
       var userKeys = $localStorage[uid + 'keys'];
       var token = $localStorage.userToken;
@@ -65,7 +65,7 @@ angular.module('sharekey.posts', ['ui.router'])
           public: $scope.public
         }) 
         $http({
-          url: 'https://sharekey.herokuapp.com/posts',
+          url: __env.apiUrl + __env.posts,
           method: 'POST',
           data: postRequest,
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
@@ -101,7 +101,7 @@ angular.module('sharekey.posts', ['ui.router'])
 
       $scope.getPosts = function (){
         $http({
-          url: 'https://sharekey.herokuapp.com/posts',
+          url: __env.apiUrl + __env.posts,
           method: 'GET',
           headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
@@ -126,7 +126,7 @@ angular.module('sharekey.posts', ['ui.router'])
           })
         }
         $http({
-          url: 'https://sharekey.herokuapp.com/posts/' + post_id + '/likes',
+          url: __env.apiUrl + __env.posts + post_id + '/likes',
           method: 'PUT',
           data: statusRequest,
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
@@ -150,7 +150,7 @@ angular.module('sharekey.posts', ['ui.router'])
             content: $scope.editedContent
           })
           $http({
-            url: 'https://sharekey.herokuapp.com/posts/' + $scope.editedPost,
+            url: __env.apiUrl + __env.posts + $scope.editedPost,
             method: 'PUT',
             data: editRequest,
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
@@ -169,7 +169,7 @@ angular.module('sharekey.posts', ['ui.router'])
 
       $scope.deletePost = function (id){
         $http({
-          url: 'https://sharekey.herokuapp.com/posts/' + id,
+          url: __env.apiUrl + __env.posts + id,
           method: 'DELETE',
           headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
@@ -186,7 +186,7 @@ angular.module('sharekey.posts', ['ui.router'])
 
       $scope.loadPost = function (){
         $http({
-          url: 'https://sharekey.herokuapp.com/posts/' + uid + '/' + post,
+          url: __env.apiUrl + __env.posts + uid + '/' + post,
           method: 'GET',
           headers: {'Authorization':'Bearer: ' + token} 
         }).then(function (response){

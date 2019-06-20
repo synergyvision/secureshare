@@ -15,16 +15,17 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
     abstract: true,
     templateUrl: 'dashboard/dashboard.html',
     css: 'css/sb-admin-2.css',
+    controller: 'dashboardController'
   });
   $stateProvider.state('dash.index',{
-    url:'/index',
+    url:'/index'
   })
 }])
 
 .controller('dashboardController', function($scope,$sessionStorage,$localStorage,$window){
   uid = $localStorage.uid
+  $scope.id = uid;
   $scope.storedKeys = $localStorage[uid+'keys'];
-  //$scope.message = 'hola'
   var requestAppkey = function (){
     var popup = angular.element("#appPassword");
         popup.modal('show');
