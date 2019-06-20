@@ -32,7 +32,7 @@ function encryptKeys(key,seed){
     })
   }])
   
-  .controller('keysController', function($scope,$http,$localStorage,$state,$window,$sessionStorage){
+  .controller('keysController', function($scope,$http,$localStorage,$state,$window,$sessionStorage,__env){
     var uid = $localStorage.uid;
     var token = $localStorage.userToken;
     if ($localStorage[uid + 'keys']){
@@ -49,9 +49,8 @@ function encryptKeys(key,seed){
     // receives a random generated 12 words phrase
     $scope.generarPalabras = function (){
       $http({
-        url: 'https://sharekey.herokuapp.com/mnemonic',
-        method: 'GET',
-        headers: {'Authorization':'Bearer: ' + token}
+        url: __env.apiUrl + 'mnemonic',
+        method: 'GET'
       }).then(function (response){
         if (response.data.status == 200){
             $scope.words = response.data.message;
@@ -80,7 +79,7 @@ function encryptKeys(key,seed){
     // check the existing keys on the cloud
     $scope.checkKeys = function(){
       $http({
-        url: 'https://sharekey.herokuapp.com/profile/' + uid + '/getKeys',
+        url: __env.apiUrl + __env.profile + uid + '/getKeys',
         method: 'GET',
         headers: {'Authorization':'Bearer: ' + token}
       }).then(function (response){
@@ -113,7 +112,7 @@ function encryptKeys(key,seed){
         name: name
       })
       $http({
-        url: 'https://sharekey.herokuapp.com/profile/' + uid + '/updateDefault',
+        url: __env.apiUrl + __env.profile+ uid + '/updateDefault',
         method: 'PUT',
         data: updateDefault,
         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
@@ -123,7 +122,7 @@ function encryptKeys(key,seed){
       }).catch(function (error){
           if (error.status == 401){
             alert('Su sesion ha vencido')
-            $state.go('dash.login');
+            $state.go('login');
           }else{
             console.log(error.data);
           }
@@ -148,7 +147,7 @@ function encryptKeys(key,seed){
         })
           
         $http({
-          url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid + '/storeKeys',
+          url: __env.apiUrl + __env.profile + $localStorage.uid + '/storeKeys',
           method: 'POST',
           data: storeRequest,
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
@@ -165,7 +164,7 @@ function encryptKeys(key,seed){
         }).catch(function (e){
           if (e.status == 401){
               alert('Su sesion ha vencido')
-              $state.go('dash.login');
+              $state.go('login');
             }
           })
     }
@@ -264,7 +263,7 @@ function encryptKeys(key,seed){
       })
 
       $http({
-        url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid + '/deleteKey',
+        url: __env.apiUrl + __env.profile + $localStorage.uid + '/deleteKey',
         method: 'DELETE',
         data: deleteRequest,
         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
@@ -278,7 +277,7 @@ function encryptKeys(key,seed){
         }).catch(function (e){
           if (e.status == 401){
               alert('Su sesion ha vencido')
-              $state.go('dash.login');
+              $state.go('login');
             }else{
               console.log(e)
             }
@@ -292,7 +291,7 @@ function encryptKeys(key,seed){
       })
 
       $http({
-        url: 'https://sharekey.herokuapp.com/profile/' + $localStorage.uid + '/recoverKey',
+        url: __env.apiUrl + __env.profile + $localStorage.uid + '/recoverKey',
         method: 'POST',
         data: recoverRequest,
         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
@@ -309,7 +308,7 @@ function encryptKeys(key,seed){
       }).catch(function (e){
           if (e.status == 401){
               alert('Su sesion ha vencido')
-              $state.go('dash.login');
+              $state.go('login');
             }else{
               console.log(e.data);
             }

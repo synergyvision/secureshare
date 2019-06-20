@@ -1,7 +1,33 @@
 <div class="container" ng-controller="publicationsController">
+    <div class="rounded-pill" id="userProfile" ng-init="getUserData()">
+        <div class="row">
+            <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+            {{name}} {{lastname}} {{bio}}
+        </div>     
+    </div>
     <div id="title">
         <h2>Feedbacks compartidos</h2>
     </div>
     <div id="published" ng-init="getFeedbacks()">
+        <div ng-repeat="feedback in feedbacks | orderBy: '-this.data.timestamp'">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row justify-content-between">
+                        <t>De {{feedback.data.sender}}<br>
+                        {{feedback.data.timestamp}}</t>
+                    </div>    
+                </div>
+                <div class="card-body">
+                    <p class="card-text">{{feedback.data.content}}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    <div class="row justify-content-end">
+                        <div>
+                            <button type="button" class="btn btn-outline-primary" ng-click="likeFeedback(feedback.id)"><i class="fas fa-thumbs-up"></i> {{feedback.data.likes}} </button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </div>     
     </div>    
 </div>

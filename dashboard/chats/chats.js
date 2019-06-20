@@ -16,7 +16,7 @@
 
   }])
 
-  .controller('chatController', function($scope,$http,$localStorage,$state,$sessionStorage,$stateParams,$location){
+  .controller('chatController', function($scope,$http,$localStorage,$state,$sessionStorage,$stateParams,$location,__env){
       uid = $localStorage.uid
       var token = $localStorage.userToken;
       $scope.uid =$localStorage.uid;
@@ -28,7 +28,7 @@
 
       var getUserChats = async () => {
        $http({
-          url: 'https://sharekey.herokuapp.com/profile/' +uid+ '/chats',
+          url:  __env.apiUrl + __env.profile +uid+ '/chats',
           method: 'GET',
           headers: {'Authorization':'Bearer: ' + token} 
         }).then(function (response){
@@ -51,7 +51,7 @@
 
       $scope.getContacts = function (){
         $http({
-          url: 'https://sharekey.herokuapp.com/profile/' + uid + '/contacts',
+          url: __env.apiUrl + __env.profile + uid + '/contacts',
           method: 'GET',
           headers: {'Authorization':'Bearer: ' + token} 
         }).then(function (response){
@@ -83,7 +83,7 @@
           participants: JSON.stringify(participants)
         })
         $http({
-                  url: "https://sharekey.herokuapp.com/chats/" + uid,
+                  url: __env.apiUrl + __env.chats + uid,
                   method: "POST",
                   data: chatRequest,
                   headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8', 'Authorization':'Bearer: ' + token}
@@ -111,7 +111,7 @@
 
       $scope.deleteChat = function(){
         $http({
-          url: "https://sharekey.herokuapp.com/profile/" + uid + '/chats/' + id_chat,
+          url: __env.apiUrl + __env.profile  + uid + '/chats/' + id_chat,
           method: 'DELETE',
           headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
@@ -147,7 +147,7 @@
               id: idUser
             })
             return await $http({
-            url: 'https://sharekey.herokuapp.com/profile/' + uid + '/getPublicKey',
+            url: __env.apiUrl + __env.profile  + uid + '/getPublicKey',
             method: 'POST',
             data: keyRequest,
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8', 'Authorization':'Bearer: ' + token}
@@ -211,7 +211,7 @@
 
        var sendRequest = function(request){
          $http({
-           url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + id_chat + '/messages',
+           url: __env.apiUrl + __env.message + uid + '/' + id_chat + '/messages',
            method: 'POST',
            data: request,
            headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8', 'Authorization':'Bearer: ' + token}
@@ -231,7 +231,7 @@
             id: JSON.stringify(keys)
           })
          return await $http({
-            url: 'https://sharekey.herokuapp.com/profile/' + uid + '/getMultipleKeys',
+            url: __env.apiUrl + __env.profile + uid + '/getMultipleKeys',
             method: 'POST',
             data: keyRequest,
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
@@ -313,7 +313,7 @@
 
       $scope.getMessages =  function (){
         $http({
-          url: 'https://sharekey.herokuapp.com/messages/' + uid + '/chat/' + id_chat,
+          url: __env.apiUrl + __env.messages + uid + '/chat/' + id_chat,
           method: 'GET',
           headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){

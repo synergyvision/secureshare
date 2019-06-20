@@ -21,20 +21,20 @@
           <div class="form-check">
               <input class="form-check-input" type="checkbox" id="signMessage" ng-model="signMessage">
               <label class="form-check-label" for="signMessage">
-                Firmar mensaje
+                Firmar
               </label>
           </div>
           <div class="form-check">
             <input class="form-check-input" type="checkbox" id="publishMessage" ng-model="publish">
             <label class="form-check-label" for="publishMessage">
-              Permitir al destinatario publicar el mensaje
+              Publicable
             </label>
         </div>
           <div ng-show="signMessage">
               <input type="password" class="form-control" id="passphrase" ng-model="$parent.passphrase" placeholder="Passphrase de la llave">
           </div>
       </div> 
-        <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+        <button type="submit" class="btn btn-primary">Enviar</button>
       </form>
     </form>
   </div>

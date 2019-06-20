@@ -25,7 +25,7 @@ angular.module('sharekey.reset', ['ngRoute'])
   });
 }])
 
-.controller('CheckEmailController', function($scope,$http) {
+.controller('CheckEmailController', function($scope,$http,__env) {
   
   $scope.sendEmail = function(){
     var emailRequest = $.param({
@@ -33,7 +33,7 @@ angular.module('sharekey.reset', ['ngRoute'])
     });
     console.log('doing shit');
     $http({
-      url : 'http://localhost:3000/login/sendEmail',
+      url :  __env.apiUrl + 'login/sendEmail',
       method: 'POST',
       data: emailRequest,
       headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
@@ -56,7 +56,7 @@ angular.module('sharekey.reset', ['ngRoute'])
             });
             console.log('doing shit');
             $http({
-                url : 'https://sharekey.herokuapp.com/login/resetPassword',
+                url : __env.apiUrl + 'login/resetPassword',
                 method: 'POST',
                 data: passwordRequest,
                 headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}

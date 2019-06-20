@@ -46,7 +46,7 @@
       })
 
       $http({
-        url: 'https://sharekey.herokuapp.com/profile/' + uid + '/getPublicKey',
+        url: __env.apiUrl + __env.profile + uid + '/getPublicKey',
         method: 'POST',
         data: keyRequest,
         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
@@ -123,7 +123,7 @@
    $scope.getContacts = function (){
 
     $http({
-        url: 'https://sharekey.herokuapp.com/profile/' + uid + '/contacts',
+        url: __env.apiUrl + __env.profile + uid + '/contacts',
         method: 'GET',
         headers: {'Authorization':'Bearer: ' + token}
     }).then(function (response){
@@ -167,7 +167,7 @@
       publish: $scope.publish
     })
     $http({
-      url: "https://sharekey.herokuapp.com/messages/" + uid,
+      url: __env.apiUrl + __env.messages + uid,
       method: "POST",
       data: messageRequest,
       headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
@@ -193,7 +193,7 @@
 
   $scope.getMessage = function (){
     $http({
-      url: "https://sharekey.herokuapp.com/messages/" + uid + '/' + $stateParams.id,
+      url: __env.apiUrl + __env.messages + uid + '/' + $stateParams.id,
       method: "GET",
       headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
     }).then(function (response){
@@ -267,9 +267,13 @@
   }
 
     $scope.getMessages = function (tray){
+      var requestMessages = $.param({
+        user_id: uid
+      })
       $http({
-          url: 'https://sharekey.herokuapp.com/messages/' + uid + '/mail/' +tray,
-          method: 'GET',
+          url: __env.apiUrl + __env.messages + uid + '/mail/' +tray,
+          method: 'POST',
+          data: requestMessages,
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
           console.log(response);
@@ -285,7 +289,7 @@
   $scope.deleteMessage = function (id){
       console.log(id);
       $http({
-          url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + id,
+          url: __env.apiUrl + __env.messages + uid + '/' + id,
           method: 'DELETE',
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
@@ -301,7 +305,7 @@
 
   var updateStatus = function(id){
     $http({
-        url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + id,
+        url: __env.apiUrl + __env.messages + uid + '/' + id,
         method: 'PUT',
         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
     }).then(function (response){
@@ -325,7 +329,7 @@
       content: $scope.decrypted
     })
     $http({
-      url: 'https://sharekey.herokuapp.com/messages/' + uid + '/' + $stateParams.id + '/publish',
+      url: __env.apiUrl + __env.messages + uid + '/' + $stateParams.id + '/publish',
       method: 'POST',
       data: publishRequest,
       headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
