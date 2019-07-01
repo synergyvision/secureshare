@@ -1,8 +1,14 @@
 <div class="container" ng-controller="publicationsController">
     <div class="rounded-pill" id="userProfile" ng-init="getUserData()">
-        <div class="row">
-            <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
-            {{name}} {{lastname}} {{bio}}
+        <div class="row justify-content-center">
+            <div class="media">
+                <div class="media-body">
+                    <h4 class="mt-0">{{name}} {{lastname}}</h4>
+                    <h5 class="mt-0">{{username}}</h5>
+                    {{bio}}
+                </div>
+                <img class="align-self-center img-profile rounded-circle" style="height: 60px;width: 60px" ng-src="{{userPicture}}">
+            </div> 
         </div>     
     </div>
     <div id="title">
@@ -12,9 +18,11 @@
         <div ng-repeat="feedback in feedbacks | orderBy: '-this.data.timestamp'">
             <div class="card">
                 <div class="card-header">
-                    <div class="row justify-content-between">
-                        <t>De {{feedback.data.sender}}<br>
-                        {{feedback.data.timestamp}}</t>
+                    <div class="row">
+                        <p>
+                        <img class="img-profile rounded-circle" style="height: 60px;width: 60px; margin: 2px" ng-src="{{feedback.picture}}">
+                        De {{feedback.data.sender}}<br>
+                        {{feedback.data.timestamp}}</p>
                     </div>    
                 </div>
                 <div class="card-body">

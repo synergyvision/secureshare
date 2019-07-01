@@ -20,6 +20,8 @@ angular.module('sharekey.posts', ['ui.router'])
       var userKeys = $localStorage[uid + 'keys'];
       var token = $localStorage.userToken;
       var post = $stateParams.post_id;
+      $scope.username = $localStorage[uid + '-username'];
+      $scope.edit = false;
 
       var getMyDefaultKey = function (){
         for (var i = 0 ; i < userKeys.length; i++){
@@ -94,7 +96,7 @@ angular.module('sharekey.posts', ['ui.router'])
             posts[i].reactions = null;
           }
           sent = new Date(posts[i].data.timestamp);
-          posts[i].data.timestamp = sent.toLocaleString();
+          posts[i].data.timestamp = sent.toLocaleString(); 
         }
         return posts
       } 
@@ -106,6 +108,7 @@ angular.module('sharekey.posts', ['ui.router'])
           headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
             posts = response.data.data;
+            console.log(posts)
             $scope.posts = getDates(posts);
             console.log($scope.posts)
         }).catch(function (error){
@@ -238,5 +241,78 @@ angular.module('sharekey.posts', ['ui.router'])
         })
       }
 
+      $scope.getComments = function(){
+        $http({
+          url: __env.apiUrl + __env.comments + $scope.uid + '/' + post,
+          method: 'GET',
+          headers: {'Authorization':'Bearer: ' + token}
+        }).then(function (response){
+            console.log(response.data);
+            $scope.comments = response.data.data
+        }).catch(function (error){
+          console.log(error)
+        })
+      }
+
+      $scope.sendComment = function(){
+        commentRequest = $.param({
+          content: $scope.newComment,
+          user_id: $scope.uid,
+          post_id: post
+        })
+        $http({
+          url: __env.apiUrl + __env.comments + '/',
+          method: 'POST',
+          data: commentRequest,
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
+        }).then(function (response){
+          console.log(response.data);
+          $state.reload();
+        }).catch(function (error){
+            console.log(error);
+        })
+      } 
+
+
+      $scope.editComment = function(id,content){
+        console.log(id,content);
+        var popup = angular.element("#editComment");
+        if (!$scope.editedCommentContent){
+          //for hide model
+          $scope.$parent.editedCommentContent = content;
+          $scope.$parent.editedCommentId = id;
+          popup.modal('show');
+        }else{
+          var editRequest = $.param({
+            content: $scope.editedCommentContent
+          })
+          $http({
+            url: __env.apiUrl + __env.comments + $scope.editedCommentId,
+            method: 'PUT',
+            data: editRequest,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
+          }).then(function (response){
+            console.log(response.data)
+            $scope.editedCommentContent = "";
+            $scope.editedCommentId = "";
+            $state.reload();
+          }).catch(function (error){
+            console.log(error)
+          })
+        }  
+      }
+
+      $scope.deleteComment = function (id){
+        $http({
+          url: __env.apiUrl  + __env.comments + id,
+          method: 'DELETE',
+          headers: {'Authorization':'Bearer: ' + token}
+        }).then(function (response){
+          console.log(response.data);
+          $state.reload();
+        }).catch(function (error){
+          console.log(error)
+        })
+      }
 
   })

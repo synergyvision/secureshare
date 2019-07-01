@@ -45,7 +45,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row justify-content-between">
-                                    <span>{{post.name}} ha publicado</span>
+                                    <span><img class="img-profile rounded-circle" style="height: 60px;width: 60px" ng-src="{{post.userPicture}}" onerror="this.src='../../img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
                                     <div ng-if="post.data.user_id == uid">
                                         <ul class="navbar-nav ml-auto">
                                             <li class="nav-item dropdown">  
@@ -68,7 +68,7 @@
                             </div>
                             <div class="card-footer text-muted">
                                 <div class="row justify-content-between">
-                                    <button class="btn btn-sm-success" ng-click="seeComments()">Comentarios</button>
+                                    <button class="btn btn-sm-success" ng-click="goToPost(post.id)">Comentarios</button>
                                     <div  ng-if="post.reactions == 'liked'">
                                         <button type="button" class="btn btn-outline-danger" ng-click="likeStatus('dislike',post.id)"><i class="fas fa-thumbs-down">{{post.data.dislikes}}</i></button>
                                         <button type="button" class="btn btn-outline-primary" ng-click="likeStatus('like',post.id)" disabled><i class="fas fa-thumbs-up"></i>{{post.data.likes}}</button>
@@ -91,7 +91,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <div class="row justify-content-between">
-                                        <span>{{post.name}} ha publicado</span>
+                                        <span><img class="img-profile rounded-circle" style="height: 60px;width: 60px" ng-src="{{post.userPicture}}" onerror="this.src='../../img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
                                         <ul class="navbar-nav ml-auto">
                                             <li class="nav-item dropdown">  
                                                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

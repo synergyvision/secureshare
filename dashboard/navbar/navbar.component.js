@@ -29,6 +29,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
 .controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage,__env){
     $scope.user = $localStorage[$localStorage.uid + '-username']
     uid = $localStorage.uid;
+    $scope.profilePicture = $localStorage.userPicture;
     var token = $localStorage.userToken;
     
     if ($localStorage.search){
