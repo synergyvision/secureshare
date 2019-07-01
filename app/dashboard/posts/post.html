@@ -4,16 +4,18 @@
             <div class="card" ng-init="loadPost()">
                 <div class="card-header">
                     <div class="row justify-content-between">
-                        <span>{{post.name}} ha publicado</span>
+                        <span><img class="img-profile rounded-circle" ng-src="{{post.userPicture}}" style="height: 60px;width: 60px" onerror="this.src='../../img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item dropdown">  
                                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="options">
-                                    <a class="dropdown-item" ng-click="askPassphrase(post.data.content)">Ver</a>
-                                    <a class="dropdown-item" ng-click="editPost(post.id,post.data.content)">Editar</a>
-                                    <a class="dropdown-item" ng-click="deletePost(post.id)">Eliminar</a>
-                                </div>
+                                <div ng-if="post.data.user_id == uid">
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="options">
+                                        <a class="dropdown-item" ng-click="askPassphrase(post.data.content)">Ver</a>
+                                        <a class="dropdown-item" ng-click="editPost(post.id,post.data.content)">Editar</a>
+                                        <a class="dropdown-item" ng-click="deletePost(post.id)">Eliminar</a>
+                                    </div>
+                                </div>    
                             </li>
                         </ul> 
                     </div>    
@@ -29,6 +31,35 @@
                         </div>
                     </div>
                 </div>
+            </div> 
+            <div id="comments" class="bg-white p-1" ng-init="getComments()">
+                <div id="background">
+                    <form class="form-inline m-0" id="commentForm">
+                            <div class="form-group col-md-12">
+                                <input type="text" class="form-control" ng-model="neweditComment" id="newComment" placeholder="Agrega un comentario">
+                                <button id="commentButton" class="btn btn-success btn-sm" ng-click="sendComment()"><i class="fas fa-share"></i></button>
+                            </div>
+                    </form>
+                </div>    
+                <div ng-repeat="comment in comments">
+                    <div id="userComments" class="m-3 rounded-pill">
+                        <div class="row justify-content-between">
+                             <p class="m-3 p-1">{{comment.user}}: {{comment.comment}}</p>
+                            <div class="dropdown">
+                                <button class="btn btn-light btn-sm m-3" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-h"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                                    <div ng-if="comment.user == username">
+                                        <button class="dropdown-item" type="button" ng-click="editComment(comment.id,comment.comment)">editar</button>
+                                        <button class="dropdown-item" type="button" ng-click="deleteComment(comment.id)">eliminar</button>
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>   
+                    </div>
+                </div>     
+
             </div>   
         </div>    
     </div>
@@ -59,3 +90,24 @@
             </div>
         </div>
     </div> 
+
+<div class="modal fade editComment" tabindex="-1" id="editComment" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar comentario</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            <input class="border-bottom w-100 m-0" id="status" type="text"  ng-model="editedCommentContent" value="editedCommentContent">
+            <input value="{{editedCommentId}}" hidden>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="editComment()">Editar</button>
+        </div>
+    </div>
+    </div>
+</div>
+    

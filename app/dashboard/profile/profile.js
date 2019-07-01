@@ -26,6 +26,21 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
   })
 }])
 
+.directive('file', function () {
+  return {
+      scope: {
+          file: '='
+      },
+      link: function (scope, el, attrs) {
+          el.bind('change', function (event) {
+              var file = event.target.files[0];
+              scope.file = file ? file : undefined;
+              scope.$apply();
+          });
+      }
+  };
+})
+
 .controller('profileController', function($scope,$http,$localStorage,$state,$location,$stateParams){
   var token = $localStorage.userToken;
 
@@ -40,8 +55,9 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
           $scope.name = response.data.content.name;
           $scope.lastname = response.data.content.lastname;
           $scope.phone = response.data.content.phone;
-          $scope.email = response.data.content.email;
+          //$scope.email = response.data.content.email;
           $scope.bio = response.data.content.bio;
+          $scope.imgSrc = response.data.content.profileUrl;
         }else{
           error(response.data.message);
         }
@@ -55,7 +71,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
 
   $scope.updateData =  function(){
     var updateRequest = $.param({
-      email: $scope.email,
+      //email: $scope.email,
       name: $scope.name,
       lastname: $scope.lastname,
       phone: $scope.phone,
@@ -70,7 +86,9 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
     }).then( function (response){
         if (response.data.status == 200){
             console.log('User data updated');
-            if ($scope.password){
+            $state.reload();
+            success('El perfil se ha actualizado exitosamente');
+            /*if ($scope.password){
                 var updatePassword = $.param({
                   password: $scope.password
                 })
@@ -96,14 +114,48 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
               }else{
                 $state.reload();
                 success('El perfil se ha actualizado exitosamente');
-              }    
+              }*/    
         }else{
           error(response.data.message)
         }
     })
   }
 
+  $scope.uploadPhoto = function (){
+       $http({
+         method: 'POST',
+         url: __env.apiUrl +__env.files + 'images',
+         headers: {
+             'Content-Type': undefined,
+             'Authorization':'Bearer: ' + token
+         },
+         data: {
+             file: $scope.file,
+             uid: $localStorage.uid
+         },
+         transformRequest: function (data, headersGetter) {
+             var formData = new FormData();
+             angular.forEach(data, function (value, key) {
+                 formData.append(key, value);
+             });
+             return formData;
+         }
+     })
+     .then(function (response) {
+       $scope.imgSrc = response.data.link;
+       $localStorage.userPicture = response.data.link;
+       console.log(response);
+       $state.reload();
+     })
+     .catch(function (error) {
+          console.log(error)
+     });
+  }
+
 })
+
+//feedback tray controller
+
 
 .controller('publicationsController', function($scope,$http,$localStorage,$state,$location,$stateParams){
    var token = $localStorage.userToken;
@@ -129,6 +181,9 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
       }
       sent = new Date(feedbacks[i].data.timestamp);
       feedbacks[i].data.timestamp = sent.toLocaleString();
+      if (!feedbacks[i].picture){
+        feedbacks[i].picture = "../../img/default-user-icon-8.jpg"
+      }
     }
     return feedbacks;
   } 
@@ -138,9 +193,9 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
     var requestFeedback = $.param({
       user_id: user_id
     })
-
+    var url = __env.apiUrl + __env.messages + uid + '/mail/published'
       $http({
-        url: __env.apiUrl + __env.messages + uid + '/mail/published',
+        url: url,
         method: 'POST',
         data: requestFeedback,
         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
@@ -179,6 +234,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
             $scope.phone = response.data.content.phone;
             $scope.email = response.data.content.email;
             $scope.bio = response.data.content.bio;
+            $scope.userPicture = response.data.content.profileUrl;
           }else{
             error(response.data.message);
           }
@@ -187,7 +243,6 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
             error('Su sesion ha vencido')
             $state.go('login');
           }
-        })
-    
+        })    
    }
 });

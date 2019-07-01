@@ -45,6 +45,7 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
         }).then(function (response){
           if (response.data.status == 200){
               $localStorage[$localStorage.uid + '-username'] = response.data.content.username;
+              $localStorage.userPicture = response.data.content.profileUrl;
               $state.go('dash.posts');
           }else{
             errorLogin(response.data.message);

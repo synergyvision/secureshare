@@ -5,3 +5,20 @@
 #form{
     width: 75%;
 }
+
+#picture{
+    width: 75%;
+}
+
+
+input[type=file] {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: auto;
+}
+
+#img{
+    height: 150px;
+    width: 150px;
+}
