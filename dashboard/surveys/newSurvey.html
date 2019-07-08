@@ -1,0 +1,33 @@
+<div class="container-fluid" ng-controller="surveyController">
+    <div class="row justify-content-center">
+        <div class="col-8 align-self-center">
+            <div class="shadow-sm p-3 mb-5 rounded">
+                <form id="newSurvey">
+                    <h5>Nueva encuesta</h5>
+                    <hr>
+                    <div class="form-group">
+                        <label for="surveyTitle">Titulo</label>
+                        <input type="text" class="form-control" ng-model="surveyTitle" id="surveyTitle">
+                    </div>
+                    <div class="form-group">
+                        <label for="question">Pregunta</label>
+                        <input type="text" class="form-control" ng-model="question.title" value="{{question.title}}" id="question">
+                        <div class="form-group">
+                            <label for="answers">Respuestas</label>
+                            <div ng-repeat="answer in answers">
+                                    <input type="text" class="form-control" ng-model="answer.content" value="">
+                                <br>
+                            </div>
+                            <div class="row justify-content-end">
+                                <button type="button" ng-click="addLenght()" class="btn btn-outline-success btn-sm"><i class="fas fa-plus-circle"></i></button>
+                            </div>    
+                        </div>    
+                    </div>
+                    <button type="button" ng-click="createSurvey()" class="btn btn-outline-info btn-sm">Crear</button>
+                </form>
+            </div>    
+        </div>    
+    
+    </div>
+
+</div>
