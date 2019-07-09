@@ -39,11 +39,23 @@ angular.module('sharekey.surveys', ['ui.router'])
             method: 'GET',
             headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
-            console.log(response.data.data)
+            console.log(response.data.message)
             $scope.surveys = response.data.data;
         }).catch(function (error){
             console.log(error)
         })
+    }
+
+    var checkSurvey = function (survey){
+        ids = Object.keys(survey.answeredBy);
+        survey.answered = false
+        for (i = 0; i < ids.length;i++){
+            if ($scope.uid == ids[i]){
+                survey.answered = true
+            }
+        }
+        console.log(survey);
+        return survey
     }
 
     $scope.getSurvey = function (){
@@ -52,8 +64,8 @@ angular.module('sharekey.surveys', ['ui.router'])
             method: 'GET',
             headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
-            console.log(response.data)
-            $scope.survey = response.data;
+            surveyData = response.data;
+            $scope.survey = checkSurvey(surveyData)
         }).catch(function (error){
             console.log(error)
         })
@@ -153,5 +165,19 @@ angular.module('sharekey.surveys', ['ui.router'])
         }
     }
 
+    $scope.deleteSurvey = function (id){
+        $http({
+            url: __env.apiUrl + __env.surveys + id,
+            method: 'DELETE',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
+        }).then(function(response){
+            console.log(response.data)
+            $state.reload();
+
+        }).catch(function(error){
+            console.log(error)
+        })
+
+    }
 
   })
