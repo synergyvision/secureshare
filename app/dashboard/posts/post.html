@@ -4,7 +4,8 @@
             <div class="card" ng-init="loadPost()">
                 <div class="card-header">
                     <div class="row justify-content-between">
-                        <span><img class="img-profile rounded-circle" ng-src="{{post.userPicture}}" style="height: 60px;width: 60px" onerror="this.src='../../img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
+                        <span ng-if="post.userPicture"><img class="img-profile rounded-circle" ng-src="{{post.userPicture}}" style="height: 60px;width: 60px" onerror="this.src='img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
+                        <span ng-if="!post.userPicture"><img class="img-profile rounded-circle" src="img/default-user-icon-8.jpg" style="height: 60px;width: 60px" onerror="this.src='img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item dropdown">  
                                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
