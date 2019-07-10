@@ -8,9 +8,9 @@
                         <span ng-if="!post.userPicture"><img class="img-profile rounded-circle" src="img/default-user-icon-8.jpg" style="height: 60px;width: 60px" onerror="this.src='img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item dropdown">  
+                                <div ng-if="post.data.user_id == uid">
                                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 </a>
-                                <div ng-if="post.data.user_id == uid">
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="options">
                                         <a class="dropdown-item" ng-click="askPassphrase(post.data.content)">Ver</a>
                                         <a class="dropdown-item" ng-click="editPost(post.id,post.data.content)">Editar</a>
@@ -47,11 +47,11 @@
                         <div class="row justify-content-between">
                              <p class="m-3 p-1">{{comment.user}}: {{comment.comment}}</p>
                             <div class="dropdown">
-                                <button class="btn btn-light btn-sm m-3" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-ellipsis-h"></i>
-                                </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                    <div ng-if="comment.user == username">
+                                <div ng-if="comment.userId == uid">
+                                    <button class="btn btn-light btn-sm m-3" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="fas fa-ellipsis-h"></i>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                                         <button class="dropdown-item" type="button" ng-click="editComment(comment.id,comment.comment)">editar</button>
                                         <button class="dropdown-item" type="button" ng-click="deleteComment(comment.id)">eliminar</button>
                                     </div>  
