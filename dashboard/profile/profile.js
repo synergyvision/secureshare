@@ -200,7 +200,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
         data: requestFeedback,
         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
-        console.log(response.data.data)
+          console.log(response.data.data)
           feedbacks = response.data.data;
           $scope.feedbacks = getDates(feedbacks);
       }).catch(function(error){

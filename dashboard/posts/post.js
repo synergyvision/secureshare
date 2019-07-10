@@ -95,6 +95,9 @@ angular.module('sharekey.posts', ['ui.router'])
           }else{
             posts[i].reactions = null;
           }
+          if (!posts[i].userPicture){
+            posts[i].userPicture = 'img/default-user-icon-8.jpg'
+          }
           sent = new Date(posts[i].data.timestamp);
           posts[i].data.timestamp = sent.toLocaleString(); 
         }
