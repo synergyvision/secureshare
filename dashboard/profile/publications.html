@@ -7,7 +7,8 @@
                     <h5 class="mt-0">{{username}}</h5>
                     {{bio}}
                 </div>
-                <img class="align-self-center img-profile rounded-circle" style="height: 60px;width: 60px" ng-src="{{userPicture}}">
+                <img ng-if="userPicture" class="align-self-center img-profile rounded-circle" style="height: 60px;width: 60px" ng-src="{{userPicture}}">
+                <img ng-if="!userPicture" class="align-self-center img-profile rounded-circle" style="height: 60px;width: 60px" src="img/default-user-icon-8.jpg">
             </div> 
         </div>     
     </div>

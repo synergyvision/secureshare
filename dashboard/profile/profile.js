@@ -182,7 +182,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
       sent = new Date(feedbacks[i].data.timestamp);
       feedbacks[i].data.timestamp = sent.toLocaleString();
       if (!feedbacks[i].picture){
-        feedbacks[i].picture = "../../img/default-user-icon-8.jpg"
+        feedbacks[i].picture = "img/default-user-icon-8.jpg"
       }
     }
     return feedbacks;
