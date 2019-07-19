@@ -11,6 +11,7 @@
     window.__env.posts = 'posts/';
     window.__env.profile = 'profile/';
     window.__env.surveys = 'surveys/'
+    window.__env.repos = 'repositories/'
 
     // Base url
     window.__env.baseUrl = '/';

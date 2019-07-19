@@ -157,7 +157,7 @@ function encryptKeys(key,seed){
                 var popup = angular.element("#keySpinner");
                 //for hide model
                 popup.modal('hide');
-                $window.location.reload();
+                $state.reload();
             }else{
               alert(response.data.message);
             }

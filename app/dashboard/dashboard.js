@@ -22,10 +22,11 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
   })
 }])
 
-.controller('dashboardController', function($scope,$sessionStorage,$localStorage,$window){
+.controller('dashboardController', function($scope,$sessionStorage,$localStorage,$window,$http){
   uid = $localStorage.uid
   $scope.id = uid;
   $scope.storedKeys = $localStorage[uid+'keys'];
+
   var requestAppkey = function (){
     var popup = angular.element("#appPassword");
         popup.modal('show');

@@ -1,0 +1,86 @@
+<div class="container-fluid" ng-controller="reposController">
+    <div class="row">
+        <div class="col m-1">
+            <h2>Repositorios</h2>
+            <div ng-init="getRepo()">
+                <div class="list-group">
+                    <a ui-sref="dash.repo({dir: repo.name})" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">{{repo.name}}</h5>
+                            <small ng-if="repo.private == false">público</small>
+                            <small ng-if="repo.private == true">privado</small>
+                            </div>
+                            <p class="mb-1">{{repo.html_url}}</p>
+                    </a>
+                </div>
+            </div>    
+        </div>      
+    </div> 
+    <div class="row">  
+        <div class="col m-1">
+            <h3>Archivos</h3>
+            <div ng-init="getContents()">
+                <div ng-show="empty == false">
+                    <div ng-if="size">
+                        <div ng-repeat="file in repoFiles">
+                            <a ng-click="getContents(file.path)" class="list-group-item list-group-item-action">
+                                <div class="d-flex w-100 justify-content-between">
+                                        <div ng-if="file.type == 'dir'">
+                                        <h5 class="mb-1"><i class="fas fa-folder"></i>&nbsp;{{file.name}}</h5>
+                                        </div>
+                                        <div ng-if="file.type == 'file'">
+                                            <h5 class="mb-1"><i class="fas fa-file"></i>&nbsp;{{file.name}}</h5>
+                                            </div>     
+                                </div>
+                            </a>
+                        </div>
+                        <button type="button" id="newFile" ng-click="goToNewFile(path)" class="btn btn-info m-2"><i class="fas fa-plus-circle"></i></button>    
+                    </div>
+                    <div ng-if="!size">
+                        <a class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Nombre: {{repoFiles.name}}</h5>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Descargar" ng-click="downloadFile(repoFiles.name,repoFiles.content) "><i class="fas fa-download"></i></button>
+                                    <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" ng-click="openModal()" title="Descifrar y descargar"><i class="fas fa-file-export"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm" ng-click="deleteFile(repoFiles.sha,repoFiles.name)"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <hr>
+                            <p class="mb-1">{{repoFiles.content}}</p>
+                        </a>
+                    </div>
+                </div>
+                <div ng-show="empty == true">
+                    <h4>Este repositorio esta vacio</h4>
+                    <button type="button" id="newFile" ng-click="goToNewFile()" class="btn btn-info m-2"><i class="fas fa-plus-circle"></i></button>    
+                </div>                
+            </div> 
+        </div>      
+    </div>    
+             
+</div>
+
+<div class="modal fade decipherModal" tabindex="-1" id="decipher" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Escoge llave y passphrase</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                        <label for="keys">Llave para ver el archivo</label>
+                        <select class="form-control" id="keys" ng-model="$parent.repoKey">
+                            <option ng-repeat="key in userKeys" value="{{key.keyname}}">{{key.keyname}}</option>
+                        </select>
+                    </div> 
+                <div class="form-group">
+                    <input type="password" class="form-control" id="frase" ng-model="keyPass" id="keyPass" placeholder="" >
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" ng-click="decipherDownload()">Continuar</button>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>    

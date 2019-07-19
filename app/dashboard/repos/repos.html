@@ -1,0 +1,39 @@
+<div class="container-fluid" ng-controller="reposController">
+       <div ng-init="checkToken()">
+             <h2>Repositorios</h2>
+             <div ng-show="tokenExists == false">
+                  <div class="alert alert-primary" role="alert">
+                        Para utilizar las funciones de repositorios por favor inicia sesión con Github
+                  </div>
+                  <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-init="requestData()">
+                        <form ng-submit="getToken()">
+                              <div class="form-group">
+                                    <label for="name">Usuario</label>
+                                    <input type="text" class="form-control" ng-model="username" id="username">
+                              </div>
+                              <div class="form-group">
+                                    <label for="lastname">Contraseña</label>
+                                    <input type="password" class="form-control" id="password" ng-model="password">
+                              </div>
+                              <button type="submit" class="btn btn-primary">Enviar</button>
+                        </form>
+                  </div>  
+            </div>
+            <div ng-show="tokenExists == true">
+                  <div ng-repeat="repo in repoList">
+                        <div class="list-group">
+                              <a ui-sref="dash.repo({dir: repo.name})" class="list-group-item list-group-item-action">
+                                    <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">{{repo.name}}</h5>
+                                    <small ng-if="repo.private == false">público</small>
+                                    <small ng-if="repo.private == true">privado</small>
+                                    </div>
+                                    <p class="mb-1">{{repo.html_url}}</p>
+                              </a>
+                        </div>
+                  </div>      
+            </div>  
+            <button type="button" id="newRepo" ui-sref="dash.newRepo" class="btn btn-info m-2"><i class="fas fa-plus-circle"></i></button>        
+       </div>    
+       
+ </div>

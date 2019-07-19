@@ -1,0 +1,26 @@
+<div class="container-fluid" ng-controller="reposController">
+    <h2>Repositorios</h2>
+    <div class="row justify-content-center">
+            <div class="col-10 align-self-center">
+                <div class="shadow-sm p-3 mb-5 rounded">
+                    <form id="newRepo">
+                        <h5>Nuevo Repositorio</h5>
+                        <hr>
+                        <div class="form-group">
+                            <label for="repoName">Nombre</label>
+                            <input type="text" class="form-control" ng-model="name" id="repoName" required>
+                        </div>
+                        <div class="form-group">
+                                <label for="repoDescription">Descripcion</label>
+                                <input type="text" class="form-control" ng-model="description" id="repoDescription" required>
+                        </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="private" ng-model="privateRepo">
+                            <label class="form-check-label" for="private">Privado</label>
+                        </div>
+                        <button type="button" ng-click="createRepo()" class="btn btn-outline-info btn-sm">Crear</button>
+                    </form>
+                </div>    
+            </div>           
+        </div>
+</div>

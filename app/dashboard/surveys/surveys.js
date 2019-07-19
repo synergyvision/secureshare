@@ -26,6 +26,7 @@ angular.module('sharekey.surveys', ['ui.router'])
     var token = $localStorage.userToken;
     survey = $stateParams.surveyId;
 
+
     $scope.answers = [
         {},
         {}
@@ -47,15 +48,25 @@ angular.module('sharekey.surveys', ['ui.router'])
     }
 
     var checkSurvey = function (survey){
-        ids = Object.keys(survey.answeredBy);
-        survey.answered = false
-        for (i = 0; i < ids.length;i++){
-            if ($scope.uid == ids[i]){
-                survey.answered = true
-            }
+        now = new Date();
+        if (now < new Date(survey.expires)){
+            survey.expired = false
+        }else{
+            survey.expired = true
         }
-        console.log(survey);
-        return survey
+        if (survey.answeredBy){
+            ids = Object.keys(survey.answeredBy);
+            survey.answered = false
+            for (i = 0; i < ids.length;i++){
+                if ($scope.uid == ids[i]){
+                    survey.answered = true
+                }
+            }
+            return survey
+        }else{
+            survey.answered = false
+            return survey
+        }    
     }
 
     $scope.getSurvey = function (){
@@ -66,6 +77,7 @@ angular.module('sharekey.surveys', ['ui.router'])
         }).then(function (response){
             surveyData = response.data;
             $scope.survey = checkSurvey(surveyData)
+            console.log($scope.survey)
         }).catch(function (error){
             console.log(error)
         })
@@ -108,9 +120,14 @@ angular.module('sharekey.surveys', ['ui.router'])
     }
 
     $scope.createSurvey = function (){
+        created = new Date();
+        expires_in = new Date();
+        expires_in .setDate(expires_in .getDate() + parseInt($scope.expires));
         var newSurvey = $.param({
             title: $scope.surveyTitle,
-            id_user: uid
+            id_user: uid,
+            created: created,
+            expires_in: expires_in 
         })
         $http({
             url: __env.apiUrl + __env.surveys,
