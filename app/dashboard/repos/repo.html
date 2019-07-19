@@ -41,6 +41,7 @@
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">Nombre: {{repoFiles.name}}</h5>
                                 <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="bottom" ng-click="openPush()" title="Subir de nuevo"><i class="far fa-edit"></i></button>
                                     <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Descargar" ng-click="downloadFile(repoFiles.name,repoFiles.content) "><i class="fas fa-download"></i></button>
                                     <button type="button" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="bottom" ng-click="openModal()" title="Descifrar y descargar"><i class="fas fa-file-export"></i></button>
                                     <button type="button" class="btn btn-danger btn-sm" ng-click="deleteFile(repoFiles.sha,repoFiles.name)"><i class="fas fa-trash"></i></button>
@@ -84,3 +85,41 @@
         </div>
     </div>  
 </div>    
+
+<div class="modal fade pushModal" tabindex="-1" id="update" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Escoge llave y passphrase</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label for="repoDescription">Archivo</label>
+                            <div class="custom-file mb-2 mr-sm-2" style="overflow: hidden;">
+                                    <input type="file" file="file" id="customFile" required>
+                                    <label class="custom-file-label" id="filelabel" for="customFile">{{file.name}}</label>
+                            </div>
+                        </div>
+                     </div>   
+                    <div ng-show="!publicFile" class="form-group">
+                            <label for="keys">Llave para ver el archivo</label>
+                            <select class="form-control" id="keys" ng-model="$parent.repoKey">
+                                <option ng-repeat="key in userKeys" value="{{key.keyname}}">{{key.keyname}}</option>
+                            </select>
+                        </div> 
+                    <div class="form-group">
+                            <label for="repoDescription">Mensaje del commit</label>
+                            <input type="text" class="form-control" ng-model="commit" id="commit" required>
+                    </div>    
+                    <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="private" ng-model="publicFile">
+                            <label class="form-check-label" for="public">Público</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success" ng-click="pushFile()">Continuar</button>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div> 

@@ -324,4 +324,45 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
       decryptContent(key,$scope.keyPass)
     }
 
+    $scope.openPush = function (){
+      var popup = angular.element('#update')
+      popup.modal("show")
+    }
+
+    updateFile = function (file){
+      var pushFile = {
+        dir: $scope.path,
+        commit: $scope.commit,
+        file: file,
+        sha: $scope.repoFiles.sha
+      }
+      $http({
+          url: __env.apiUrl + __env.repos + uid + '/pushFile/' + dir,
+          method: 'PUT',
+          data: newFile,
+          headers: {'Content-Type': undefined,'Authorization':'Bearer: ' + token},
+          transformRequest: function (data, headersGetter) {
+            var formData = new FormData();
+            angular.forEach(data, function (value, key) {
+                formData.append(key, value);
+            });
+            return formData;
+          }
+        }).then(function (response){  
+            console.log(response.data);
+
+        }).catch(function (error){
+          console.log(error)
+        })
+      }
+
+    $scope.pushFile = function(){
+        if($scope.publicFile){
+          updateFile($scope.file)
+        }else{
+          console.log('cifrar')
+        }
+
+    }
+
   })
