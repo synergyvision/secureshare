@@ -15,6 +15,7 @@ var ngModule = angular.module('sharekey', [
   'ngCookies',
   'ngAnimate',
   'ngStorage',
+  'ngFileSaver',
   'sharekey.login',
   'sharekey.reset',
   'sharekey.register',
@@ -27,7 +28,8 @@ var ngModule = angular.module('sharekey', [
   'sharekey.message',
   'sharekey.chats',
   'sharekey.posts',
-  'sharekey.surveys'
+  'sharekey.surveys',
+  'sharekey.repos'
 ]).
 config(['$locationProvider', '$urlRouterProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {
   $locationProvider.hashPrefix('!');

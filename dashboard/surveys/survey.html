@@ -1,7 +1,36 @@
 <div class="container-fluid" ng-controller="surveyController">
     <div class="row justify-content-center" ng-init="getSurvey()">
         <div class="col-8 align-self-center">
-            <div ng-if="survey.answered == false">
+            <div ng-if="survey.expired == false">
+                <div ng-if="survey.answered == false">
+                    <div class="shadow-sm p-3 mb-5 rounded">
+                        <form id="Survey" ng-submit="fillSurvey()">
+                            <h5>{{survey.title}}</h5>
+                            <hr>
+                            <div ng-repeat="question in survey.questions">
+                                <label for="question">{{question.question}}</label>  
+                                <br>
+                                <div class="form-check form-check-inline">
+                                    <div ng-repeat="answer in question.answers">  
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="questionAnswer" ng-click="getId(question.questionId,answer)">
+                                            <label class="form-check-label" for="questionAnswer">{{answer.content}}</label>
+                                        </div>
+                                    </div>  
+                                </div>             
+                            </div>    
+                            <button type="submit" class="btn btn-outline-info btn-sm">Responder</button>
+                        </form>
+                    </div>
+                </div>   
+                <div ng-if="survey.answered == true">
+                    <div class="row justify-content-center">
+                        <h1>Ya has completado esta encuesta!</h1>
+                        <button type="button" ui-sref="dash.surveys" class="btn btn-outline-info btn-sm">Ir a encuestas</button>
+                    </div>
+                </div>
+            </div>    
+            <div ng-if = "survey.expired == true">
                 <div class="shadow-sm p-3 mb-5 rounded">
                     <form id="Survey" ng-submit="fillSurvey()">
                         <h5>{{survey.title}}</h5>
@@ -12,22 +41,15 @@
                             <div class="form-check form-check-inline">
                                 <div ng-repeat="answer in question.answers">  
                                     <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="questionAnswer" ng-click="getId(question.questionId,answer)">
-                                        <label class="form-check-label" for="questionAnswer">{{answer.content}}</label>
+                                        <label class="form-check-label">&nbsp;{{answer.content}}</label>
+                                        <label class="form-check-label" for="questionAnswer">&nbsp;{{answer.votes}}</label>
                                     </div>
                                 </div>  
                             </div>             
                         </div>    
-                        <button type="submit" class="btn btn-outline-info btn-sm">Responder</button>
                     </form>
-                </div>
-            </div> 
-            <div ng-if="survey.answered == true">
-                <div class="row justify-content-center">
-                    <h1>Ya has completado esta encuesta!</h1>
-                    <button type="button" ui-sref="dash.surveys" class="btn btn-outline-info btn-sm">Ir a encuestas</button>
-                </div>
-            </div>     
+                </div> 
+            </div>        
         </div>    
     </div>
 </div>

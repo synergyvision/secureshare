@@ -25,7 +25,7 @@
       var decrypted = [];
       $scope.show = false;
       $scope.userChats = [];
-
+      
       var getUserChats = async () => {
        $http({
           url:  __env.apiUrl + __env.profile +uid+ '/chats',
@@ -42,12 +42,8 @@
           console.log(error);
         })
       }
-    
-      if ($localStorage[uid + '-chats']){
-        $scope.userChats = $localStorage[uid + '-chats'];
-      }else{
-        getUserChats();
-      }
+
+      getUserChats();
 
       $scope.getContacts = function (){
         $http({
@@ -211,7 +207,7 @@
 
        var sendRequest = function(request){
          $http({
-           url: __env.apiUrl + __env.message + uid + '/' + id_chat + '/messages',
+           url: __env.apiUrl + __env.messages + uid + '/' + id_chat + '/messages',
            method: 'POST',
            data: request,
            headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8', 'Authorization':'Bearer: ' + token}
