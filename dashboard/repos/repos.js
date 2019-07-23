@@ -144,7 +144,7 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
           $scope.empty = false;
           $scope.repoFiles = response.data.data;
           $scope.size =  $scope.repoFiles.length;
-          if ($scope.repoFiles.message == 'This repository is empty.'){
+          if ($scope.repoFiles.message == 'This repository is empty.' || $scope.size == 0){
             $scope.empty = true;
           }
           else if (!$scope.size){
@@ -211,7 +211,7 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
     }
 
     $scope.readFile = function (){
-      if (!$scope.publicFile){
+      if ($scope.publicFile){
         var aReader = new FileReader();
         aReader.readAsText($scope.file, "UTF-8");
          aReader.onload = function (evt) {
@@ -275,7 +275,7 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
         headers:{'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
           console.log(response.data);
-          $state.go('dash.repo',{'dir':  $scope.repository})
+          $state.reload();
       }).catch(function (error){
         console.log(error)
       })
@@ -295,7 +295,7 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
     decryptContent = async (key,passphrase) => {
       const privKeyObj = (await openpgp.key.readArmored(key)).keys[0]
       await privKeyObj.decrypt(passphrase)
-
+      console.log($scope.repoFiles.content)
       const options = {
         message: await openpgp.message.readArmored($scope.repoFiles.content),    // parse armored message
         privateKeys: [privKeyObj]                                 // for decryption
@@ -339,7 +339,7 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
       $http({
           url: __env.apiUrl + __env.repos + uid + '/pushFile/' + dir,
           method: 'PUT',
-          data: newFile,
+          data: pushFile,
           headers: {'Content-Type': undefined,'Authorization':'Bearer: ' + token},
           transformRequest: function (data, headersGetter) {
             var formData = new FormData();
@@ -350,19 +350,39 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
           }
         }).then(function (response){  
             console.log(response.data);
-
+            var popup = angular.element('#update')
+            popup.modal('hide')
+            $state.reload()
         }).catch(function (error){
           console.log(error)
         })
       }
 
+    readEncrypted = function (){
+      var aReader = new FileReader();
+      aReader.readAsText($scope.file, "UTF-8");
+        aReader.onload = function (evt) {
+          fileContent = aReader.result;
+          pubKey = getPublicKey($scope.repoKey)
+          encryptedContent = encrypt(fileContent,pubKey)
+          encryptedContent.then(function (encryptedContent){
+            var blob = new Blob([encryptedContent], {type: 'application/x-javascript'});
+            updateFile(blob);
+          })
+      }
+      aReader.onerror = function (evt) {
+          console.log(evt)
+      }
+    }
+
     $scope.pushFile = function(){
-        if($scope.publicFile){
+        if(!$scope.publicFile){
           updateFile($scope.file)
         }else{
-          console.log('cifrar')
+          readEncrypted($scope.file)
         }
 
     }
+
 
   })
