@@ -29,7 +29,8 @@ var ngModule = angular.module('sharekey', [
   'sharekey.chats',
   'sharekey.posts',
   'sharekey.surveys',
-  'sharekey.repos'
+  'sharekey.repos',
+  'sharekey.files'
 ]).
 config(['$locationProvider', '$urlRouterProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {
   $locationProvider.hashPrefix('!');

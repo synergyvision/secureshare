@@ -4,7 +4,7 @@
                 <div class="col-10 align-self-center">
                     <div class="shadow-sm p-3 mb-5 rounded">
                         <form id="newRepo" ng-submit="readFile()">
-                            <h5>Subir Archivo</h5>
+                            <h5>Crear Archivo</h5>
                             <hr>
                             <div class="form-group">
                                 <label for="repoName">Directorio: {{repository}}/{{directory}}</label>
@@ -26,9 +26,9 @@
                             </div>
                             <div class="form-group form-check">
                                 <input type="checkbox" class="form-check-input" id="private" ng-model="publicFile">
-                                <label class="form-check-label" for="public">Público</label>
+                                <label class="form-check-label" for="public">Cifrar</label>
                             </div>
-                            <div ng-show="!publicFile" class="form-group">
+                            <div ng-show="publicFile" class="form-group">
                                     <label for="keys">Llave para proteger el archivo</label>
                                     <select class="form-control" id="keys" ng-model="$parent.repoKey">
                                       <option ng-repeat="key in userKeys" value="{{key.keyname}}">{{key.keyname}}</option>

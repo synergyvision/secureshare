@@ -1,0 +1,27 @@
+<div class="container-fluid" ng-controller="filesController">
+    <div class="row">
+        <div class="col">
+            <form id="newMessage" ng-submit="decipher()">
+                <h3>Ver archivos</h3>
+                <div class="form-group">
+                    <label for="file">Escoger Archivo</label>
+                    <div class="custom-file mb-2 mr-sm-2" style="overflow: hidden;">
+                            <input type="file" file="file" id="customFile" required>
+                            <label class="custom-file-label" id="filelabel" for="customFile">{{file.name}}</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="keys">Elige llave</label>
+                    <select class="form-control" id="keys" ng-model="privateKey">
+                        <option ng-repeat="key in userKeys" value="{{key.keyname}}">{{key.keyname}}</option>
+                    </select>
+                </div>  
+                <div class="form-group">
+                        <label for="user">Passphrase</label>
+                    <input type="password" class="form-control" id="passphrase" ng-model="passphrase" placeholder="">
+                </div> 
+                <button type="submit" class="btn btn-primary">Descargar</button>
+            </form>
+        </div>    
+    </div>
+</div>
