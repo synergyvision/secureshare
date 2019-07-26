@@ -27,7 +27,7 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
 
   var getServerKey = function (){
     return $http({
-      url: __env.apiUrl + 'configkeys/',
+      url: __env.apiUrl + 'config/serverKeys',
       method: 'GET'
     }).then(function(response){
       return response.data.publickey
