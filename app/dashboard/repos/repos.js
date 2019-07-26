@@ -68,7 +68,7 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
 
    getServerKey = function (){
       return $http({
-        url: __env.apiUrl + 'configkeys/',
+        url: __env.apiUrl + 'config/serverKeys',
         method: 'GET'
       }).then(function(response){
         return response.data.publickey
