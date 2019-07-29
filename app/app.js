@@ -34,6 +34,6 @@ var ngModule = angular.module('sharekey', [
   'sharekey.config'
 ]).
 config(['$locationProvider', '$urlRouterProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {
-  $locationProvider.hashPrefix('!');
+  $locationProvider.html5Mode(true);
 }])
 .constant('__env', env);
