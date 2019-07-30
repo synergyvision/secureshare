@@ -1,8 +1,28 @@
 <div class="container-fluid" ng-controller="configController">
-        <div id="fb-root"></div>
-      <div>   
-                <button ng-click="fblogin()">FB Login</button>
-                <button ng-click="getLocation()">permissions</button>
-                <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false"></div>
-        </div>
+   <h2>Añade tus redes</h2>
+   <div id="fb-root"></div>
+
+   <div class="shadow-sm p-3 mb-5 rounded" id="networks">
+                <br>
+                <div class="form-group" id="facebook">  
+                        <label>Facebook</label>
+                        <button type="button" class="btn btn-info btn-sm" ng-click="initObserver()">Agregar</button>
+                        <div ng-show="showFacebook == true" class="m-1">
+                                <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email,user_posts"></div>
+                        </div>        
+                </div>
+                <div class="form-group" ng-if="faceLogin">
+                        <div class="alert alert-info" role="alert">
+                                Has iniciado sesión con Facebook, ahora pare validar coloca este mensaje en tus estados de Facebook y presiona verificar.
+                        </div>
+                        <div class="alert alert-info" role="alert">
+                                "{{validationMessage}}"
+                        </div> 
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="verify()">Verificar</button>
+                </div>       
+                <div class="form-group" id="twitter">  
+                        <Label>Añade tu twitter</Label>
+                        
+                </div>       
+        </div>        
 </div>
