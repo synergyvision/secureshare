@@ -249,7 +249,7 @@
       $scope.decrypted = decrypted;
       $scope.$apply();
     }).catch(function (error){
-        alert(error)
+        alert('Verifique que su llave y passphrase sean correctas')
     })
   } 
 
