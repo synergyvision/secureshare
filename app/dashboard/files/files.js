@@ -16,18 +16,21 @@ angular.module('sharekey.files', ['ui.router','ngFileSaver'])
 
     
     decryptContent = async (key,passphrase,content) => {
-      const privKeyObj = (await openpgp.key.readArmored(key)).keys[0]
-      await privKeyObj.decrypt(passphrase)
-      const options = {
-        message: await openpgp.message.readArmored(content),    // parse armored message
-        privateKeys: [privKeyObj]                                 // for decryption
-    }
+      try{
+          const privKeyObj = (await openpgp.key.readArmored(key)).keys[0]
+          await privKeyObj.decrypt(passphrase)
+          const options = {
+            message: await openpgp.message.readArmored(content),    // parse armored message
+            privateKeys: [privKeyObj]                                 // for decryption
+        }
 
-    openpgp.decrypt(options).then(plaintext => {
-      var data = new Blob([plaintext.data], { type: 'text/plain;charset=utf-8' });
-      FileSaver.saveAs(data, $scope.file.name);
-    })
-
+        openpgp.decrypt(options).then(plaintext => {
+          var data = new Blob([plaintext.data], { type: 'text/plain;charset=utf-8' });
+          FileSaver.saveAs(data, $scope.file.name);
+        })
+      }catch(e){
+        alert('Error verifique su llave seleccionada y passphrase sean correctos')
+      }
     }
 
     var decryptKey = function (key,password) {

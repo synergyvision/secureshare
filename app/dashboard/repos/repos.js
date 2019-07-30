@@ -293,21 +293,24 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
     }
 
     decryptContent = async (key,passphrase) => {
-      const privKeyObj = (await openpgp.key.readArmored(key)).keys[0]
-      await privKeyObj.decrypt(passphrase)
-      console.log($scope.repoFiles.content)
-      const options = {
-        message: await openpgp.message.readArmored($scope.repoFiles.content),    // parse armored message
-        privateKeys: [privKeyObj]                                 // for decryption
-    }
+      try {
+          const privKeyObj = (await openpgp.key.readArmored(key)).keys[0]
+          await privKeyObj.decrypt(passphrase)
+          console.log($scope.repoFiles.content)
+          const options = {
+            message: await openpgp.message.readArmored($scope.repoFiles.content),    // parse armored message
+            privateKeys: [privKeyObj]                                 // for decryption
+          }
 
-    openpgp.decrypt(options).then(plaintext => {
-      var data = new Blob([plaintext.data], { type: 'text/plain;charset=utf-8' });
-      FileSaver.saveAs(data, $scope.repoFiles.name);
-      var popup = angular.element('#decipher')
-      popup.modal('hide')
-        
-    })
+          openpgp.decrypt(options).then(plaintext => {
+            var data = new Blob([plaintext.data], { type: 'text/plain;charset=utf-8' });
+            FileSaver.saveAs(data, $scope.repoFiles.name);
+            var popup = angular.element('#decipher')
+            popup.modal('hide')
+          })
+      }catch(error){
+        alert('Error verifique su llave y passphrase')
+      }  
 
     }
 

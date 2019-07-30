@@ -241,6 +241,8 @@ angular.module('sharekey.posts', ['ui.router'])
           popup.modal('hide')
           $scope.post.data.content = content;
           $scope.$apply();
+        }).catch(function (error){
+            alert('Error: verifique que su llave y passphrase sean correctos')
         })
       }
 

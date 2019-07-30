@@ -272,19 +272,23 @@
       }
   
       var decriptMessage = async (privateKey,passphrase,mensaje) => {
-        const privKeyObj = (await openpgp.key.readArmored(privateKey)).keys[0]
-        await privKeyObj.decrypt(passphrase)
-  
-        const options = {
-            message: await openpgp.message.readArmored(mensaje),    // parse armored message
-            //publicKeys: (await openpgp.key.readArmored(pubkey)).keys, // for verification (optional)
-            privateKeys: [privKeyObj]                                 // for decryption
-        }
-  
-        return openpgp.decrypt(options).then(plaintext => {
-            decrypted = plaintext.data;
-            return decrypted
-        })
+        try{
+          const privKeyObj = (await openpgp.key.readArmored(privateKey)).keys[0]
+          await privKeyObj.decrypt(passphrase)
+    
+          const options = {
+              message: await openpgp.message.readArmored(mensaje),    // parse armored message
+              //publicKeys: (await openpgp.key.readArmored(pubkey)).keys, // for verification (optional)
+              privateKeys: [privKeyObj]                                 // for decryption
+          }
+    
+          return openpgp.decrypt(options).then(plaintext => {
+              decrypted = plaintext.data;
+              return decrypted
+          })
+        }catch(error){
+          alert('Error: Verifique que su par de llave y passphrase sean correctos')
+        }  
     }
 
       var decryptKey = function (key,password) {
