@@ -2,23 +2,28 @@
    <h2>Añade tus redes</h2>
    <div id="fb-root"></div>
 
-   <div class="shadow-sm p-3 mb-5 rounded" id="networks">
+   <div class="shadow-sm p-3 mb-5 rounded" id="networks" ng-init="getSocials()">
                 <br>
-                <div class="form-group" id="facebook">  
-                        <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email,user_posts"></div>      
-                </div>
-                <div class="form-group" ng-if="faceLogin">
-                        <div class="alert alert-info" role="alert">
-                                Has iniciado sesión con Facebook, ahora pare validar coloca este mensaje en tus estados de Facebook y presiona verificar.
+                <div id="facebook" ng-if="validFacebook == false">
+                        <div class="form-group">  
+                                <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email,user_posts"></div>      
                         </div>
-                        <div class="alert alert-info" role="alert">
-                                "{{validationMessage}}"
-                        </div> 
-                        <button type="button" class="btn btn-primary btn-sm" ng-click="verify()">Verificar</button>
-                </div>       
+                        <div class="form-group" ng-if="faceLogin">
+                                <div class="alert alert-info" role="alert">
+                                        Has iniciado sesión con Facebook, ahora pare validar coloca este mensaje en tus estados de Facebook y presiona verificar.
+                                </div>
+                                <div class="alert alert-info" role="alert">
+                                        "{{validationMessage}}"
+                                </div> 
+                                <button type="button" class="btn btn-primary btn-sm" ng-click="verify()">Verificar</button>
+                        </div>  
+                </div> 
+                <div id="facebook" ng-if="validFacebook == true">     
+                        <p>Facebook <i class="fas fa-check-double"></i></p>   
+                </div>              
                 <div class="form-group" id="twitter">  
                         <Label>Añade tu twitter</Label>
                         
-                </div>       
+                </div>    
         </div>        
 </div>

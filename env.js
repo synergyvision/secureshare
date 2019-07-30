@@ -12,6 +12,7 @@
     window.__env.profile = 'profile/';
     window.__env.surveys = 'surveys/'
     window.__env.repos = 'repositories/'
+    window.__env.config = 'config/'
 
     // Base url
     window.__env.baseUrl = '/';
