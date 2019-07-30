@@ -113,16 +113,23 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
           "me/feed?limit=5",
           function (response) {
             if (response && !response.error) {
-              console.log(response)
-                validateFeed(response.data)
+              validateFeed(response.data)
             }
           }
       );
     }
 
    var validateFeed =  function (feed){
-     console.log('validate functionw')
-      console.log(feed)
+    var valid = false
+    for (i = 0; i < feed.length; i ++){
+        if( feed[i].message == $scope.validationMessage){
+          valid = true
+          alert('validated')
+        }
+    }
+    if (valid == false){
+      alert('error')
+    }
    }
  
 })
