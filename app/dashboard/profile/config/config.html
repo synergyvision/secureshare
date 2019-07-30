@@ -25,5 +25,11 @@
                         <Label>Añade tu twitter</Label>
                         
                 </div>    
+                <div class="form-group" id="github" ng-if="validGitHub == true">
+                        <p>Github <i class="fas fa-check-double"></i></p>
+                </div>
+                <div class="form-group" id="github" ng-if="validGitHub == false">
+                        <a class="nav-link" ui-sref="dash.repos">Github</a>
+                </div>
         </div>        
 </div>

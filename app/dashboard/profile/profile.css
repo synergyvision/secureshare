@@ -8,6 +8,7 @@
 
 #picture{
     width: 75%;
+    display: block;
 }
 
 
@@ -22,3 +23,6 @@ input[type=file] {
     height: 150px;
     width: 150px;
 }
+.fa-check-double{
+    color: greenyellow;
+  }

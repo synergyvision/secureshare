@@ -228,6 +228,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
         headers: {'Authorization':'Bearer: ' + token}
       }).then(function (response){
         if (response.data.status == 200){
+            console.log(response.data)
             $scope.username = response.data.content.username;
             $scope.name = response.data.content.name;
             $scope.lastname = response.data.content.lastname;
@@ -235,6 +236,9 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
             $scope.email = response.data.content.email;
             $scope.bio = response.data.content.bio;
             $scope.userPicture = response.data.content.profileUrl;
+            $scope.facebook = response.data.content.facebookValidation;
+            $scope.github = response.data.content.githubUsername
+            $scope.twitter = response.data.content.twitterValidation;
           }else{
             error(response.data.message);
           }
