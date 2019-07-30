@@ -5,11 +5,7 @@
    <div class="shadow-sm p-3 mb-5 rounded" id="networks">
                 <br>
                 <div class="form-group" id="facebook">  
-                        <label>Facebook</label>
-                        <button type="button" class="btn btn-info btn-sm" ng-click="initObserver()">Agregar</button>
-                        <div ng-show="showFacebook == true" class="m-1">
-                                <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email,user_posts"></div>
-                        </div>        
+                        <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email,user_posts"></div>      
                 </div>
                 <div class="form-group" ng-if="faceLogin">
                         <div class="alert alert-info" role="alert">
