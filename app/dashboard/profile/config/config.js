@@ -116,13 +116,40 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
     var valid = false
     for (i = 0; i < feed.length; i ++){
         if( feed[i].message == $scope.validationMessage){
-          valid = true
-          alert('validated')
+          validateFacebook();
         }
     }
     if (valid == false){
-      alert('error')
+      alert('Ha ocurrido un error, validando el mensaje, revisa que el mensaje se subio en facebook o recarga la pagina para obtener otro mensaje')
     }
    }
+
+   var validateFacebook = function (){
+     $http({
+       url: __env.apiUrl + __env.config + uid + '/validateFacebook',
+       method: 'POST',
+       headers: {'Authorization':'Bearer: ' + token}
+     }).then(function (response){
+        alert('Se ha validado la información de facebook exitosamente')
+        $state.reload();
+     }).catch(function (error){
+        console.log(error)
+     })
+   }
+
+   $scope.getSocials = function (){
+      $http({
+        url: __env.apiUrl + __env.config + uid + '/addedSocials',
+        method: 'GET',
+        headers: {'Authorization':'Bearer: ' + token}
+      }).then(function (response){
+          $scope.validFacebook = response.data.facebook
+          $scope.validTwitter = response.data.twitter
+          $scope.validGitHub = response.data.github
+          console.log($scope.validFacebook)
+      }).catch(function (error){
+        console.log(error)
+      })
+    }
  
 })
