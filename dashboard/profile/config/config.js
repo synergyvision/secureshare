@@ -116,6 +116,7 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
     var valid = false
     for (i = 0; i < feed.length; i ++){
         if( feed[i].message == $scope.validationMessage){
+          valid = true;
           validateFacebook();
         }
     }
@@ -146,7 +147,6 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
           $scope.validFacebook = response.data.facebook
           $scope.validTwitter = response.data.twitter
           $scope.validGitHub = response.data.github
-          console.log($scope.validFacebook)
       }).catch(function (error){
         console.log(error)
       })
