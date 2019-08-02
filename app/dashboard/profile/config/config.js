@@ -151,5 +151,58 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
         console.log(error)
       })
     }
- 
+
+    $scope.showTwitterMessage = function(){
+      $scope.showTwitter = true;
+      $scope.validationMessage = preMessage + makeid();
+      $scope.$apply
+    }
+
+    $scope.getTwitterFeed = function(){
+      console.log($scope.twitterUsername)
+      var user = $.param({
+        username: $scope.twitterUsername
+      })
+      $http({
+        url: __env.apiUrl + __env.config + uid + '/getTwitterFeed',
+        method: 'POST',
+        data: user,
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
+      }).then(function (response){
+          if (response.data.feed.errors){
+            alert('No pudimos encontrar tu usuario por favor verifícalo')
+          }else{
+            validateTweet(response.data.feed)
+          }
+      }).catch(function (error){
+        console.log(error)
+      })
+    }
+    
+    var validateTweet = function (feed){
+      console.log(feed)
+      var valid = false
+      for (i = 0; i < feed.length; i ++){
+          if( feed[i].text == $scope.validationMessage){
+            valid = true;
+            validateTwitter();
+          }
+      }
+      if (valid == false){
+        alert('Ha ocurrido un error validando el mensaje, revisa que el mensaje se subio en twitter o recarga la pagina para obtener otro mensaje')
+      }
+    }
+
+    var validateTwitter = function (){
+      $http({
+        url: __env.apiUrl + __env.config + uid + '/validateTwitter',
+        method: 'POST',
+        headers: {'Authorization':'Bearer: ' + token}
+      }).then(function (response){
+         alert('Se ha validado la información de twitter exitosamente')
+         $state.reload();
+      }).catch(function (error){
+         console.log(error)
+      })
+    }
 })
