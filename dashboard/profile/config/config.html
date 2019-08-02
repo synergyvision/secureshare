@@ -21,9 +21,24 @@
                 <div id="facebook" ng-if="validFacebook == true">     
                         <p>Facebook <i class="fas fa-check-double"></i></p>   
                 </div>              
-                <div class="form-group" id="twitter">  
-                        <Label>Añade tu twitter</Label>
+                <div class="form-group" id="twitter" ng-if="validTwitter == false">  
+                        <Label>Twitter</Label>
+                        <button type="button" class="btn btn-outline-info" ng-click="showTwitterMessage()">Añadir</button>
+                        <div class="form-group m-1" ng-if="showTwitter">
+                                <Label>Usuario de twitter</Label>
+                                <input type="text" class="form-control mb-3" ng-model="$parent.$parent.twitterUsername">
+                                <div class="alert alert-info" role="alert">
+                                        Para validar su twitter coloque el siguiente mensaje en su timeline y oprima verificar
+                                </div>
+                                <div class="alert alert-info" role="alert">
+                                        "{{validationMessage}}"
+                                </div> 
+                                <button type="button" class="btn btn-primary btn-sm" ng-click="getTwitterFeed()">Verificar</button>
+                        </div> 
                         
+                </div>  
+                <div id="twitter" ng-if="validTwitter == true">     
+                        <p>Twitter <i class="fas fa-check-double"></i></p>   
                 </div>    
                 <div class="form-group" id="github" ng-if="validGitHub == true">
                         <p>Github <i class="fas fa-check-double"></i></p>
