@@ -31,10 +31,17 @@ var ngModule = angular.module('sharekey', [
   'sharekey.surveys',
   'sharekey.repos',
   'sharekey.files',
-  'sharekey.config'
+  'sharekey.config',
+  'btford.socket-io'
 ]).
 config(['$locationProvider', '$urlRouterProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {
   $locationProvider.hashPrefix('!')
 }])
 
-.constant('__env', env);
+ngModule.constant('__env', env)
+
+ngModule.service('SocketService', ['socketFactory', function SocketService(socketFactory) {
+  return socketFactory({
+      ioSocket: io.connect(__env.apiUrl)
+  });
+}]);

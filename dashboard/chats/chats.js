@@ -26,15 +26,17 @@
       $scope.show = false;
       $scope.userChats = [];
       
-      var getUserChats = async () => {
+      $scope.getUserChats = async () => {
        $http({
           url:  __env.apiUrl + __env.profile +uid+ '/chats',
           method: 'GET',
           headers: {'Authorization':'Bearer: ' + token} 
         }).then(function (response){
           if (response.data.data){
-            $scope.userChats = response.data.data
-            $localStorage[uid + '-chats'] = $scope.userChats
+            userChats = response.data.data
+            for (i = 0; i < userChats.length; i++){
+              storeLocalChats(userChats[i].chatID,userChats[i].title,userChats[i].members)
+            }
           }else{
             $scope.userChats = []
           }
@@ -42,8 +44,6 @@
           console.log(error);
         })
       }
-
-      getUserChats();
 
       $scope.getContacts = function (){
         $http({
@@ -98,9 +98,9 @@
       }
 
       $scope.chatInfo = function (){
-          for (i = 0; i < $scope.userChats.length; i++){
-              if ($scope.userChats[i].chatID == id_chat){
-                $scope.infoChat = $scope.userChats[i]
+          for (i = 0; i < $localStorage[uid + '-chats'].length; i++){
+              if ($localStorage[uid + '-chats'][i].chatID == id_chat){
+                $scope.infoChat = $localStorage[uid + '-chats'][i]
               }
           }
       }
@@ -120,9 +120,8 @@
       }
 
       var localDeleteChat = function(id){
-        for (var i = 0 ; i < $scope.userChats.length; i++){
-          if ($scope.userChats[i].chatID == id){
-              console.log($scope.userChats[i])
+        for (var i = 0 ; i < $localStorage[uid + '-chats'].length; i++){
+          if ($localStorage[uid + '-chats'][i].chatID == id){
               return $scope.userChats.splice(i,1);
           }
         }
@@ -222,7 +221,6 @@
        }
 
       var getMultipleKeys = async(keys)=>{
-          console.log(keys)
           var keyRequest = $.param({
             id: JSON.stringify(keys)
           })
@@ -321,7 +319,6 @@
            if ($sessionStorage.passphrase){
               decripted = decryptMessages($scope.chatMessages)
               decripted.then (function (decripted){
-                console.log('hola')
                 $scope.show = true;
                 $scope.chatMessages = decripted;
                 $scope.$apply()

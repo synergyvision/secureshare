@@ -21,11 +21,14 @@ angular.module('sharekey.surveys', ['ui.router'])
     })
   }])
 
-  .controller('surveyController', function($scope,$http,$localStorage,$state,$window,$sessionStorage,$stateParams,__env){
+  .controller('surveyController', function($scope,$http,$localStorage,$state,$window,$sessionStorage,$stateParams,__env,$rootScope){
     $scope.uid = $localStorage.uid;
     var token = $localStorage.userToken;
     survey = $stateParams.surveyId;
-
+    if ($rootScope.newExists == true){
+        $rootScope.newExists = false;
+    }
+    
 
     $scope.answers = [
         {},

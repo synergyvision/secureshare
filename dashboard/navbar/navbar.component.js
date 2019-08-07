@@ -26,7 +26,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     }
 })
 
-.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage,__env){
+.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage,__env,SocketService){
     $scope.user = $localStorage[$localStorage.uid + '-username']
     uid = $localStorage.uid;
     $scope.profilePicture = $localStorage.userPicture;
@@ -185,9 +185,20 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
                 delete $sessionStorage.appKey;
                 delete $localStorage.userToken;
                 console.log('Users has logged out')
+                SocketService.emit('disconnected',uid);
                 $state.go('login');
             }
         })
     }
 
+    SocketService.emit('subscribeMessages',uid);
+    SocketService.emit('subscribeRequest',uid);
+
+    SocketService.on('updateMessages', function (){
+        $scope.getMessages();
+    })
+
+    SocketService.on('updateRequests', function (){
+        $scope.getFriendRequest();
+    })
 });
