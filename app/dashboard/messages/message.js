@@ -52,7 +52,7 @@
         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
         console.log('retrieved public key from server')
-        $scope.encrypt(response.data.data,message);
+        $scope.encrypt(response.data.data);
       }).catch(function (error){
         if (error){
           if (error.status == 401){
@@ -60,7 +60,6 @@
               $state.go('dash.login');
           }
           else{
-              console.log(error.code);
               console.log(error.message);
           }
       } 
@@ -141,7 +140,6 @@
   } 
 
   $scope.encrypt = function (key) {
-
       console.log('begin encription')
       keyPublic = getPublicKey($scope.chatKey);
       keyPrivate = getPrivateKey($scope.chatKey);

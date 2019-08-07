@@ -76,9 +76,7 @@
         <div id="content">
             <navbar></navbar>
             <div id="container-fluid" ng-controller="dashboardController">
-
                     <ui-view></ui-view>
-
             <!--Modal to ask for the app key -->
             <div class="modal fade appPassword" tabindex="-1" id="appPassword" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
@@ -112,19 +110,20 @@
                 <div class="modal fade confirmReset" tabindex="-1" id="confirmReset" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Información</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                            <div class="alert alert-danger" role="alert">
-                                Restablecer su clave de aplicación borrara toda su información en el dispositivo, es decir tendra que reactivar sus llaves.
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Información</h5>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-dark" ng-click="cancel()">Cancelar</button>
-                            <button type="button" class="btn btn-success" ng-click="resetAppKey()">Continuar</button>
-                        </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                <div class="alert alert-danger" role="alert">
+                                    Restablecer su clave de aplicación borrara toda su información en el dispositivo, es decir tendra que reactivar sus llaves.
+                                </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-dark" ng-click="cancel()">Cancelar</button>
+                                <button type="button" class="btn btn-success" ng-click="resetAppKey()">Continuar</button>
+                            </div>
                         </div>
                     </div>
                 </div>

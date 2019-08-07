@@ -22,16 +22,16 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
   })
 }])
 
-.controller('dashboardController', function($scope,$sessionStorage,$localStorage,$window,$http){
+.controller('dashboardController', function($scope,$sessionStorage,$localStorage,$window,$http,SocketService){
   uid = $localStorage.uid
   $scope.id = uid;
   $scope.storedKeys = $localStorage[uid+'keys'];
-
+  var token = $localStorage.userToken;
+  $scope.newExists = false;
   var requestAppkey = function (){
     var popup = angular.element("#appPassword");
         popup.modal('show');
      }
-
   if (!$sessionStorage.appKey){
      requestAppkey();
   }
@@ -79,5 +79,11 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
     $window.location.reload();
   }
 
+  SocketService.emit('subscribeSurvey',uid);
+
+  SocketService.on('updateSurveys',function (){
+    $scope.newExists = true;
+    $scope.$apply()
+  });
 });
 
