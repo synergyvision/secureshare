@@ -45,6 +45,7 @@ angular.module('sharekey.surveys', ['ui.router'])
         }).then(function (response){
             console.log(response.data.message)
             $scope.surveys = response.data.data;
+            $localStorage.surveys = $scope.surveys;
         }).catch(function (error){
             console.log(error)
         })

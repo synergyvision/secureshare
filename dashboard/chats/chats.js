@@ -34,8 +34,9 @@
         }).then(function (response){
           if (response.data.data){
             userChats = response.data.data
+            console.log(userChats)
             for (i = 0; i < userChats.length; i++){
-              storeLocalChats(userChats[i].chatID,userChats[i].title,userChats[i].members)
+              storeLocalChats(userChats[i].chatID,userChats[i].title,userChats[i].members,userChats[i].last_modified)
             }
           }else{
             $scope.userChats = []
