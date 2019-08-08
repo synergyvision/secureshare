@@ -79,11 +79,6 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
     $window.location.reload();
   }
 
-  SocketService.emit('subscribeSurvey',uid);
-
-  SocketService.on('updateSurveys',function (){
-    $scope.newExists = true;
-    $scope.$apply()
-  });
+  
 });
 
