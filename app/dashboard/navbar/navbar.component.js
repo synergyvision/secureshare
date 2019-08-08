@@ -31,7 +31,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     uid = $localStorage.uid;
     $scope.profilePicture = $localStorage.userPicture;
     var token = $localStorage.userToken;
-    
+    $scope.someToast = false;
     if ($localStorage.search){
         $scope.search = $localStorage.search;
     }
@@ -194,6 +194,14 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     SocketService.emit('subscribeMessages',uid);
     SocketService.emit('subscribeRequest',uid);
 
+    SocketService.emit('subscribeNewChats',uid);
+    SocketService.emit('subscribeSurvey',uid);
+
+    SocketService.on('updateSurveys',function (){
+        let toast = angular.element('#surveyToast');
+        toast.toast('show')
+    });
+
     SocketService.on('updateMessages', function (){
         $scope.getMessages();
     })
@@ -201,4 +209,24 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage'])
     SocketService.on('updateRequests', function (){
         $scope.getFriendRequest();
     })
+
+    SocketService.on('updateChats', function (id){
+        console.log(id)
+        exists = checkChats(id)
+        if (exists == false){
+            let toast = angular.element('#chatToast');
+            toast.toast('show')
+        }    
+    })
+
+    var checkChats = function (id){
+        chats = $localStorage[uid + '-chats'];
+        exists = false;
+        for (i = 0; i < chats.length;i++){
+            if (chats[i].chatID == id){
+                exists = true;
+            }
+        }
+        return exists;
+    }
 });

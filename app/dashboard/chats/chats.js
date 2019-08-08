@@ -16,7 +16,7 @@
 
   }])
 
-  .controller('chatController', function($scope,$http,$localStorage,$state,$sessionStorage,$stateParams,$location,__env){
+  .controller('chatController', function($scope,$http,$localStorage,$state,$sessionStorage,$stateParams,$location,__env,SocketService){
       uid = $localStorage.uid
       var token = $localStorage.userToken;
       $scope.uid =$localStorage.uid;
@@ -122,7 +122,7 @@
       var localDeleteChat = function(id){
         for (var i = 0 ; i < $localStorage[uid + '-chats'].length; i++){
           if ($localStorage[uid + '-chats'][i].chatID == id){
-              return $scope.userChats.splice(i,1);
+              return $localStorage[uid + '-chats'].splice(i,1);
           }
         }
       }
