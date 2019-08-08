@@ -11,6 +11,7 @@ if(window){
 // Declare app level module which depends on views, and core components
 var ngModule = angular.module('sharekey', [
   'ngRoute',
+  'toaster',
   'ui.router',
   'ngCookies',
   'ngAnimate',
