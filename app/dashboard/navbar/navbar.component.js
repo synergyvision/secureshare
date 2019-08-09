@@ -255,7 +255,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
             return exists;
 
         }else{
-            return true;
+            return false;
         }
             
     }
@@ -271,16 +271,15 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
             }
             return exists;
          } else{
-            return true
+            return false;
         }    
     }
 
     var checkModified = function (data){
         chats = $localStorage[uid + '-chats'];
-        update = false;
         if ($localStorage[uid + '-chats']){
             for (i = 0; i < chats.length;i++){
-                if (chats[i].chatID == data.id){
+                if (chats[i].chatID == data.chat){
                     if (chats[i].last_modified != data.last_modified){
                         toaster.pop({
                             type: 'info',

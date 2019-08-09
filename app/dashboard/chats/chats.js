@@ -157,7 +157,6 @@
       }
 
       var getMyKey = function (name){
-        console.log($scope.keys)
         if (name != 'default'){  
           for (var i = 0 ; i < $scope.keys.length; i++){
               if ($scope.keys[i].keyname ==name){
