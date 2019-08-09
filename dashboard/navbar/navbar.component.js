@@ -26,6 +26,8 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
     }
 })
 
+
+
 .controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage,__env,SocketService,toaster){
     $scope.user = $localStorage[$localStorage.uid + '-username']
     uid = $localStorage.uid;
@@ -39,6 +41,8 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
         alert('Inicie sesión para disfrutar de la aplicación')
         $state.go('login');
     }
+
+    var i = 0;
 
     $scope.getSearch = function (){
         if ($scope.search){
@@ -190,14 +194,18 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
             }
         })
     }
-
-    SocketService.emit('subscribeMessages',uid);
-    SocketService.emit('subscribeRequest',uid);
-
-    SocketService.emit('subscribeNewChats',uid);
-    SocketService.emit('subscribeSurvey',uid);
+    $scope.fireEvents = function (){
+        SocketService.emit('subscribeMessages',uid);
+        SocketService.emit('subscribeRequest',uid);
     
-    SocketService.emit("subscribeChatMessages");
+        SocketService.emit('subscribeNewChats',uid);
+        SocketService.emit('subscribeSurvey',uid);
+        
+        SocketService.emit("subscribeChatMessages");
+    }
+
+
+
 
     SocketService.on('updateSurveys',function (id){
         exists = checkSurveys(id)
@@ -220,7 +228,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
     })
 
     SocketService.on('updateChats', function (data){
-        exists = checkChats(data.id)
+        exists = checkChats(data)
         if (exists == false){
             toaster.pop({
                 type: 'info',

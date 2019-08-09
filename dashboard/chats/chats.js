@@ -34,7 +34,6 @@
         }).then(function (response){
           if (response.data.data){
             userChats = response.data.data
-            console.log(userChats)
             for (i = 0; i < userChats.length; i++){
               storeLocalChats(userChats[i].chatID,userChats[i].title,userChats[i].members,userChats[i].last_modified)
             }
@@ -158,6 +157,7 @@
       }
 
       var getMyKey = function (name){
+        console.log($scope.keys)
         if (name != 'default'){  
           for (var i = 0 ; i < $scope.keys.length; i++){
               if ($scope.keys[i].keyname ==name){
@@ -241,6 +241,7 @@
 
       $scope.sendToChat = function (){
         recipientId = getRecipientId($stateParams.id_chat);
+        console.log($scope.infoChat.members[uid]);
         myPublicKey = getMyKey($scope.infoChat.members[uid]);
         if (recipientId.length > 1){
           recipientKey = getMultipleKeys(recipientId);
@@ -248,7 +249,6 @@
           recipientKey = getRecipientKey(recipientId[0]);
         }
         recipientKey.then(function (recipientKey){
-          console.log(recipientKey)
           publicKeys = [recipientKey,myPublicKey]
           message = encryptMessage(publicKeys,$scope.chatMessage);
           message.then(function (message){
