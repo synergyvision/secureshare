@@ -47,28 +47,3 @@ angular.module('sharekey.reset', ['ngRoute'])
   }
 
 })
-
-.controller('ResetPasswordController', function($scope,$http){
-    if ($scope.password == $scope.confirmPassword){
-        $scope.resetPassword = function() {
-            var passwordRequest = $.param({
-                password : $scope.password,
-            });
-            console.log('doing shit');
-            $http({
-                url : __env.apiUrl + 'login/resetPassword',
-                method: 'POST',
-                data: passwordRequest,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
-            }).then(function(response){
-                if (response.data.status == 200){
-                    message(response.data.message);
-                }else{
-                    error(response.data.message);
-                }
-            })
-        }
-    } else {
-        error('Su contraseña debe ser igual a la confirmacion');
-    }
-});
