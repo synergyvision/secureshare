@@ -223,7 +223,7 @@
   var decriptMessage = async (privateKey,passphrase,mensaje) => {
       const privKeyObj = (await openpgp.key.readArmored(privateKey)).keys[0]
       await privKeyObj.decrypt(passphrase)
-
+      console.log(mensaje)
       const options = {
           message: await openpgp.message.readArmored(mensaje),    // parse armored message
           //publicKeys: (await openpgp.key.readArmored(pubkey)).keys, // for verification (optional)
@@ -239,6 +239,7 @@
   $scope.decrypt = async () => {
     privateKey = getPrivateKey();
     privateKey = decryptKey(privateKey,$sessionStorage.appKey);
+    console.log($scope.mensaje)
     message = decriptMessage(privateKey, $scope.passphrase, $scope.mensaje)
     message.then(function (decrypted){
       var popup = angular.element("#readingSpinner");
