@@ -217,6 +217,7 @@
   var getPrivateKey = function (){
     for (var i = 0 ; i < $scope.userKeys.length; i++){
         if ($scope.userKeys[i].default == true){
+            console.log($scope.userKeys[i].privateKey)
             return $scope.userKeys[i].privateKey
         }
     }
@@ -239,6 +240,7 @@
 
   $scope.decrypt = async () => {
     privateKey = getPrivateKey();
+    console.log(privateKey);
     privateKey = decryptKey(privateKey,$sessionStorage.appKey);
     message = decriptMessage(privateKey, $scope.passphrase, $scope.mensaje)
     message.then(function (decrypted){
