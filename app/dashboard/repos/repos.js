@@ -106,6 +106,7 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token} 
         }).then(function (response){
             console.log(response.data)
+            $state.reload()
         }).catch(function (error){
             console.log(error)
         })
