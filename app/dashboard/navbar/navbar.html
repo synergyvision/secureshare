@@ -67,11 +67,11 @@
             <div ng-if="requests.length > '0'">
                 <div ng-repeat="request in  requests">
                     <a class="dropdown-item d-flex align-items-center">
-                        <div class="mr-3">
-                            <div class="icon-circle bg-primary">
-                                <i class="fas fa-file-alt text-white"></i>
-                            </div>
-                        </div>
+                            <div class="dropdown-list-image mr-3">
+                                    <img class="rounded-circle" ng-if="request.picture" ng-src="{{request.picture}}">
+                                    <img class="rounded-circle" ng-if="!request.picture" src="../../img/default-user-icon-8.jpg">
+                                    <div class="status-indicator bg-success"></div>
+                                </div>
                         <div>
                             <span class="font-weight-bold">{{request.name}} {{request.lastname}} te ha enviado una solicitud de amistad!</span>
                             <div id="buttons">
