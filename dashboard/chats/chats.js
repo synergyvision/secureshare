@@ -256,7 +256,8 @@
               id_sender: uid,
               message: message,
               id_chat: id_chat,
-              recipients: JSON.stringify(ids)
+              recipients: JSON.stringify(ids),
+              username: $localStorage[uid +'-username']
             })
             sendRequest(messageRequest);
           }).catch(function (error){
