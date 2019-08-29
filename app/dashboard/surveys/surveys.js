@@ -184,6 +184,20 @@ angular.module('sharekey.surveys', ['ui.router'])
             })
 
         }
+        var updateParam = $.param({
+            uid: $scope.uid
+        })
+        $http({
+            url: appConstants.apiUrl + appConstants.surveys + survey + '/updateAnsweredBy',
+            method: 'PUT',
+            data: updateParam,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
+        }).then(function(response){
+            console.log(response)
+            console.log('user has answered a survey')
+        }).catch(function(error){
+            console.log(error)
+        })
     }
 
     $scope.deleteSurvey = function (id){
