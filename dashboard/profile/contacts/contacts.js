@@ -77,7 +77,7 @@
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
             if (response.data.status == 201){
-                alert('Se ha enviado una solicitud de amistad');
+                alert('Solicitud enviada');
             }
         }).catch(function (error){
                 if (error){

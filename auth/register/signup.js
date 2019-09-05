@@ -38,8 +38,8 @@ angular.module('sharekey.register', ['ngRoute'])
     }).then(function(response){
       if (response.data.status == 201){
         console.log(response);
-        successRegister('Usuario se ha creado exitosamente');
-        $state.go('dash.login');
+        successRegister('Su usuario se ha creado exitosamente.');
+        $state.go('login');
       }else{
         if (response.data.status == 400){
           error('El nombre de usuario no esta disponible');

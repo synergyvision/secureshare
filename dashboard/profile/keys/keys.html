@@ -10,7 +10,6 @@
           <thead>
             <tr>
               <th scope="col">Nombre<th>
-
             </tr>
           </thead>
             <tbody>
@@ -45,7 +44,7 @@
                       <input type="text" class="form-control" ng-model="email" id="email" required>
                     </div>
                     <div class="form-group">
-                      <label for="passphrase">Clave de la llave (passphrase)</label>
+                      <label for="passphrase">Clave para la llave (passphrase)</label>
                       <div class="input-group mb-3">
                         <input type="text" class="form-control" ng-model="passphrase" id="passphrase" ng-attr-type="{{ showPassword ? 'text':'password'}}" required>
                         <div class="input-group-append">
@@ -54,21 +53,21 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="name">Frase clave</label>
+                      <label for="name">Frase de recuperacion</label>
                       <div class="alert alert-info" role="alert">
-                        Debe inserta una frase de doce palabras para resguardar sus llaves, puede usar una frase propia o utilizar la generada por la aplicación
+                        Debe insertar una frase de doce palabras para resguardar sus llaves, puede usar una frase propia o utilizar la generada por la aplicación.
                       </div>
                     </div>
                     <div class="form-group">
                       <div class="alert alert-danger" role="alert">
-                        Debe resguardar en un lugar seguro esta serie de palabras, si las pierde no podra acceder a la llave, no deje especios al final de las palabras
+                        Debe resguardar en un lugar seguro, si la pierde no podra recuperar la llave, no deje especios al final de las palabras.
                       </div>
                       <div class="form-group">
                         <input type="text" class="form-control" id="phrase" value= "{{words}}" disabled>
                       </div>
                       <input type="text" class="form-control" id="phrase" ng-model="phrase" required>
                     </div>
-                      <button type="submit" data-target=".spinnerModal"class="btn btn-primary">Generar</button>
+                      <button type="submit" data-target=".spinnerModal"class="btn btn-primary">Agregar</button>
               </form>
             </div>  
           </div>  
@@ -154,7 +153,7 @@
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
-          Generando par de llaves
+          Creando credenciales
       </div>
       <div class="modal-body">
           <div class="d-flex justify-content-center">
