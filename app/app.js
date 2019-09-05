@@ -32,8 +32,7 @@ var ngModule = angular.module('sharekey', [
   'sharekey.surveys',
   'sharekey.repos',
   'sharekey.files',
-  'sharekey.config',
-  'btford.socket-io'
+  'sharekey.config'
 ]).
 config(['$locationProvider', '$urlRouterProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {
   $locationProvider.hashPrefix('!')
