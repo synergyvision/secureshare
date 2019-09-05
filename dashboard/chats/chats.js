@@ -240,7 +240,6 @@
 
       $scope.sendToChat = function (){
         recipientId = getRecipientId($stateParams.id_chat);
-        console.log($scope.infoChat.members[uid]);
         myPublicKey = getMyKey($scope.infoChat.members[uid]);
         if (recipientId.length > 1){
           recipientKey = getMultipleKeys(recipientId);
@@ -298,10 +297,9 @@
       }
 
       var decryptMessages = async (messages) => {
-        console.log('decripting')
         private = getMyPrivateKey($scope.infoChat.members[uid]);
         privateKey = decryptKey(private,$sessionStorage.appKey);
-        for (i = 0; i < messages.length; i++){
+        for (var i = 0; i < messages.length; i++){
             message = await decriptMessage(privateKey,$sessionStorage.passphrase,messages[i].data.content)
             messages[i].data.content = message;
             sent = new Date(messages[i].data.date_sent);

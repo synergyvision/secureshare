@@ -17,6 +17,7 @@
             <a class="nav-link" ui-sref="dash.posts">
                 <i class="fas fa-home"></i>
                 <span>Inicio</span></a>
+                <span ng-if="current == 'dash.posts'"><span class="badge badge-light">Light</span></span>
             </li>
         
             <hr class="sidebar-divider">
@@ -77,6 +78,7 @@
             <navbar></navbar>
             <div id="container-fluid" ng-controller="dashboardController">
                     <ui-view></ui-view>
+                    
             <!--Modal to ask for the app key -->
             <div class="modal fade appPassword" tabindex="-1" id="appPassword" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">

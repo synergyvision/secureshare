@@ -14,15 +14,14 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
   $stateProvider.state('dash',{
     abstract: true,
     templateUrl: 'dashboard/dashboard.html',
-    css: 'css/sb-admin-2.css',
-    controller: 'dashboardController'
+    css: 'css/sb-admin-2.css'
   });
   $stateProvider.state('dash.index',{
     url:'/index'
   })
 }])
 
-.controller('dashboardController', function($scope,$sessionStorage,$localStorage,$window,$http,SocketService){
+.controller('dashboardController', function($scope,$state,$sessionStorage,$localStorage,$window,$http,SocketService){
   uid = $localStorage.uid
   $scope.id = uid;
   $scope.storedKeys = $localStorage[uid+'keys'];
@@ -36,6 +35,8 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
      requestAppkey();
   }
   
+  $scope.current = $state.current.name;
+  console.log($scope.current)
 
   $scope.setAppKey = function (){
     if ($localStorage[uid+'keys']){
@@ -56,6 +57,9 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
       $sessionStorage.appKey = $scope.appKey;
       popup = angular.element("#appPassword");
       popup.modal('hide');
+      $scope.appKey = "";
+      $state.go('dash.keys')
+      alert('Debe crear o activar una llave')
     }
   }
 

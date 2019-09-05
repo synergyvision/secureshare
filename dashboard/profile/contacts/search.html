@@ -1,12 +1,12 @@
 <div id="contatcs" ng-controller="contactsController">
     <div class="content" ng-init="getUsers()">
         <div ng-repeat="user in users | filter: search">    
-            <div id ="card" class="card">
+            <div id ="card" class="card mb-3">
                 <div class="row no-gutters">
-                        <div class="col-md-4">
-                                <img ng-if="user.photo" id="img" ng-src="{{user.photo}}" class="card-img">
-                                <img ng-if="!user.photo" id="img" src="img/default-user-icon-8.jpg" class="card-img">
-                        </div>
+                    <div class="col-md-4">
+                            <img ng-if="user.photo" id="img" ng-src="{{user.photo}}" class="card-img">
+                            <img ng-if="!user.photo" id="img" src="img/default-user-icon-8.jpg" class="card-img">
+                    </div>
                     <div class="col-md-8">   
                         <div class="card-body">
                             <h5 class="card-title">{{user.name}} {{user.lastname}}</h5>
