@@ -40,9 +40,3 @@ config(['$locationProvider', '$urlRouterProvider', function($locationProvider, $
 }])
 
 ngModule.constant('__env', env)
-
-ngModule.service('SocketService', ['socketFactory', function SocketService(socketFactory) {
-  return socketFactory({
-      ioSocket: io.connect(__env.apiUrl)
-  });
-}]);
