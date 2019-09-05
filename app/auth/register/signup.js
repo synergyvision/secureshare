@@ -15,7 +15,7 @@ angular.module('sharekey.register', ['ngRoute'])
     url: '/signup',
     templateUrl: 'auth/register/signup.html',
     controller: 'SignUpController',
-    css: 'signup.css'
+    css: '../css/sb-admin-2.css'
   });
 }])
 

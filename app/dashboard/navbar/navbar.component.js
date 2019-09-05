@@ -194,7 +194,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
             }
         })
     }
-    $scope.fireEvents = function (){
+   /* $scope.fireEvents = function (){
         SocketService.emit('subscribeMessages',uid);
         SocketService.emit('subscribeRequest',uid);
     
@@ -241,7 +241,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
 
     SocketService.on('newChatMessages', function (data){
         update = checkModified(data);
-    })
+    })*/
 
     var checkChats = function (id){
         chats = $localStorage[uid + '-chats'];

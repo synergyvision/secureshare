@@ -171,12 +171,12 @@ function encryptKeys(key,seed){
 
     //store the newly created pair on local storage
 
-    var localStorekeys = function(public,private,name){
+    var localStorekeys = function(public,private,name,defecto = false){
       var newKey = {
         keyname: name,
         publicKey: public,
         privateKey: private,
-        default: false
+        default: defecto
       }
 
       $scope.userKeys.push(newKey);
@@ -349,7 +349,7 @@ function encryptKeys(key,seed){
         console.log('here');
         var localPrivateKey = encryptKeys($localStorage.recoveryKey.PrivKey,words)
         localPrivateKey = localPrivateKey.toString();
-        localStorekeys($localStorage.recoveryKey.PubKey,localPrivateKey,$localStorage.recoveryKey.name);
+        localStorekeys($localStorage.recoveryKey.PubKey,localPrivateKey,$localStorage.recoveryKey.name,$localStorage.recoveryKey.default);
         var popup = angular.element("#appPass");
         //for hide model
         popup.modal('hide');
