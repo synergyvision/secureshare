@@ -12,7 +12,7 @@
         <textarea class="form-control" id="message" ng-model="$parent.message" rows="3"></textarea>
       </div>
       <div class="form-group">
-            <label for="keys">Elige tu llave de chat</label>
+            <label for="keys">Seleccione la llave</label>
             <select class="form-control" id="keys" ng-model="$parent.chatKey">
               <option ng-repeat="key in userKeys" value="{{key.keyname}}">{{key.keyname}}</option>
             </select>
