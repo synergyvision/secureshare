@@ -28,7 +28,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
 
 
 
-.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage,__env,SocketService,toaster){
+.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage,__env,toaster){
     $scope.user = $localStorage[$localStorage.uid + '-username']
     uid = $localStorage.uid;
     $scope.profilePicture = $localStorage.userPicture;
