@@ -87,6 +87,8 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
               errorLogin('Su correo es inválido');
             }
           }
+        }).catch(function (error){
+          alert('Ha ocurrido un error intentelo mas tarde')
         })
       })  
     }

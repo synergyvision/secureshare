@@ -29,7 +29,7 @@
               <textarea class="form-control" id="message" ng-model="decrypted" rows="10"></textarea>
             </div>
             <div ng-show="decrypted">
-                <div ng-if="data.tray != 'published' && data.publish == 'true'">
+                <div ng-if="data.tray != 'published' && data.publish == 'true' && !data.r_username">
                   <button type="submit" class="btn btn-info" ng-click="publishMessage()">Publicar mensaje</button>
                 </div>
                 <div ng-if="data.tray == 'published'">

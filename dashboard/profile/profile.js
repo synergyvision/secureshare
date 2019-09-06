@@ -43,7 +43,6 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
 
 .controller('profileController', function($scope,$http,$localStorage,$state,$location,$stateParams){
   var token = $localStorage.userToken;
-
   $scope.requestData = function(){
     $http({
       url: __env.apiUrl + __env.profile + $localStorage.uid,
@@ -161,7 +160,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
    var token = $localStorage.userToken;
    var uid = $localStorage.uid;
    var user_id = $stateParams.user_id;
-    $scope.username = $localStorage[uid + '-username'];
+  $scope.username = $localStorage[uid + '-username'];
 
     var checkLike = function (reactions){
       if (reactions[uid]){
@@ -223,12 +222,12 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
 
    $scope.getUserData = function (){
       $http({
-        url: __env.apiUrl + __env.profile + $stateParams.user_id,
+        url: __env.apiUrl + __env.profile + user_id ,
         method: 'GET',
         headers: {'Authorization':'Bearer: ' + token}
       }).then(function (response){
         if (response.data.status == 200){
-            console.log(response.data)
+          console.log(response)
             $scope.username = response.data.content.username;
             $scope.name = response.data.content.name;
             $scope.lastname = response.data.content.lastname;
