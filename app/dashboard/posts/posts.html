@@ -47,16 +47,10 @@
                                 <div class="row justify-content-between">
                                     <span><img class="img-profile rounded-circle" style="height: 40px;width: 40px; margin-right: 2px;" ng-src="{{post.userPicture}}" onerror="this.src='img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
                                     <div ng-if="post.data.user_id == uid">
-                                        <ul class="navbar-nav ml-auto">
-                                            <li class="nav-item dropdown">  
-                                                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="options">
-                                                    <a class="dropdown-item" ng-click="editPost(post.id,post.data.content)">Editar</a>
-                                                    <a class="dropdown-item" ng-click="deletePost(post.id)">Eliminar</a>
-                                                </div>
-                                            </li>
-                                        </ul> 
+                                        <div class="btn-group" role="group" aria-label="Basic example">
+                                            <button type="button" class="btn btn-primary" ng-click="editPost(post.id,post.data.content)"><i class="fas fa-edit"></i></button>
+                                            <button type="button" class="btn btn-danger" ng-click="deletePost(post.id)"><i class="fas fa-trash"></i></button>
+                                        </div>
                                     </div>
                                     <div ng-if="post.data.user_id != uid">
                                         <span>{{post.data.timestamp}}</span>
@@ -93,19 +87,14 @@
                                     <div class="row justify-content-between">
                                         <span><img class="img-profile rounded-circle" style="height: 40px;width: 40px; margin-right: 2px" ng-src="{{post.userPicture}}" onerror="this.src='../../img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
                                         <ul class="navbar-nav ml-auto">
-                                            <li class="nav-item dropdown">  
-                                                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                </a>
-                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="options">
-                                                    <a class="dropdown-item" ng-click="editPost(post.id,post.data.content)">Editar</a>
-                                                    <a class="dropdown-item" ng-click="deletePost(post.id)">Eliminar</a>
-                                                </div>
-                                            </li>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" class="btn btn-danger" ng-click="deletePost(post.id)"><i class="fas fa-trash"></i></button>
+                                            </div>
                                         </ul> 
                                     </div>    
                                 </div>
                                 <div class="card-body">
-                                    <p class="card-text">{{post.data.content}}</p>
+                                    <p class="card-text" ng-click="goToPost(post.id)">Post Privado. Toque para ver</p>
                                 </div>
                                 <div class="card-footer text-muted">
                                     <div class="row justify-content-between">

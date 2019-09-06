@@ -3,8 +3,8 @@
 </div>
 <div ng-controller="keysController">
 
-    <div class="row justify-content-center" ng-init="checkKeys()" ng-if="keys">
-      <div class="shadow-sm p-3 mb-5 rounded" id="form" >
+    <div class="row justify-content-center" ng-init="checkKeys()" >
+      <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-if="keys">
         <div class-"table-responsive-md">
           <table class="table">
             <thead>
@@ -15,14 +15,17 @@
               <tbody>
                 <tr ng-repeat="key in keys">
                   <td ng-if="key.default == true"><i class="fas fa-star"></i> {{key.name}} </td>
-                  <td ng-if="key.default == false"><button class="btn btn-sm-link" ng-click="useKeys(key.name)"><i class="far fa-star"></i>{{key.name}}</button>  </td>
+                  <td ng-if="key.default == false"><i class="far fa-star" ng-click="useKeys(key.name)"></i>{{key.name}}</a> </td>
                   <td id="activated" ng-if="key.activated == true"><i class="far fa-check-circle"></i><button id="borrar" type="button" data-toggle="modal" data-target=".deleteWarning" class="btn btn-danger btn-sm" ng-click="getKeyname(key.name)">Borrar</button></td>
                   <td id="activated" ng-if="key.activated == false"><button type="button" class="btn btn-link btn-sm" ng-click="getRecover(key.name)">Activar</button></td>
                 </tr>
               </tbody>  
           </table>
           </div>
-        </div>  
+        </div>
+        <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-if="!keys">
+            <span>No tiene llaves creadas.</span>
+        </div>   
     </div>  
 
   <div class="d-sm-flex align-items-center justify-content-between mb-4" id = "title">
@@ -63,9 +66,13 @@
                         Debe resguardar en un lugar seguro, si la pierde no podra recuperar la llave, no deje especios al final de las palabras.
                       </div>
                       <div class="form-group">
-                        <input type="text" class="form-control" id="phrase" value= "{{words}}" disabled>
                       </div>
-                      <input type="text" class="form-control" id="phrase" ng-model="phrase" required>
+                      <div class="input-group mb-3">
+                        <input type="text" class="form-control" ng-model="phrase" id="phrase" value="{{phrase}}" required>
+                        <div class="input-group-append">
+                          <button class="btn btn-outline-secondary" type="button" id="button-addon2" ng-click="generarPalabras()"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                      </div>
                     </div>
                       <button type="submit" data-target=".spinnerModal"class="btn btn-primary">Agregar</button>
               </form>
@@ -123,7 +130,7 @@
       </div>
     </div>
 
-    <div class="modal fade appPass" tabindex="-1" id="appPass" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal fade appPass" tabindex="-1" id="appPass" role="dialog" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
           <div class="modal-content">
           <div class="modal-header">
@@ -132,14 +139,14 @@
           <div class="modal-body">
               <div class="form-group">
               <div class="alert alert-info" role="alert">
-                  Para continuar introduzca su clave de aplicación.
+                  Introduzca la clave de la llave
               </div>
               <div ng-if="message">
                   <div class="alert alert-danger" role="alert">
                           {{message}}
                   </div>
               </div>
-              <input type="password" class="form-control" id="frase" ng-model="appKey" id="appKey" placeholder="" >
+              <input type="password" class="form-control" id="frase" ng-model="keyPass" id="keyPass" placeholder="" >
               </div>
           </div>
           <div class="modal-footer">

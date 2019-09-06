@@ -1,4 +1,4 @@
-<div id="wrapper" prevent-hover>   
+<div id="wrapper" prevent-hover ng-controller="dashboardController">   
     <!-- Sidebar -->
     <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" close>
 
@@ -17,7 +17,6 @@
             <a class="nav-link" ui-sref="dash.posts">
                 <i class="fas fa-home"></i>
                 <span>Inicio</span></a>
-                <span ng-if="current == 'dash.posts'"><span class="badge badge-light">Light</span></span>
             </li>
         
             <hr class="sidebar-divider">
@@ -76,60 +75,8 @@
             <!-- Main Content -->
         <div id="content">
             <navbar></navbar>
-            <div id="container-fluid" ng-controller="dashboardController">
+            <div id="container-fluid" ng-controller="dashboardController" ng-init="keysExists()">
                     <ui-view></ui-view>
-                    
-            <!--Modal to ask for the app key -->
-            <div class="modal fade appPassword" tabindex="-1" id="appPassword" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Información</h5>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                            <div class="alert alert-info" role="alert">
-                                Introduzca la clave de almacenamiento de este dispositivo.
-                            </div>
-                            <div ng-if="message">
-                                <div class="alert alert-danger" role="alert">
-                                        {{message}}
-                                </div>
-                            </div>
-                            <input type="password" class="form-control" id="frase" ng-model="appKey" id="appKey" >
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <div ng-if="storedKeys">
-                                <button type="button" class="btn btn-dark" ng-click="requestConfirm()">Restablecer clave</button>
-                            </div>
-                            <button type="button" class="btn btn-success" ng-click="setAppKey()">Continuar</button>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal fade confirmReset" tabindex="-1" id="confirmReset" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Información</h5>
-                            </div>
-                            <div class="modal-body">
-                                <div class="form-group">
-                                <div class="alert alert-danger" role="alert">
-                                    Restablecer su clave de aplicación borrara toda su información en el dispositivo, es decir tendra que reactivar sus llaves.
-                                </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-dark" ng-click="cancel()">Cancelar</button>
-                                <button type="button" class="btn btn-success" ng-click="resetAppKey()">Continuar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>    

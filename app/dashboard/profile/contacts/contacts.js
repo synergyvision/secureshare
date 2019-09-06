@@ -9,14 +9,14 @@
       css: 'contacts.css'
     });
     $stateProvider.state('dash.searchContacts', {
-      url: '/contacts/search',
+      url: '/contacts/search/?user',
       templateUrl: 'dashboard/profile/contacts/search.html',
       controller: 'contactsController',
       css: 'contacts.css'
       })
   }])
 
-  .controller('contactsController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage,__env){
+  .controller('contactsController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage,__env,$stateParams){
       uid = $localStorage.uid;
       var token = $localStorage.userToken;
       
@@ -42,7 +42,7 @@
       }
 
       $scope.getUsers = function (){
-            $scope.search = $localStorage.search
+            $scope.search = $stateParams.user;
             $http({
                 url: __env.apiUrl + __env.contacts + uid + '/users',
                 method: 'GET',

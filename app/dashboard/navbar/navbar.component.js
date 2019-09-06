@@ -49,8 +49,8 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
             if ($state.current.name == 'dash.searchContacts'){
                 $window.location.reload();
             }
-            $localStorage.search = $scope.search;
-            $location.path('/contacts/search') 
+            $state.go('dash.searchContacts',{user: $scope.search})
+            $scope.search = "";
         }
     }
 
@@ -189,7 +189,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
                 delete $sessionStorage.appKey;
                 delete $localStorage.userToken;
                 console.log('Users has logged out')
-                SocketService.emit('disconnected',uid);
+                //SocketService.emit('disconnected',uid);
                 $state.go('login');
             }
         })

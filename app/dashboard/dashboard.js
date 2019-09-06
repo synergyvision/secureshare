@@ -21,66 +21,17 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
   })
 }])
 
-.controller('dashboardController', function($scope,$state,$sessionStorage,$localStorage,$window,$http,SocketService){
-  uid = $localStorage.uid
+.controller('dashboardController', function($scope,$state,$sessionStorage,$localStorage,$window,$http){
+  var uid = $localStorage.uid
   $scope.id = uid;
   $scope.storedKeys = $localStorage[uid+'keys'];
   var token = $localStorage.userToken;
-  $scope.newExists = false;
-  var requestAppkey = function (){
-    var popup = angular.element("#appPassword");
-        popup.modal('show');
-     }
-  if (!$sessionStorage.appKey){
-     requestAppkey();
-  }
-  
-  $scope.current = $state.current.name;
-  console.log($scope.current)
 
-  $scope.setAppKey = function (){
-    if ($localStorage[uid+'keys']){
-      words = translate($scope.appKey);
-      try {
-      var bytes  = CryptoJS.AES.decrypt($localStorage[uid+'keys'][0].privateKey,words);
-      var pass = bytes.toString(CryptoJS.enc.Utf8);
-          $sessionStorage.appKey = $scope.appKey;
-          popup = angular.element("#appPassword");
-          popup.modal('hide');
-
-      }
-      catch (e){
-        console.log(e);
-        $scope.message = 'La clave de aplicación es incorrecta'
-      }
-    }else{
-      $sessionStorage.appKey = $scope.appKey;
-      popup = angular.element("#appPassword");
-      popup.modal('hide');
-      $scope.appKey = "";
+  $scope.keysExists = function (){
+    if (!$scope.storedKeys){
+      alert('Por favor cree o active una llave')
       $state.go('dash.keys')
-      alert('Debe crear o activar una llave')
     }
-  }
-
-  $scope.requestConfirm = function (){
-      var popup = angular.element("#appPassword");
-      popup.modal("hide");
-      var popup = angular.element("#confirmReset");
-      popup.modal("show");
-  }
-
-  $scope.cancel = function (){
-    var popup = angular.element("#confirmReset");
-      popup.modal("show");
-      var popup = angular.element("#appPassword");
-      popup.modal("hide");
-  }
-
-  $scope.resetAppKey = function (){
-    delete $localStorage[uid + 'keys'];
-    delete $sessionStorage.appKey;
-    $window.location.reload();
   }
 
   

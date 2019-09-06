@@ -14,30 +14,28 @@
         </ul>
     </div>    
     <div class="list-group" ng-init="getMessages('inbox')">
-        <div ng-repeat="correo in correos | orderBy: '-this.sent'">
+        <div ng-repeat="correo in correos | orderBy: 'this.sent'">
             <div ng-if="correo.data.status == 'unread'">
                 <a id="correo" class="list-group-item list-group-item-action">
-                    <div class="d-flex w-90 justify-content-between">
-                        <h5 class="sm-1">{{correo.data.sender}} te ha enviado un mensaje!</h5>
-                        <small>{{correo.sent}}</small>
-                    </div>
-                    <div class="d-flex w-100 justify-content-between">
-                        <p class="sm-1 text-truncate">{{correo.data.content}}</p>
-                        <button type="button" class="btn btn-outline-success" ng-click="readMessage(correo.id,correo.data.status)"><i class="far fa-eye"></i></button>
-                        <button type="button" class="btn btn-outline-danger btn-sm" ng-click="deleteMessage(correo.id)"><i class="far fa-trash-alt"></i></button>
+                    <div class="d-flex justify-content-between" ng-click="readMessage(correo.id,correo.data.status)">
+                        <h5 class="sm-1">De: {{correo.data.sender}}</h5>
+                        <small>{{correo.sent}}</small>                            
+                        <div class="btn-group">
+                         <button type="button" class="btn btn-success" ng-click="readMessage(correo.id,correo.data.status)"><i class="far fa-eye"></i></button>
+                         <button type="button" class="btn btn-danger" ng-click="deleteMessage(correo.id)"><i class="far fa-trash-alt"></i></button>                        
+                        </div>
                     </div>
                 </a>
             </div>
             <div ng-if="correo.data.status == 'read'">
-                <a id="correo"class="list-group-item list-group-item-dark list-group-item-action">
-                    <div class="d-flex w-90 justify-content-between">
-                        <h5 class="sm-1">{{correo.data.sender}} te ha enviado un mensaje!</h5>
+                <a id="correo"class="list-group-item list-group-item-secondary list-group-item-action">
+                    <div class="d-flex justify-content-between" ng-click="readMessage(correo.id,correo.data.status)">
+                        <h5 class="sm-1">De: {{correo.data.sender}}</h5>
                         <small>{{correo.sent}}</small>
-                    </div>
-                    <div class="d-flex w-90 justify-content-between">
-                        <p class="sm-1 text-truncate">{{correo.data.content}}</p>
-                        <button type="button" class="btn btn-outline-success" ng-click="readMessage(correo.id,correo.data.status)"><i class="far fa-eye"></i></button>
-                        <button type="button" class="btn btn-outline-danger btn-sm" ng-click="deleteMessage(correo.id)"><i class="far fa-trash-alt"></i></button>
+                        <div class="btn-group">
+                                <button type="button" class="btn btn-success" ng-click="readMessage(correo.id,correo.data.status)"><i class="far fa-eye"></i></button>
+                                <button type="button" class="btn btn-danger" ng-click="deleteMessage(correo.id)"><i class="far fa-trash-alt"></i></button>
+                        </div>
                     </div>
                 </a>
             </div>

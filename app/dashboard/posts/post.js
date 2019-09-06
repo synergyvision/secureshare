@@ -15,8 +15,9 @@ angular.module('sharekey.posts', ['ui.router'])
     })
   }])
   
-  .controller('postsController', function($scope,$http,$localStorage,$state,$window,$sessionStorage,$stateParams,__env){
+  .controller('postsController', function($scope,$http,$localStorage,$state,$window,$stateParams,__env){
       $scope.uid = $localStorage.uid;
+      var uid = $localStorage.uid;
       var userKeys = $localStorage[uid + 'keys'];
       var token = $localStorage.userToken;
       var post = $stateParams.post_id;
@@ -209,8 +210,8 @@ angular.module('sharekey.posts', ['ui.router'])
         popup.modal('show')
       }
 
-      var decryptKey = function (key) {
-        var bytes  = CryptoJS.AES.decrypt(key,$sessionStorage.appKey);
+      var decryptKey = function (key,passphrase) {
+        var bytes  = CryptoJS.AES.decrypt(key,passphrase);
         var key = bytes.toString(CryptoJS.enc.Utf8);
         return key;
     
@@ -234,7 +235,7 @@ angular.module('sharekey.posts', ['ui.router'])
 
       $scope.decryptPost = function (passphrase){
         private = getMyDefaultPrivateKey();
-        private = decryptKey(private);
+        private = decryptKey(private,passphrase);
         post = decryptPost(private,passphrase,$scope.postContent)
         post.then (function (content){
           var popup = angular.element('#Passphrase');
