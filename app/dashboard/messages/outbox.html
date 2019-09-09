@@ -15,7 +15,7 @@
         </div>    
         <div class="list-group" ng-init="getMessages('outbox')">
             <div ng-repeat="correo in correos | orderBy: 'this.sent'">
-                <a id="correo"class="list-group-item list-group-item-secondary list-group-item-action">
+                <a id="mail"class="list-group-item list-group-item-secondary list-group-item-action w-100">
                     <div class="d-flex w-90 justify-content-between" ng-click="readMessage(correo.id,correo.data.status)">
                         <h5 class="sm-1">A: {{correo.data.r_username}}</h5>
                         <small>{{correo.sent}}</small>

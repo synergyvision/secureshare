@@ -43,113 +43,97 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
 
 .controller('profileController', function($scope,$http,$localStorage,$state,$location,$stateParams){
   var token = $localStorage.userToken;
-  $scope.requestData = function(){
-    $http({
-      url: __env.apiUrl + __env.profile + $localStorage.uid,
-      method: 'GET',
-      headers: {'Authorization':'Bearer: ' + token}
-    }).then(function (response){
-      if (response.data.status == 200){
-          $scope.username = response.data.content.username;
-          $scope.name = response.data.content.name;
-          $scope.lastname = response.data.content.lastname;
-          $scope.phone = response.data.content.phone;
-          //$scope.email = response.data.content.email;
-          $scope.bio = response.data.content.bio;
-          $scope.imgSrc = response.data.content.profileUrl;
-        }else{
-          error(response.data.message);
-        }
-    }).catch(function (e){
-      if (e.status == 401){
-          error('Su sesion ha vencido')
-          $state.go('login');
-        }
-      })
-  }
 
-  $scope.updateData =  function(){
-    var updateRequest = $.param({
-      //email: $scope.email,
-      name: $scope.name,
-      lastname: $scope.lastname,
-      phone: $scope.phone,
-      username: $scope.username,
-      bio: $scope.bio
-    });
-    $http({
-      url: __env.apiUrl + __env.profile + $localStorage.uid,
-      method: 'PUT',
-      data: updateRequest,
-      headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
-    }).then( function (response){
-        if (response.data.status == 200){
-            console.log('User data updated');
-            $state.reload();
-            success('El perfil se ha actualizado exitosamente');
-            /*if ($scope.password){
-                var updatePassword = $.param({
-                  password: $scope.password
-                })
-                $http({
-                  url: __env.apiUrl + __env.profile + $localStorage.uid + '/resetPassword',
-                  method: 'PUT',
-                  data: updatePassword,
-                  headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
-                }).then(function (response){
-                    if (response.data.status == 200){ 
-                      console.log('user password updated')
-                      success('El perfil se ha actualizado exitosamente');
-                      $state.reload();
-                    }else{
-                      error(response.data.message);
-                    }
-                }).catch(function (e){
-                  if (e.status == 401){
-                      error('Su sesion ha vencido')
-                      $state.go('login');
-                    }
-                  })
-              }else{
+      $scope.requestData = function(){
+        $http({
+          url: __env.apiUrl + __env.profile + $localStorage.uid,
+          method: 'GET',
+          headers: {'Authorization':'Bearer: ' + token}
+        }).then(function (response){
+          if (response.data.status == 200){
+              $scope.username = response.data.content.username;
+              $scope.name = response.data.content.name;
+              $scope.lastname = response.data.content.lastname;
+              $scope.phone = response.data.content.phone;
+              $scope.bio = response.data.content.bio;
+              $scope.imgSrc = response.data.content.profileUrl;
+            }else{
+              error(response.data.message);
+            }
+        }).catch(function (e){
+          if (e.status == 401){
+              error('Su sesion ha vencido')
+              $state.go('login');
+            }
+          })
+      }
+
+      $scope.updateData =  function(){
+        var updateRequest = $.param({
+          //email: $scope.email,
+          name: $scope.name,
+          lastname: $scope.lastname,
+          phone: $scope.phone,
+          username: $scope.username,
+          bio: $scope.bio
+        });
+        $http({
+          url: __env.apiUrl + __env.profile + $localStorage.uid,
+          method: 'PUT',
+          data: updateRequest,
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
+        }).then( function (response){
+            if (response.data.status == 200){
+                console.log('User data updated');
                 $state.reload();
                 success('El perfil se ha actualizado exitosamente');
-              }*/    
-        }else{
-          error(response.data.message)
-        }
-    })
-  }
+                $scope.uploadPhoto();
+            }else{
+              error(response.data.message)
+            }
+        })
+      }
 
-  $scope.uploadPhoto = function (){
-       $http({
-         method: 'POST',
-         url: __env.apiUrl +__env.files + 'images',
-         headers: {
-             'Content-Type': undefined,
-             'Authorization':'Bearer: ' + token
-         },
-         data: {
-             file: $scope.file,
-             uid: $localStorage.uid
-         },
-         transformRequest: function (data, headersGetter) {
-             var formData = new FormData();
-             angular.forEach(data, function (value, key) {
-                 formData.append(key, value);
-             });
-             return formData;
-         }
-     })
-     .then(function (response) {
-       $scope.imgSrc = response.data.link;
-       $localStorage.userPicture = response.data.link;
-       console.log(response);
-       $state.reload();
-     })
-     .catch(function (error) {
-          console.log(error)
-     });
-  }
+      $scope.uploadPhoto = function (){
+          $http({
+            method: 'POST',
+            url: __env.apiUrl +__env.files + 'images',
+            headers: {
+                'Content-Type': undefined,
+                'Authorization':'Bearer: ' + token
+            },
+            data: {
+                file: $scope.file,
+                uid: $localStorage.uid
+            },
+            transformRequest: function (data, headersGetter) {
+                var formData = new FormData();
+                angular.forEach(data, function (value, key) {
+                    formData.append(key, value);
+                });
+                return formData;
+            }
+        })
+        .then(function (response) {
+          $scope.imgSrc = response.data.link;
+          $localStorage.userPicture = response.data.link;
+          console.log(response);
+          $state.reload();
+        })
+        .catch(function (error) {
+              console.log(error)
+        });
+      }
+
+      $scope.SelectFile = function (e) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $scope.imgSrc = e.target.result;
+            $scope.$apply();
+        };
+
+        reader.readAsDataURL(e.target.files[0]);
+    };
 
 })
 
@@ -247,5 +231,6 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
             $state.go('login');
           }
         })    
-   }
+    }
+
 });

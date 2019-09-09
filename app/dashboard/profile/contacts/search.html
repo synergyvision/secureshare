@@ -1,4 +1,7 @@
 <div id="contatcs" ng-controller="contactsController">
+    <div class="m-3">
+        <h2>Busqueda</h2>        
+    </div>
     <div class="content" ng-init="getUsers()">
         <div ng-repeat="user in users | filter: search">    
             <div id ="card" class="card mb-3">

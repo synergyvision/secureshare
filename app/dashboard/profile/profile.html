@@ -5,17 +5,18 @@
 <div ng-controller="profileController">
   <div class="row justify-content-center">
       <div class="media" id="picture">
-      <img class="img-thumbnail rounded mx-auto d-block m-2"  id="img" ng-src="{{imgSrc}}" onerror="this.src='../../img/default-user-icon-8.jpg'">
-      </div>
-      <form ng-submit="uploadPhoto()">
-          <div class="custom-file mb-2 mr-sm-2" style="overflow: hidden;width: 70%;">
-            <input type="file" file="file" id="customFile">
-            <label class="custom-file-label" id="filelabel" for="customFile">{{file.name}}</label>
-          </div>
-          <button type="submit" id="pictureButton" class="btn btn-success btn-sm">Elegir</button>
-      </form>    
+        <img class="img-thumbnail rounded mx-auto d-block m-2"  id="img" ng-src="{{imgSrc}}" onerror="this.src='../../img/default-user-icon-8.jpg'"> 
+     </div>  
+  </div> 
+  <div class="row justify-content-center mb-2">
+        <button type="button" id="imageButton" class="btn btn-primary">
+                <label>
+                    Cambiar foto
+                    <input type="file" file="file" style="display: none" onchange="angular.element(this).scope().SelectFile(event)" />
+                </label>
+        </button>
+    </div> 
 
-  </div>    
   <div class="row justify-content-center">
     <div class="col-8 shadow-sm p-3 mb-5 rounded" id="form" ng-init="requestData()">
         <form ng-submit="updateData()">
