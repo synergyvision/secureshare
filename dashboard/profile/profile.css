@@ -11,18 +11,18 @@
     display: block;
 }
 
-
-input[type=file] {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: auto;
-}
-
 #img{
     height: 150px;
     width: 150px;
 }
 .fa-check-double{
     color: greenyellow;
+  }
+
+  #imageButton {
+    height: 40px;
+    color: white;
+    border: none;
+    margin: 5px;
+    font-weight: bold;
   }

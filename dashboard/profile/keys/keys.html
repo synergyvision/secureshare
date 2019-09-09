@@ -1,10 +1,14 @@
-<div class="d-sm-flex align-items-center justify-content-between mb-4" id = "title">
-    <h1 class="h3 mb-0 text-gray-800">Tus llaves</h1>
+<div class="d-sm-flex align-items-left justify-content-start" id = "title">
+    <h1 class="h3 text-gray-800">Tus llaves</h1>
 </div>
+<div class="d-sm-flex align-items-left justify-content-start" id = "title">
+    <p>Lista de llaves creadas por ti</p>
+</div>
+
 <div ng-controller="keysController">
 
-    <div class="row justify-content-center" ng-init="checkKeys()" >
-      <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-if="keys">
+    <div class="row justify-content-center m-1" ng-init="checkKeys()" >
+      <div class="shadow-sm p-3 mb-5 rounded  w-100 m-2" id="form" ng-if="keys">
         <div class-"table-responsive-md">
           <table class="table">
             <thead>
@@ -28,11 +32,15 @@
         </div>   
     </div>  
 
-  <div class="d-sm-flex align-items-center justify-content-between mb-4" id = "title">
-      <h1 class="h3 mb-0 text-gray-800">Agregar</h1>
+  <div class="d-sm-flex align-items-center justify-content-between" id = "title">
+      <h1 class="h3 mb-1 text-gray-800">Agregar</h1>
   </div>
-      <div class="row justify-content-center">
-          <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-init="generarPalabras()">
+  <div class="d-sm-flex align-items-left justify-content-start" id = "title">
+      <p>Crea una nueva llave</p>
+  </div>
+  
+      <div class="row justify-content-center m-3">
+          <div class="shadow-sm p-3 mb-5 rounded w-100" id="form" ng-init="generarPalabras()">
               <form ng-submit="generateKeys()">
                   <div class="form-group">
                       <label for="keyname">Nombre de la llave</label>
@@ -71,6 +79,7 @@
                         <input type="text" class="form-control" ng-model="phrase" id="phrase" value="{{phrase}}" required>
                         <div class="input-group-append">
                           <button class="btn btn-outline-secondary" type="button" id="button-addon2" ng-click="generarPalabras()"><i class="fas fa-sync-alt"></i></button>
+                          <button class="btn btn-outline-secondary" type="button" id="clipboard" ng-click="copy()"><i class="fas fa-clipboard"></i></button>
                         </div>
                       </div>
                     </div>

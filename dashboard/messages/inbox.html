@@ -13,10 +13,10 @@
             </li>
         </ul>
     </div>    
-    <div class="list-group" ng-init="getMessages('inbox')">
+    <div class="list-group " ng-init="getMessages('inbox')">
         <div ng-repeat="correo in correos | orderBy: 'this.sent'">
             <div ng-if="correo.data.status == 'unread'">
-                <a id="correo" class="list-group-item list-group-item-action">
+                <a id="mail" class="list-group-item list-group-item-action w-100">
                     <div class="d-flex justify-content-between" ng-click="readMessage(correo.id,correo.data.status)">
                         <h5 class="sm-1">De: {{correo.data.sender}}</h5>
                         <small>{{correo.sent}}</small>                            
@@ -28,7 +28,7 @@
                 </a>
             </div>
             <div ng-if="correo.data.status == 'read'">
-                <a id="correo"class="list-group-item list-group-item-secondary list-group-item-action">
+                <a id="mail" class="list-group-item list-group-item-secondary list-group-item-action w-100">
                     <div class="d-flex justify-content-between" ng-click="readMessage(correo.id,correo.data.status)">
                         <h5 class="sm-1">De: {{correo.data.sender}}</h5>
                         <small>{{correo.sent}}</small>
@@ -42,3 +42,49 @@
         </div>
     </div>    
 </div>
+
+<div class="modal fade passModal" tabindex="-1" id="messageSpinner" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <div class="modal-header">
+              Enviando mensaje
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-center">
+                    <div class="spinner-border text-success" role="status">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+            
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+<div class="modal fade mailPass" tabindex="-1" id="appPass" role="dialog" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                <div class="alert alert-info" role="alert">
+                    Introduzca la clave de la llave {{keyname}}
+                </div>
+                <div ng-if="message">
+                    <div class="alert alert-danger" role="alert">
+                            {{message}}
+                    </div>
+                </div>
+                <input type="password" class="form-control" id="frase" ng-model="mailPass" id="keyPass" placeholder="" >
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" ng-click="checkMailPass()">Continuar</button>
+            </div>
+            </div>
+        </div>
+    </div>    

@@ -45,7 +45,6 @@
               id: idUser
           })
           popup.modal('show');
-
           $http({
             url: __env.apiUrl + __env.profile + uid + '/getPublicKey',
             method: 'POST',
@@ -53,7 +52,10 @@
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
           }).then(function (response){
             console.log('retrieved public key from server')
-            $scope.encrypt(response.data.data);
+            var userData = {
+              [idUser]: response.data.name
+            }
+            $scope.encrypt(response.data.data,userData);
           }).catch(function (error){
   
             if (error){
@@ -143,14 +145,15 @@
 
       } 
 
-      $scope.encrypt = function (key) {
+      $scope.encrypt = function (key,userdata) {
             keyPublic = getPublicKey($scope.chatKey);
             keyPrivate = getPrivateKey($scope.chatKey);
+            userdata[uid] = $scope.chatKey;
             pKeys = [keyPublic,key]
             Private = decryptKey(keyPrivate,$scope.passphrase);
-            message = encryptWithMultiplePublicKeys(pKeys,Private,$scope.passphrase,$scope.message);
+            message = encryptWithMultiplePublicKeys(pKeys,Private,$scope.passphrase,$scope.message,);
             message.then( function (encryptedMessage){
-              sendMessage(encryptedMessage);
+              sendMessage(encryptedMessage,userdata);
             }).catch(function (error){
               console.log(error)
             })
@@ -160,16 +163,18 @@
         document.getElementById('newMessage').reset();
       }
 
-      var sendMessage = function (messageEncrypted){
+      var sendMessage = function (messageEncrypted,userdata){
         if (!$scope.publish){
           $scope.publish = false;
         }
+
         messageRequest = $.param({
           id_sender: uid,
           username: $localStorage[uid + '-username'],
           content: messageEncrypted,
           recipient: $scope.id_recipient,
-          publish: $scope.publish
+          publish: $scope.publish,
+          userKeys: JSON.stringify(userdata)
         })
         $http({
           url: __env.apiUrl + __env.messages + uid,

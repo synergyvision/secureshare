@@ -16,7 +16,7 @@
 
   }])
 
-  .controller('chatController', function($scope,$http,$localStorage,$state,$sessionStorage,$stateParams,$location,__env,SocketService){
+  .controller('chatController', function($scope,$http,$localStorage,$state,$sessionStorage,$stateParams,$location,__env){
       uid = $localStorage.uid
       var token = $localStorage.userToken;
       $scope.uid =$localStorage.uid;
@@ -67,6 +67,8 @@
         $localStorage[uid + '-chats'] = $scope.userChats
 
       }
+
+      
 
       $scope.createChat = function (){
         participants = {}

@@ -360,7 +360,11 @@ function encryptKeys(key,seed){
       }
     }
 
-
+    $scope.copy = function(){
+      var copyText = document.getElementById('phrase');
+      copyText.select(); 
+      document.execCommand("copy");
+    }
 
 
 })            
