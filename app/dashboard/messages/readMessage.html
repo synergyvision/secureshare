@@ -1,6 +1,7 @@
 <div class="container">
-    <div ng-controller="messagesController">
-      <form id="message" ng-init="getMessage()">
+  <h2>Ver mensaje</h2>
+    <div ng-controller="messagesController" ng-init="askPassphrase()">
+      <form id="message">
         <div class="form-group">
           <div ng-if="data.sender">
             <h2for="user">Mensaje de {{data.sender}}</h2>
@@ -10,33 +11,14 @@
           </div>    
         </div>
         <div class="row">
-          <div class="col-5">
-            <div class="form-group">
-              <label for="message">Encripción</label>
-              <textarea class="form-control" id="message" ng-model="mensaje" rows="10"></textarea>
-            </div>
-            <div class="form-group">
-                <label for="user">Passphrase (default)</label>
-            <input type="password" class="form-control" id="passphrase" ng-model="passphrase" placeholder="">
-          </div>    
-          <button type="submit" class="btn btn-info" ng-click="decrypt()">Ver mensaje</button>
-          <button type="submit" class="btn btn-primary" ng-click="respond(data.sender,data.id_sender)">Responder</button>
-
-          </div> 
-          <div class="col-5">
+          <div class="col-12">
             <div class="form-group">
               <label for="message">Mensaje</label>
               <textarea class="form-control" id="message" ng-model="decrypted" rows="10"></textarea>
             </div>
-            <div ng-show="decrypted">
-                <div ng-if="data.tray != 'published' && data.publish == 'true' && !data.r_username">
-                  <button type="submit" class="btn btn-info" ng-click="publishMessage()">Publicar mensaje</button>
-                </div>
-                <div ng-if="data.tray == 'published'">
-                    <button type="submit" class="btn btn-info" disabled>Publicado</button>
-                </div>     
-            </div>  
-          </div>   
+          <button type="submit" class="btn btn-primary" ng-click="respond(data.sender,data.id_sender)">Responder</button>
+
+          </div> 
         </div>  
       </form>
     </div>
@@ -61,3 +43,28 @@
         </div>
       </div>
     </div>
+  </div>  
+
+
+    <div class="modal fade readModal" tabindex="-1" id="readPass" role="dialog" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" ng-init="getMessage()">
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Introduzca clave para {{namekey}}</h5>
+              </div>
+              <div class="modal-body">
+                  <div class="form-group">
+                    <div ng-if="message">
+                        <div class="alert alert-danger" role="alert">
+                                {{message}}
+                        </div>
+                    </div>
+                    <input type="password" class="form-control" id="passphrase" ng-model="passphrase" placeholder="Clave de {{namekey}}"  >
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="submit" class="btn btn-info" ng-click="decrypt()" data-dismiss="modal">Ver mensaje</button>
+              </div>
+            </div>
+        </div>
+    </div>    
