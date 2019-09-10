@@ -1,27 +1,22 @@
 <div class="container-fluid" ng-controller="surveyController">
-    <div class="row justify-content-around m-1">
-        <div class="col-4 align-self-start">
-            <h5>Encuentas publicadas</h5>
-        </div>
-        <div class="col-2 align-self-end">    
-             <button type="button" ui-sref="dash.newSurvey" class="btn btn-outline-success btn-sm"><i class="fas fa-plus-circle"></i></button>
-        </div>        
+    <div class="row m-1">
+        <div class="col-12 align-self-start" style="display: inline-flex">
+            <div class="m-1">
+                <h2>Encuentas</h2>
+            </div>
+            <div class="m-1">    
+                <button type="button" ui-sref="dash.newSurvey" class="btn btn-success btn-sm"><i class="fas fa-plus-circle"></i></button>
+            </div>
+        </div> 
     </div>
     <div class="row justify-content-center" ng-init="getSurveys()" id="surveys">
-        <div class="col-6">
+        <div class="col-12">
             <div ng-repeat="survey in surveys">
                 <div class="card">
                     <div class="card-header">
                         <div class="justify-content-between">
                             {{survey.name}} ha creado una encuesta.                      
-                            <button class="btn btn-light btn-sm" ng-if="survey.data.uid == uid" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-ellipsis-h"></i>
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                <div ng-if="comment.user == username">
-                                    <button class="dropdown-item" type="button" ng-click="deleteSurvey(survey.id)">eliminar</button>
-                                </div>  
-                            </div>  
+                            <button type="button" class="btn btn-danger btn-sm" ng-if="survey.data.uid == uid" ng-click="deleteSurvey(survey.id)"><i class="fas fa-trash"></i></button>
                         </div>    
                     </div>
                     <div class="card-body">
