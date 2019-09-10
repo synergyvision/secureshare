@@ -26,8 +26,8 @@
           headers: {'Authorization':'Bearer: ' + token} 
         }).then(function (response){
           if (response.data.data){
-            userChats = response.data.data
-            for (i = 0; i < userChats.length; i++){
+            var userChats = response.data.data
+            for (var i = 0; i < userChats.length; i++){
               storeLocalChats(userChats[i].chatID,userChats[i].title,userChats[i].members,userChats[i].last_modified)
             }
           }else{
@@ -88,7 +88,6 @@
       }
 
       $scope.getChat = function (id){
-        console.log('hola')
         $scope.idChat = id;
         $scope.chatInfo(id);
       }
@@ -108,7 +107,7 @@
           headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
             console.log(response.data);
-            localDeleteChat(id_chat);
+            localDeleteChat(i$scope.idChat);
             $state.go('dash.chats');
         }).catch(function (error){
             alert(error.message);
@@ -186,7 +185,6 @@
 
 
       var encryptMessage = async (pubkeys, message) => {
-
         pubkeys = pubkeys.map(async (key) => {
           return (await openpgp.key.readArmored(key)).keys[0]
         });
@@ -209,7 +207,7 @@
          }).then(function (response){
             console.log(response.data);
             $scope.chatMessage = "";
-            $state.reload();
+            $scope.getMessages()
          }).catch(function (error){
            console.log(error);
            alert(error);
@@ -246,6 +244,7 @@
           publicKeys = [recipientKey,myPublicKey]
           message = encryptMessage(publicKeys,$scope.chatMessage);
           message.then(function (message){
+            console.log(message)
             ids = Object.keys($scope.infoChat.members);
             var messageRequest = $.param({
               id_sender: uid,
@@ -294,10 +293,12 @@
 
       var decryptMessages = async (messages) => {
         private = getMyPrivateKey($scope.infoChat.members[uid]);
-        privateKey = decryptKey(private,$sessionStorage.appKey);
+        privateKey = decryptKey(private,$scope.passphraseChat);
+        console.log(privateKey)
         for (var i = 0; i < messages.length; i++){
-            message = await decriptMessage(privateKey,$sessionStorage.passphrase,messages[i].data.content)
+            message = await decriptMessage(privateKey,$scope.passphraseChat,messages[i].data.content)
             messages[i].data.content = message;
+            messages[i].decripted = true;
             sent = new Date(messages[i].data.date_sent);
             messages[i].sent = sent.toLocaleString();
         }
@@ -311,17 +312,6 @@
           headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
            $scope.chatMessages = response.data.data;
-           if ($sessionStorage.passphrase){
-              decripted = decryptMessages($scope.chatMessages)
-              decripted.then (function (decripted){
-                $scope.show = true;
-                $scope.chatMessages = decripted;
-                $scope.$apply()
-              }).catch(function (error){
-                  console.log(error);
-                  alert(error)
-              })
-           }
         }).catch(function (error){
           if (error){
             if (error.status == 401){
@@ -343,7 +333,6 @@
         var popup = angular.element("#decryptingSpinner");
         //for hide model
         popup.modal('show');
-        $sessionStorage.passphrase = $scope.passphraseChat
         decripted = decryptMessages($scope.chatMessages)
         decripted.then (function (decripted){
           $scope.show = true;

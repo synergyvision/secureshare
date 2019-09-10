@@ -3,11 +3,13 @@
     background-color: #e3f2fd;
     margin: 0;
     border-right: 2px solid lightgray;
+    justify-content: space-between;
 }
 
 #messageBox{
   background-color: white;
   overflow: auto;
+  height: 500px;
 }
 
 #sentMessage{ 
@@ -23,10 +25,16 @@
 #chatList{
   margin-right: 0px;
   padding: 0px;
+  height: 500px;
 }
 
 #selectedChat{
   padding: 0px;
   margin: 0px;
   max-height: 0%;
+}
+
+#chatIcon{
+  font-size: 250px;
+  color: #e3f2fd;
 }
