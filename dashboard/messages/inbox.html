@@ -17,7 +17,7 @@
         <div ng-repeat="correo in correos | orderBy: '-this.sent'">
             <div ng-if="correo.data.status == 'unread'">
                 <a id="mail" class="list-group-item list-group-item-action w-100">
-                    <div class="d-flex justify-content-between" ng-click="readMessage(correo.id,correo.data.status)">
+                    <div class="d-flex justify-content-between">
                         <h5 class="sm-1">De: {{correo.data.sender}}</h5>
                         <small>{{correo.sent}}</small>                            
                         <div class="btn-group">
@@ -29,7 +29,7 @@
             </div>
             <div ng-if="correo.data.status == 'read'">
                 <a id="mail" class="list-group-item list-group-item-secondary list-group-item-action w-100">
-                    <div class="d-flex justify-content-between" ng-click="readMessage(correo.id,correo.data.status)">
+                    <div class="d-flex justify-content-between">
                         <h5 class="sm-1">De: {{correo.data.sender}}</h5>
                         <small>{{correo.sent}}</small>
                         <div class="btn-group">
