@@ -294,7 +294,9 @@
       var decryptMessages = async (messages) => {
         private = getMyPrivateKey($scope.infoChat.members[uid]);
         privateKey = decryptKey(private,$scope.passphraseChat);
-        console.log(privateKey)
+        var popup = angular.element("#decryptingSpinner");
+        //for hide model
+        popup.modal('show');
         for (var i = 0; i < messages.length; i++){
             message = await decriptMessage(privateKey,$scope.passphraseChat,messages[i].data.content)
             messages[i].data.content = message;
@@ -330,17 +332,16 @@
         var popup = angular.element("#addPassphrase");
         //for hide model
         popup.modal('hide');
-        var popup = angular.element("#decryptingSpinner");
-        //for hide model
-        popup.modal('show');
         decripted = decryptMessages($scope.chatMessages)
-        decripted.then (function (decripted){
+        decripted.then(function (decripted){
           $scope.show = true;
           $scope.chatMessages = decripted;
           var popup = angular.element("#decryptingSpinner");
           //for hide model
           popup.modal('hide');
           $scope.$apply();
+        }).catch(function(error){
+          alert('Su passphrase es incorrecto')
         })
 
       }
