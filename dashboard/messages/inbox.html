@@ -14,7 +14,7 @@
         </ul>
     </div>    
     <div class="list-group " ng-init="getMessages('inbox')">
-        <div ng-repeat="correo in correos | orderBy: 'this.sent'">
+        <div ng-repeat="correo in correos | orderBy: '-this.sent'">
             <div ng-if="correo.data.status == 'unread'">
                 <a id="mail" class="list-group-item list-group-item-action w-100">
                     <div class="d-flex justify-content-between" ng-click="readMessage(correo.id,correo.data.status)">

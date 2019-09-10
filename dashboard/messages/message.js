@@ -29,7 +29,7 @@
     })
   }])
 
-.controller('messagesController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage,$stateParams){
+.controller('messagesController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage,$stateParams,$rootScope){
       uid = $localStorage.uid
       $scope.userKeys = $localStorage[uid + 'keys'];
       var token = $localStorage.userToken;
@@ -207,8 +207,9 @@
           headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
           $scope.data = response.data.data
-          console.log(response.data.data)
-          $scope.mensaje = response.data.data.content
+          console.log($scope.data)
+          $scope.namekey = $scope.data.keys[uid];
+          console.log($scope.namekey)
         }).catch(function (error){
           if (error){
             if (error.status == 401){
@@ -250,7 +251,7 @@
         privateKey = getPrivateKey();
         try {
           privateKey = decryptKey(privateKey,$scope.passphrase);
-          message = decriptMessage(privateKey, $scope.passphrase, $scope.mensaje)
+          message = decriptMessage(privateKey, $scope.passphrase, $scope.data.content)
         }catch(e){
           alert("Su passphrase es incorrecto")
         }
@@ -353,7 +354,12 @@
       }
 
       $scope.setName = function (keyname){
-        console.log(keyname)
         $scope.keyname = keyname
       }
+
+      $scope.askPassphrase = function (){
+        modal = angular.element('#readPass')
+        modal.modal('show')
+      }
+
 })
