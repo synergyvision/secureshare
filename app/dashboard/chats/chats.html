@@ -1,7 +1,8 @@
-<div class="container" style="height: 100%;margin-left: 0px">
+<div class="container" style="margin-left: 0px">
+    <h2>Lista de chats</h2>
   <div class="row">
-    <div class="col-6">
-      <nav class="navbar navbar-light rounded-sm" id="chatBox" ng-init="getUserChats()">
+    <div class="col-6" id="chatList" >
+      <nav class="navbar navbar-light" id="chatBox" ng-init="getUserChats()">
         <!-- Navbar content -->
           <span>Conversaciones</span>
             <form class="form-inline my-2 my-lg-0 ">
@@ -15,18 +16,55 @@
             <button class="btn btn-outline-success" data-toggle="modal" data-target="#newChat" ng-click="getContacts()"><i class="fas fa-plus-circle"></i></button>
       </nav> 
       <div class="list-group">
-        <a  ng-repeat="chat in userChats | filter: chatSearch"   class="list-group-item list-group-item-action">
-          <div class="d-flex w-100 justify-content-between" ng-click="getChat(chat.chatID)">
+        <a  ng-repeat="chat in userChats | filter: chatSearch"   class="list-group-item list-group-item-action" ng-click="getChat(chat.chatID)">
+          <div class="d-flex w-100 justify-content-between">
             <h5 class="mb-1">{{chat.title}}</h5>
-            <!-- <small>3 days ago</small> -->
-            
           </div>
         </a>
       </div>
     </div>
-    <div class="col-6">
-      <ui-view></ui-view>
-    </div>    
+    <div class="col-6" id="selectedChat" ng-if="idChat">
+        <nav class="navbar navbar-expand-md navbar-light rounded-sm" id="chatInfo">
+            <span>{{infoChat.title}}</span>
+            <ul class="navbar-nav ml-auto" ng-init="getMessages()">
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  </a>
+                  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="options">
+                      <a class="dropdown-item" data-toggle="modal" data-target=".addPassphrase">Ver mensajes</a>
+                    <a class="dropdown-item" ng-click="deleteChat()">Borrar chat</a>
+                  </div>
+              </li>
+            </ul>  
+        </nav>
+        <div class="border" id="messageBox">
+            <div class="row justify-content-center" ng-repeat="message in chatMessages | orderBy: 'this.data.date_sent'">
+                  <div class="col align-self-end mr-4 ml-2" ng-if="message.data.id_sender == uid">  
+                            <p id="sentMessage" class="text-md-right text-break bg-primary text-white pr-4"  style="font-size: 1.1em;">
+                                <small>{{message.data.username}}</small><br>
+                              {{message.data.content}}<br>
+                            <small style="font-size: 0.5em">{{message.sent}}</small></p>
+                  </div> 
+                  <div class="col align-self-start ml-4 mr-2" ng-if="message.data.id_sender != uid"> 
+                                <p id="receivedMessage" class="text-md-left text-break bg-light text-black pl-4" style="font-size: 1.1em;">
+                                  <small>{{message.data.username}}</small><br>
+                                {{message.data.content}}<br>
+                                <small style="font-size: 0.5em">{{message.sent}}</small></p>
+                  </div>
+            </div>
+        </div>
+        <div id="bottonChat">
+            <div class="input-group mb-2" id="textBox">
+                <input type="text" class="form-control" ng-model="chatMessage" id="text" placeholder="Inserta texto">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-success" type="button" id="button-addon2" ng-click="sendToChat()"><i class="far fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>    
+    </div>
+    <div class="col-6" ng-if="!idChat">  
+      
+    </div>  
   </div>  
 </div>
 
@@ -66,3 +104,45 @@
     </div>
   </div>
 </div>
+
+
+
+
+<div class="modal fade addPassphrase" tabindex="-1" id="addPassphrase" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog vertical-align-center">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <div class="alert alert-info" role="alert">
+              Para utilizar su chat inserte el passphrase de su llave
+            </div>
+            <input type="text" class="form-control" id="frase" ng-model="passphraseChat" id="passphraseChat" >
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success" ng-click="savePass()">Continuar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade decripting" tabindex="-1" id="decryptingSpinner" data-backdrop="false" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog vertical-align-center">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Descifrando Mensajes</h5>
+              <div class="d-flex justify-content-right">
+                  <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+          </div>
+        </div>
+      </div>
+    </div>
