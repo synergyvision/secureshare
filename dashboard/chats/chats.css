@@ -2,12 +2,12 @@
     width: 100%;
     background-color: #e3f2fd;
     margin: 0;
+    border-right: 2px solid lightgray;
 }
 
 #messageBox{
   background-color: white;
   overflow: auto;
-  height: 50%;
 }
 
 #sentMessage{ 
@@ -18,4 +18,15 @@
 #receivedMessage{
   border-right: 2px solid grey;
   border-radius: 10px;
+}
+
+#chatList{
+  margin-right: 0px;
+  padding: 0px;
+}
+
+#selectedChat{
+  padding: 0px;
+  margin: 0px;
+  max-height: 0%;
 }

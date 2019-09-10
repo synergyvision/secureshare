@@ -7,12 +7,6 @@
         css: 'dashboard/chats/chats.css',
         controller: 'chatController'
       });
-    $stateProvider.state('dash.chats.messages',{
-      url: '?id_chat',
-      templateUrl: 'dashboard/chats/chatMessages.html',
-      css: 'dashboard/chats/chats.css',
-      controller: 'chatController'
-    })  
 
   }])
 
@@ -21,7 +15,6 @@
       var token = $localStorage.userToken;
       $scope.uid =$localStorage.uid;
       $scope.keys = $localStorage[uid + 'keys'];
-      var id_chat = $stateParams.id_chat; 
       var decrypted = [];
       $scope.show = false;
       $scope.userChats = [];
@@ -95,11 +88,12 @@
       }
 
       $scope.getChat = function (id){
-        delete $sessionStorage.passphrase;
-        $state.go('dash.chats.messages',{'id_chat': id});
+        console.log('hola')
+        $scope.idChat = id;
+        $scope.chatInfo(id);
       }
 
-      $scope.chatInfo = function (){
+      $scope.chatInfo = function (id_chat){
           for (i = 0; i < $localStorage[uid + '-chats'].length; i++){
               if ($localStorage[uid + '-chats'][i].chatID == id_chat){
                 $scope.infoChat = $localStorage[uid + '-chats'][i]
@@ -109,7 +103,7 @@
 
       $scope.deleteChat = function(){
         $http({
-          url: __env.apiUrl + __env.profile  + uid + '/chats/' + id_chat,
+          url: __env.apiUrl + __env.profile  + uid + '/chats/' + $scope.idChat,
           method: 'DELETE',
           headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
@@ -208,7 +202,7 @@
 
        var sendRequest = function(request){
          $http({
-           url: __env.apiUrl + __env.messages + uid + '/' + id_chat + '/messages',
+           url: __env.apiUrl + __env.messages + uid + '/' + $scope.idChat+ '/messages',
            method: 'POST',
            data: request,
            headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8', 'Authorization':'Bearer: ' + token}
@@ -241,7 +235,7 @@
       }
 
       $scope.sendToChat = function (){
-        recipientId = getRecipientId($stateParams.id_chat);
+        recipientId = getRecipientId($scope.idChat);
         myPublicKey = getMyKey($scope.infoChat.members[uid]);
         if (recipientId.length > 1){
           recipientKey = getMultipleKeys(recipientId);
@@ -256,7 +250,7 @@
             var messageRequest = $.param({
               id_sender: uid,
               message: message,
-              id_chat: id_chat,
+              id_chat: $scope.idChat,
               recipients: JSON.stringify(ids),
               username: $localStorage[uid +'-username']
             })
@@ -312,7 +306,7 @@
 
       $scope.getMessages =  function (){
         $http({
-          url: __env.apiUrl + __env.messages + uid + '/chat/' + id_chat,
+          url: __env.apiUrl + __env.messages + uid + '/chat/' + $scope.idChat,
           method: 'GET',
           headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
