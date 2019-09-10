@@ -33,8 +33,9 @@
             <div ng-if = "survey.expired == true">
                 <div class="shadow-sm p-3 mb-5 rounded">
                     <form id="Survey" ng-submit="fillSurvey()">
-                        <h5>{{survey.title}}</h5>
+                        <h4>{{survey.title}} ha expirado!</h4>
                         <hr>
+                        <h5>Resultados</h5>
                         <div ng-repeat="question in survey.questions">
                             <label for="question">{{question.question}}</label>  
                             <br>
