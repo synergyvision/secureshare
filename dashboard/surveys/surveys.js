@@ -129,7 +129,7 @@ angular.module('sharekey.surveys', ['ui.router'])
         expires_in.setDate(expires_in .getDate() + parseInt($scope.expires));
         var newSurvey = $.param({
             title: $scope.surveyTitle,
-            id_user: uid,
+            id_user: $scope.uid,
             created: created,
             expires_in: expires_in 
         })

@@ -26,8 +26,10 @@
                 <div ng-if="survey.answered == true">
                     <div class="row justify-content-center">
                         <h1>Ya has completado esta encuesta!</h1>
-                        <button type="button" ui-sref="dash.surveys" class="btn btn-outline-info btn-sm">Ir a encuestas</button>
                     </div>
+                    <div class="row justify-content-center">
+                            <button type="button" ui-sref="dash.surveys" class="btn btn-outline-info btn-sm">Ir a encuestas</button>
+                        </div>
                 </div>
             </div>    
             <div ng-if = "survey.expired == true">

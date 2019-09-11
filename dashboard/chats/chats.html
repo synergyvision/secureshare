@@ -28,7 +28,7 @@
             <span>{{infoChat.title}}</span>
             <button type="button" class="btn btn-danger" ng-click="deleteChat()"><i class="fas fa-trash"></i></button>
         </nav>
-        <div class="border" id="messageBox" ng-init="getMessages()">
+        <div class="border" id="messageBox">
             <div class="row justify-content-center" ng-repeat="message in chatMessages | orderBy: 'this.data.date_sent'">
                   <div class="col align-self-end mr-4 ml-2" ng-if="message.data.id_sender == uid" data-toggle="modal" data-target=".addPassphrase">  
                             <p id="sentMessage" class="text-md-right text-break bg-primary text-white pr-4"  style="font-size: 1.1em;">
