@@ -52,7 +52,7 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
   }
 
   $scope.sendData = function(){
-    password = encryptPassword($scope.password)
+    var password = encryptPassword($scope.password)
     password.then(function (password){
         var loginRequest = $.param({
           email: $scope.email,

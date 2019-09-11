@@ -30,8 +30,9 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
 
   }])
 
-  .controller('reposController', function(FileSaver,Blob,$scope,$http,$localStorage,$state,$window,$sessionStorage,$stateParams,__env){
+  .controller('reposController', function(FileSaver,Blob,$scope,$http,$localStorage,$state,$window,$stateParams,__env){
     $scope.uid = $localStorage.uid;
+    var uid = $localStorage.uid;
     var token = $localStorage.userToken;
     var dir = $stateParams.dir; 
      $scope.directory = $stateParams.directory
@@ -53,7 +54,7 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
     })
 
     }
-    getRepoList = function (){
+    var getRepoList = function (){
         $http({
             url: __env.apiUrl + __env.repos + uid + '/listRepos',
             method: 'GET',
@@ -66,7 +67,7 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
         })
     }
 
-   getServerKey = function (){
+   var getServerKey = function (){
       return $http({
         url: __env.apiUrl + 'config/serverKeys',
         method: 'GET'
@@ -77,7 +78,7 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
       })
     }
   
-    encryptPassword = async (password) =>{
+    var encryptPassword = async (password) =>{
       var publicKey = getServerKey()
       return publicKey.then(async (publicKey) => {
         publicKey = publicKey.replace(/(?:\\[r])+/g, "");
@@ -234,9 +235,9 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
 
     createFile = function (file){
       if ($scope.directory){
-        path = $scope.directory + '/' + $scope.fileName
+       var path = $scope.directory + '/' + $scope.fileName
       }else{
-        path = $scope.fileName
+       var path = $scope.fileName
       }
         var newFile = {
           dir: path,
@@ -265,7 +266,7 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
     }
 
     $scope.deleteFile = function(sha,name){
-      fileDelete = $.param({
+      var fileDelete = $.param({
         sha: sha,
         dir:  $scope.path
       })
@@ -323,8 +324,8 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
     }
 
     $scope.decipherDownload = function (){
-      key = getPrivateKey($scope.repoKey)
-      key = decryptKey(key,$sessionStorage.appKey)
+      var key = getPrivateKey($scope.repoKey)
+      key = decryptKey(key,$scope.keyPass)
       decryptContent(key,$scope.keyPass)
     }
 
@@ -366,9 +367,9 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
       var aReader = new FileReader();
       aReader.readAsText($scope.file, "UTF-8");
         aReader.onload = function (evt) {
-          fileContent = aReader.result;
-          pubKey = getPublicKey($scope.repoKey)
-          encryptedContent = encrypt(fileContent,pubKey)
+          var fileContent = aReader.result;
+          var pubKey = getPublicKey($scope.repoKey)
+          var encryptedContent = encrypt(fileContent,pubKey)
           encryptedContent.then(function (encryptedContent){
             var blob = new Blob([encryptedContent], {type: 'application/x-javascript'});
             updateFile(blob);
@@ -388,5 +389,8 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
 
     }
 
+    $scope.homeRepo = function(){
+      $state.reload()
+    }
 
   })

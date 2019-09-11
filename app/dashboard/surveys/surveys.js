@@ -24,7 +24,7 @@ angular.module('sharekey.surveys', ['ui.router'])
   .controller('surveyController', function($scope,$http,$localStorage,$state,$window,$sessionStorage,$stateParams,__env,$rootScope){
     $scope.uid = $localStorage.uid;
     var token = $localStorage.userToken;
-    survey = $stateParams.surveyId;
+    var survey = $stateParams.surveyId;
     if ($rootScope.newExists == true){
         $rootScope.newExists = false;
     }
@@ -52,14 +52,14 @@ angular.module('sharekey.surveys', ['ui.router'])
     }
 
     var checkSurvey = function (survey){
-        now = new Date();
+        var now = new Date();
         if (now < new Date(survey.expires)){
             survey.expired = false
         }else{
             survey.expired = true
         }
         if (survey.answeredBy){
-            ids = Object.keys(survey.answeredBy);
+            var ids = Object.keys(survey.answeredBy);
             survey.answered = false
             for (i = 0; i < ids.length;i++){
                 if ($scope.uid == ids[i]){
@@ -106,7 +106,7 @@ angular.module('sharekey.surveys', ['ui.router'])
     }
 
     var createQuestion = function (surveyId){
-        newQuestion = $.param({
+        var newQuestion = $.param({
             content: $scope.question.title
         })
         $http({
@@ -124,9 +124,9 @@ angular.module('sharekey.surveys', ['ui.router'])
     }
 
     $scope.createSurvey = function (){
-        created = new Date();
-        expires_in = new Date();
-        expires_in .setDate(expires_in .getDate() + parseInt($scope.expires));
+        var created = new Date();
+        var expires_in = new Date();
+        expires_in.setDate(expires_in .getDate() + parseInt($scope.expires));
         var newSurvey = $.param({
             title: $scope.surveyTitle,
             id_user: uid,
@@ -139,7 +139,7 @@ angular.module('sharekey.surveys', ['ui.router'])
             data: newSurvey,
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
-            surveyId = response.data.key;
+            var surveyId = response.data.key;
             console.log('created survey')
             createQuestion(surveyId);
         }).catch(function (error){
@@ -154,11 +154,11 @@ angular.module('sharekey.surveys', ['ui.router'])
 
     $scope.getId = function (questionId,answer){
         var exists = false;
-        answeredQuestion = {
+        var answeredQuestion = {
             questionId: questionId,
             answerId: answer.id
         }
-        for (i =0; i < $scope.answeredQuestions.length;i++){
+        for (var i =0; i < $scope.answeredQuestions.length;i++){
             if ($scope.answeredQuestions[i].questionId == questionId){
                 $scope.answeredQuestions[i] = answeredQuestion 
                 exists = true

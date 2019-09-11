@@ -182,7 +182,7 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
     var validateTweet = function (feed){
       console.log(feed)
       var valid = false
-      for (i = 0; i < feed.length; i ++){
+      for (var i = 0; i < feed.length; i ++){
           if( feed[i].text == $scope.validationMessage){
             valid = true;
             validateTwitter();

@@ -30,7 +30,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
 
 .controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage,__env,toaster){
     $scope.user = $localStorage[$localStorage.uid + '-username']
-    uid = $localStorage.uid;
+    var uid = $localStorage.uid;
     $scope.profilePicture = $localStorage.userPicture;
     var token = $localStorage.userToken;
     $scope.someToast = false;
@@ -93,14 +93,14 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
     }
 
     $scope.acceptRequest = function (id,rStatus){
-        updateStatus = $.param({
+        var updateStatus = $.param({
             status: true
         })
         sendStatus(id,updateStatus)
     }
 
     $scope.rejectRequest = function (id,rStatus){
-        updateStatus = $.param({
+        var updateStatus = $.param({
             status: false
         })
         sendStatus(id,updateStatus)

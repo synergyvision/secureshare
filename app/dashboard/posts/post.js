@@ -43,7 +43,7 @@ angular.module('sharekey.posts', ['ui.router'])
       var encryptStatus = async (status) => {
           //const privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
           //await privKeyObj.decrypt(passphrase)
-          pubkey = await getMyDefaultKey();
+          var pubkey = await getMyDefaultKey();
 
           const options = {
               message: openpgp.message.fromText(status),       // input as Message object
@@ -52,7 +52,7 @@ angular.module('sharekey.posts', ['ui.router'])
           }
       
           return openpgp.encrypt(options).then(ciphertext => {
-              encrypted = ciphertext.data // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
+              var encrypted = ciphertext.data // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
               return encrypted
           })
         }
@@ -99,7 +99,7 @@ angular.module('sharekey.posts', ['ui.router'])
           if (!posts[i].userPicture){
             posts[i].userPicture = 'img/default-user-icon-8.jpg'
           }
-          sent = new Date(posts[i].data.timestamp);
+          var sent = new Date(posts[i].data.timestamp);
           posts[i].data.timestamp = sent.toLocaleString(); 
         }
         return posts
@@ -111,7 +111,7 @@ angular.module('sharekey.posts', ['ui.router'])
           method: 'GET',
           headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
-            posts = response.data.data;
+            var posts = response.data.data;
             console.log(posts)
             $scope.posts = getDates(posts);
             console.log($scope.posts)
@@ -122,12 +122,12 @@ angular.module('sharekey.posts', ['ui.router'])
 
       $scope.likeStatus = function (status,post_id){
         if (status == 'like'){
-            statusRequest = $.param({
+            var statusRequest = $.param({
               likes: 1,
               likedBy: uid
             })
         }else{
-          statusRequest = $.param({
+          var statusRequest = $.param({
             dislikes: 1,
             likedBy: uid
           })
@@ -228,15 +228,15 @@ angular.module('sharekey.posts', ['ui.router'])
         }
   
         return openpgp.decrypt(options).then(plaintext => {
-            decrypted = plaintext.data;
+            var decrypted = plaintext.data;
             return decrypted
         })
     }
 
       $scope.decryptPost = function (passphrase){
-        private = getMyDefaultPrivateKey();
-        private = decryptKey(private,passphrase);
-        post = decryptPost(private,passphrase,$scope.postContent)
+        var privateKey = getMyDefaultPrivateKey();
+        privateKey = decryptKey(privateKey,passphrase);
+        post = decryptPost(privateKey,passphrase,$scope.postContent)
         post.then (function (content){
           var popup = angular.element('#Passphrase');
           popup.modal('hide')
@@ -261,7 +261,7 @@ angular.module('sharekey.posts', ['ui.router'])
       }
 
       $scope.sendComment = function(){
-        commentRequest = $.param({
+        var commentRequest = $.param({
           content: $scope.newComment,
           user_id: $scope.uid,
           post_id: post

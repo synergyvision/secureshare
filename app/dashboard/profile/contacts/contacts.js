@@ -17,7 +17,7 @@
   }])
 
   .controller('contactsController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage,__env,$stateParams){
-      uid = $localStorage.uid;
+      var uid = $localStorage.uid;
       var token = $localStorage.userToken;
       
       $scope.getContacts = function (){
