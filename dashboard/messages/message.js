@@ -96,7 +96,7 @@
 
       }
 
-      var encryptWithMultiplePublicKeys  = async (pubkeys, privkey, passphrase, message) => {
+      var encryptWithMultiplePublicKeys  = async (pubkeys, privkey = null, passphrase, message) => {
             pubkeys = pubkeys.map(async (key) => {
               return (await openpgp.key.readArmored(key)).keys[0]
             });
@@ -149,7 +149,10 @@
             var keyPrivate = getPrivateKey($scope.chatKey);
             userdata[uid] = $scope.chatKey;
             var pKeys = [keyPublic,key]
-            var PrivateKey = decryptKey(keyPrivate,$scope.passphrase);
+            if ($scope.publish == true){
+              var PrivateKey = decryptKey(keyPrivate,$scope.passphrase);
+            }
+           
             var message = encryptWithMultiplePublicKeys(pKeys,PrivateKey,$scope.passphrase,$scope.message,);
             message.then( function (encryptedMessage){
               sendMessage(encryptedMessage,userdata);

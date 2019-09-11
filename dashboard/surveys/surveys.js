@@ -91,7 +91,6 @@ angular.module('sharekey.surveys', ['ui.router'])
         var newAnswers = $.param({
             content: JSON.stringify($scope.answers)
         })
-        console.log(newAnswers);
         $http({
             url: __env.apiUrl + __env.surveys + surveyId +'/question/' + questionId + '/answer',
             method: 'POST',

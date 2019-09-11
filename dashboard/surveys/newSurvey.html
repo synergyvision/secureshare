@@ -15,7 +15,7 @@
                         <div class="form-group">
                             <label for="answers">Respuestas</label>
                             <div ng-repeat="answer in answers">
-                                    <input type="text" class="form-control" ng-model="answer.content" value="">
+                                    <input type="text" class="form-control" ng-model="answer.content" value="" required>
                                 <br>
                             </div>
                             <div class="row justify-content-end">
@@ -25,7 +25,7 @@
                     </div>
                     <div class="form-inline">
                         <label for="expires">Duración &nbsp;</label>
-                        <select class="col-sm-1 form-control" id="days" ng-model="expires">
+                        <select class="col-sm-1 form-control w-25" id="days" ng-model="expires">
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
