@@ -90,6 +90,7 @@
       $scope.getChat = function (id){
         $scope.idChat = id;
         $scope.chatInfo(id);
+        $scope.getMessages()
       }
 
       $scope.chatInfo = function (id_chat){
