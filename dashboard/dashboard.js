@@ -29,7 +29,7 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
 
   $scope.keysExists = function (){
     if (!$scope.storedKeys){
-      alert('Por favor cree o active una llave')
+      alert('Por favor cree o active una llave.')
       $state.go('dash.keys')
     }
   }

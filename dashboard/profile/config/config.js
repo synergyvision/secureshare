@@ -25,7 +25,7 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
       return result;
    }
 
-   var initObserver = function (){
+    initObserver = function (){
     FB.Event.subscribe('auth.authResponseChange', function(res) {
       if (res.status === 'connected') {
         console.log(res)

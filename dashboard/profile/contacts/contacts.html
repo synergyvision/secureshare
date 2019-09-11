@@ -6,15 +6,15 @@
         <div ng-repeat="contact in contacts">    
             <div id ="card" class="card">
                 <div class="row no-gutters">
-                        <div class="col-md-4">
-                            <img ng-if="contact.photo" id="img" ng-src="{{contact.photo}}" class="card-img">
-                            <img ng-if="!contact.photo" id="img" src="img/default-user-icon-8.jpg" class="card-img">
-                        </div>
-                    <div class="col-md-8">   
+                    <div class="col-md-2">
+                        <img ng-if="contact.photo" id="img" ng-src="{{contact.photo}}" class="img-thumbnail rounded m-2">
+                        <img ng-if="!contact.photo" id="img" src="img/default-user-icon-8.jpg" class="img-thumbnail rounded m-2">
+                    </div>
+                    <div class="col-md-10">   
                         <div class="card-body">
                             <h5 class="card-title">{{contact.name}} {{contact.lastname}}</h5>
                             <p class="card-text">{{contact.bio}}</p>
-                            <button class="btn btn-primary" ui-sref="dash.publications({user_id: contact.id})">Ver perfil</button>
+                            <button class="btn btn-primary" ui-sref="dash.publications({user_id: contact.id})">Ver publicaciones</button>
                         </div>
                     </div> 
                 </div>       

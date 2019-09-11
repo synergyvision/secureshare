@@ -1,5 +1,5 @@
 <div class="container-fluid" ng-controller="configController">
-   <h2>Añade tus redes</h2>
+   <h2>Configuración</h2>
    <p>Agrega redes sociales para verificar tu identidad</p>
    <div id="fb-root"></div>
 
@@ -29,12 +29,12 @@
                                 <Label>Usuario de twitter</Label>
                                 <input type="text" class="form-control mb-3" ng-model="$parent.$parent.twitterUsername">
                                 <div class="alert alert-info" role="alert">
-                                        Para validar su twitter coloque el siguiente mensaje en su timeline y oprima verificar
+                                        Para validar su twitter coloque el siguiente mensaje en su timeline y oprima verificar.
                                 </div>
                                 <div class="alert alert-info" role="alert">
                                         "{{validationMessage}}"
                                 </div> 
-                                <button type="button" class="btn btn-primary btn-sm" ng-click="getTwitterFeed()">Verificar</button>
+                                <button type="button" class="btn btn-primary" ng-click="getTwitterFeed()">Verificar</button>
                         </div> 
                         
                 </div>  
