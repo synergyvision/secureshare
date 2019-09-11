@@ -3,7 +3,7 @@
              <h2>Repositorios</h2>
              <div ng-show="tokenExists == false">
                   <div class="alert alert-primary" role="alert">
-                        Para utilizar las funciones de repositorios por favor inicia sesión con Github
+                        Para utilizar las funciones de repositorios por favor inicia sesión con Github.
                   </div>
                   <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-init="requestData()">
                         <form ng-submit="getToken()">
@@ -31,9 +31,9 @@
                                     <p class="mb-1">{{repo.html_url}}</p>
                               </a>
                         </div>
-                  </div>      
+                  </div>    
+                  <button type="button" id="newRepo" ui-sref="dash.newRepo" class="btn btn-info m-2"><i class="fas fa-plus-circle"></i></button>          
             </div>  
-            <button type="button" id="newRepo" ui-sref="dash.newRepo" class="btn btn-info m-2"><i class="fas fa-plus-circle"></i></button>        
        </div>    
        
  </div>

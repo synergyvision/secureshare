@@ -352,7 +352,7 @@ function encryptKeys(key,seed){
         var popup = angular.element("#appPass");
         //for hide model
         popup.modal('hide');
-        alert("LLave activada exitosamente");
+        alert("Su llave se ha activado exitosamente");
         delete $localStorage.recoveryKey
         $window.location.reload();
       }else{
