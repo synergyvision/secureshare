@@ -1,6 +1,6 @@
 <div class="container-fluid" ng-controller="surveyController">
     <div class="row justify-content-center" ng-init="getSurvey()">
-        <div class="col-8 align-self-center">
+        <div class="col-12 align-self-center">
             <div ng-if="survey.expired == false">
                 <div ng-if="survey.answered == false">
                     <div class="shadow-sm p-3 mb-5 rounded">
@@ -19,7 +19,7 @@
                                     </div>  
                                 </div>             
                             </div>    
-                            <button type="submit" class="btn btn-outline-info btn-sm">Responder</button>
+                            <button type="submit" id="answerButton" class="btn btn-outline-info">Responder</button>
                         </form>
                     </div>
                 </div>   
