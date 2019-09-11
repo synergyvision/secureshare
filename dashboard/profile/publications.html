@@ -1,10 +1,9 @@
 <div class="container" ng-controller="publicationsController">
-    <div class="rounded-pill" id="userProfile" ng-init="getUserData()">
-    <div class="card mb-3">
+    <div class="card mb-3" ng-init="getUserData()">
         <div class="row no-gutters">
           <div class="col-md-4">
-                <img ng-if="userPicture" class="card-img"  ng-src="{{userPicture}}">
-                <img ng-if="!userPicture" class="card-img" src="img/default-user-icon-8.jpg">
+                <img ng-if="userPicture" class="card-img" style="height: 300px; width: 300px;"  ng-src="{{userPicture}}">
+                <img ng-if="!userPicture" class="card-img" style="height: 300px; width: 300px;" src="img/default-user-icon-8.jpg">
           </div>
           <div class="col-md-8">
             <div class="card-body">
@@ -25,7 +24,7 @@
             </div>
           </div>
         </div>
-      </div> 
+    </div> 
     <div id="title">
         <h2>Publicaciones</h2>
     </div>

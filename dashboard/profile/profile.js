@@ -193,12 +193,12 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
 
    $scope.likeFeedback = function(messageId){
      $http({
-       url: __env.apiUrl + __env.messages + uid +'/'+ messageId + '/react',
+       url: __env.apiUrl + __env.messages + user_id +'/'+ messageId + '/react',
        method: 'PUT',
        headers: {'Authorization':'Bearer: ' + token}
      }).then(function (response){
         console.log(response.data);
-        $state.reload();
+       $scope.getFeedbacks()
      }).catch(function (error){
        console.log(error);
      })
