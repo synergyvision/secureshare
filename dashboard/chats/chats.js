@@ -108,7 +108,7 @@
           headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
             console.log(response.data);
-            localDeleteChat(i$scope.idChat);
+            localDeleteChat($scope.idChat);
             $state.go('dash.chats');
         }).catch(function (error){
             alert(error.message);
