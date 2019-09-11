@@ -13,7 +13,7 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
     var token = $localStorage.userToken;
     var uid = $localStorage.uid;
     var username = $localStorage[uid + '-username'];
-    var preMessage = 'Verificando. Soy ' + username + ' en Sharekey ';
+    var preMessage = 'Soy ' + username + ' en Sharekey ';
   
     function makeid() {
       var result           = '';

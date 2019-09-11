@@ -2,8 +2,9 @@
     padding-left: 10px;
 }
 
-#form{
-    width: 75%;
+#update{
+    margin: 5px;
+    background-color: #f8f9fc
 }
 
 #picture{
@@ -23,6 +24,5 @@
     height: 40px;
     color: white;
     border: none;
-    margin: 5px;
     font-weight: bold;
   }
