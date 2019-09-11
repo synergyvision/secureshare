@@ -4,7 +4,7 @@
             <h2>Repositorios</h2>
             <div ng-init="getRepo()">
                 <div class="list-group">
-                    <a ui-sref="dash.repo({dir: repo.name})" class="list-group-item list-group-item-action">
+                    <a ng-click="homeRepo()" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">{{repo.name}}</h5>
                             <small ng-if="repo.private == false">público</small>
@@ -30,7 +30,7 @@
                                         </div>
                                         <div ng-if="file.type == 'file'">
                                             <h5 class="mb-1"><i class="fas fa-file"></i>&nbsp;{{file.name}}</h5>
-                                            </div>     
+                                        </div>     
                                 </div>
                             </a>
                         </div>
@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <p class="mb-1">{{repoFiles.content}}</p>
+                            <p class="mb-1"><pre>{{repoFiles.content}}</pre></p>
                         </a>
                     </div>
                 </div>

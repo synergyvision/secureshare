@@ -15,8 +15,10 @@
             <div class="form-group">
               <textarea class="form-control" id="message" ng-model="decrypted" rows="10"></textarea>
             </div>
-          <button type="submit" class="btn btn-primary" ng-click="respond(data.sender,data.id_sender)">Responder</button>
 
+          <button type="submit" class="btn btn-primary" ng-click="respond(data.sender,data.id_sender)">Responder</button>
+          <button ng-if="data.tray != 'published' && data.publish == 'true' && !data.r_username" type="submit" class="btn btn-info" ng-click="publishMessage()">Publicar mensaje</button>
+          <button type="submit" ng-if="data.tray == 'published'" class="btn btn-info" disabled>Publicado</button>
           </div> 
         </div>  
       </form>

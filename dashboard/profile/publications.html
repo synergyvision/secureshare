@@ -1,26 +1,31 @@
 <div class="container" ng-controller="publicationsController">
     <div class="rounded-pill" id="userProfile" ng-init="getUserData()">
-        <div class="row justify-content-center">
-            <div class="media">
-                <div class="media-body">
-                    <h4 class="mt-0">{{name}} {{lastname}}</h4>
-                    <h5 class="mt-0">{{username}}</h5>
-                    {{bio}}
-                </div>
-                <img ng-if="userPicture" class="align-self-center img-profile rounded-circle m-1" style="height: 60px;width: 60px" ng-src="{{userPicture}}">
-                <img ng-if="!userPicture" class="align-self-center img-profile rounded-circle" style="height: 60px;width: 60px" src="img/default-user-icon-8.jpg">
-                <div ng-if="facebook == true">
-                    facebook <i class="fas fa-check-double"></i>
-                </div>
-                <div ng-if="github">
-                    Github <i class="fas fa-check-double"></i>
-                </div>
-                <div ng-if="twitter">
-                    Twitter <i class="fas fa-check-double"></i>
-                </div>    
-            </div> 
-        </div>     
-    </div>
+    <div class="card mb-3">
+        <div class="row no-gutters">
+          <div class="col-md-4" style="height: 100%">
+                <img ng-if="userPicture" class="card-img"  ng-src="{{userPicture}}">
+                <img ng-if="!userPicture" class="card-img" src="img/default-user-icon-8.jpg">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h4 class="card-title">{{name}} {{lastname}}</h4>
+              <h5 class="card-title">{{username}}</h5>
+              <p class="card-text">{{bio}}</p>
+              <p class="card-text">
+                  <small class="text-muted" ng-if="facebook == true">
+                        facebook <i class="fas fa-check-double"></i>
+                 </small>
+                 <small class="text-muted" ng-if="github">
+                        Github <i class="fas fa-check-double"></i>
+                 </small>
+                 <small class="text-muted" ng-if="twitter">
+                        Twitter <i class="fas fa-check-double"></i>
+                 </small>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div> 
     <div id="title">
         <h2>Publicaciones</h2>
     </div>

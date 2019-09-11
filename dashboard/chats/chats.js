@@ -11,7 +11,7 @@
   }])
 
   .controller('chatController', function($scope,$http,$localStorage,$state,$sessionStorage,$stateParams,$location,__env){
-      uid = $localStorage.uid
+      var uid = $localStorage.uid
       var token = $localStorage.userToken;
       $scope.uid =$localStorage.uid;
       $scope.keys = $localStorage[uid + 'keys'];
@@ -51,7 +51,7 @@
       }
 
       var storeLocalChats = function (id,title,participants){
-        chat = {
+        var chat = {
             chatID: id,
             title: title,
             members: participants
@@ -64,12 +64,12 @@
       
 
       $scope.createChat = function (){
-        participants = {}
+        var participants = {}
         for (i = 0; i < $scope.name.length; i++){
             participants[$scope.name[i]] = 'default'
         }
         participants[uid] = $scope.keyname;
-        chatRequest = $.param({
+        var chatRequest = $.param({
           title: $scope.title,
           participants: JSON.stringify(participants)
         })
@@ -123,7 +123,7 @@
       }
 
       var getRecipientId = function(){
-          ids = Object.keys($scope.infoChat.members)
+          var ids = Object.keys($scope.infoChat.members)
           for (i = 0; i < ids.length; i++){
             if (ids[i] == uid){
                 ids.splice(i,1);
@@ -143,7 +143,7 @@
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8', 'Authorization':'Bearer: ' + token}
           }).then(function (response){
             console.log('retrieved public key from server')
-            key = response.data.data;
+            var key = response.data.data;
             return key.toString();
           }).catch(function (error){
               console.log(error);
@@ -193,7 +193,7 @@
             publicKeys: await Promise.all(pubkeys)       				  // for encryption
           }
           return openpgp.encrypt(options).then(ciphertext => {
-            encrypted = ciphertext.data // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
+            var encrypted = ciphertext.data // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
             return encrypted
         })
        };
@@ -225,7 +225,7 @@
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
           }).then(function (response){
               console.log('retrieved public keys from server')
-              key = response.data.data;
+              var key = response.data.data;
               return key;
           }).catch(function (error){
               console.log(error);
@@ -233,19 +233,19 @@
       }
 
       $scope.sendToChat = function (){
-        recipientId = getRecipientId($scope.idChat);
-        myPublicKey = getMyKey($scope.infoChat.members[uid]);
+        var recipientId = getRecipientId($scope.idChat);
+        var myPublicKey = getMyKey($scope.infoChat.members[uid]);
         if (recipientId.length > 1){
-          recipientKey = getMultipleKeys(recipientId);
+          var recipientKey = getMultipleKeys(recipientId);
         }else{
-          recipientKey = getRecipientKey(recipientId[0]);
+          var recipientKey = getRecipientKey(recipientId[0]);
         }
         recipientKey.then(function (recipientKey){
-          publicKeys = [recipientKey,myPublicKey]
-          message = encryptMessage(publicKeys,$scope.chatMessage);
+          var publicKeys = [recipientKey,myPublicKey]
+          var message = encryptMessage(publicKeys,$scope.chatMessage);
           message.then(function (message){
             console.log(message)
-            ids = Object.keys($scope.infoChat.members);
+            var ids = Object.keys($scope.infoChat.members);
             var messageRequest = $.param({
               id_sender: uid,
               message: message,
@@ -292,8 +292,8 @@
       }
 
       var decryptMessages = async (messages) => {
-        private = getMyPrivateKey($scope.infoChat.members[uid]);
-        privateKey = decryptKey(private,$scope.passphraseChat);
+        var private = getMyPrivateKey($scope.infoChat.members[uid]);
+        var privateKey = decryptKey(private,$scope.passphraseChat);
         var popup = angular.element("#decryptingSpinner");
         //for hide model
         popup.modal('show');
@@ -301,7 +301,7 @@
             message = await decriptMessage(privateKey,$scope.passphraseChat,messages[i].data.content)
             messages[i].data.content = message;
             messages[i].decripted = true;
-            sent = new Date(messages[i].data.date_sent);
+            var sent = new Date(messages[i].data.date_sent);
             messages[i].sent = sent.toLocaleString();
         }
         return messages
@@ -332,7 +332,7 @@
         var popup = angular.element("#addPassphrase");
         //for hide model
         popup.modal('hide');
-        decripted = decryptMessages($scope.chatMessages)
+        var decripted = decryptMessages($scope.chatMessages)
         decripted.then(function (decripted){
           $scope.show = true;
           $scope.chatMessages = decripted;

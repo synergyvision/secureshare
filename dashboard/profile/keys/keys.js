@@ -62,9 +62,9 @@ function encryptKeys(key,seed){
     }
 
     var checkActiveKeys = function (keys){
-      for (i = 0; i < keys.length; i++){
+      for (var i = 0; i < keys.length; i++){
           keys[i].activated = false;
-          for (j = 0; j < $scope.userKeys.length; j++){
+          for (var j = 0; j < $scope.userKeys.length; j++){
               if (keys[i].name == $scope.userKeys[j].keyname ){
                 keys[i].activated = true;
               }
@@ -100,7 +100,7 @@ function encryptKeys(key,seed){
     //changes the default key
 
     $scope.useKeys = function (name){
-      for (i = 0; i < $scope.userKeys.length;i++){
+      for (var i = 0; i < $scope.userKeys.length;i++){
           $scope.userKeys[i].default = false;
           if ($scope.userKeys[i].keyname == name){
               $scope.userKeys[i].default = true;
@@ -156,7 +156,7 @@ function encryptKeys(key,seed){
             if (response.data.status == 200){
                 console.log('keys stored succesfully')
                 popup.modal('hide');
-                $scope.checkKeys();
+                $state.realod();
             }else{
               alert(response.data.message);
             }
@@ -205,7 +205,7 @@ function encryptKeys(key,seed){
             var popup = angular.element("#keySpinner");
             //for hide model
             popup.modal('show');
-            words = translate($scope.phrase);
+            var words = translate($scope.phrase);
             console.log(words)
             console.log("Generating Keys")
             openpgp.generateKey(options).then(function(key){
@@ -256,7 +256,7 @@ function encryptKeys(key,seed){
 
     $scope.deleteKeys  =  function (){
 
-      name = $localStorage.keyDelete;
+      var name = $localStorage.keyDelete;
       var deleteRequest = $.param({
         name: name
       })
@@ -284,7 +284,7 @@ function encryptKeys(key,seed){
     }
 
     $scope.recoverKeys = function (){
-      name = $localStorage.KeyRecover;
+      var name = $localStorage.KeyRecover;
       var recoverRequest = $.param({
         name: name
       })
@@ -324,7 +324,7 @@ function encryptKeys(key,seed){
     }
 
     $scope.checkWords = function (){
-      words = translate($scope.phraseRecovery)
+      var words = translate($scope.phraseRecovery)
       var bytes  = CryptoJS.AES.decrypt($localStorage.recoveryKey.PrivKey,words);
       var priv = bytes.toString(CryptoJS.enc.Utf8);
       if (priv != ""){
@@ -343,7 +343,7 @@ function encryptKeys(key,seed){
     }
 
     $scope.newPassword = function (){
-      words = translate($scope.keyPass)
+      var words = translate($scope.keyPass)
       if (words){
         console.log('here');
         var localPrivateKey = encryptKeys($localStorage.recoveryKey.PrivKey,words)

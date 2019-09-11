@@ -1,8 +1,15 @@
 <div class="container-fluid" ng-controller="filesController">
     <div class="row">
-        <div class="col">
-            <form id="newMessage" ng-submit="decipher()">
-                <h3>Ver archivos</h3>
+        <div class="col-6">
+            <form id="downloadFiles" ng-submit="decipher()">
+                <h3>Manejo de archivos</h3>
+                <div class="form-group">
+                    <label for="operation">Elige operacion</label>
+                    <select class="form-control" id="operation" ng-model="operation">
+                        <option value="1">Cifrar archivo</option>
+                        <option value="2">Ver archivo</option>
+                    </select>
+                </div> 
                 <div class="form-group">
                     <label for="file">Escoger Archivo</label>
                     <div class="custom-file mb-2 mr-sm-2" style="overflow: hidden;">
@@ -12,11 +19,11 @@
                 </div>
                 <div class="form-group">
                     <label for="keys">Elige llave</label>
-                    <select class="form-control" id="keys" ng-model="privateKey">
+                    <select class="form-control" id="fileKey" ng-model="key">
                         <option ng-repeat="key in userKeys" value="{{key.keyname}}">{{key.keyname}}</option>
                     </select>
                 </div>  
-                <div class="form-group">
+                <div class="form-group" ng-show="operation == '2'">
                         <label for="user">Passphrase</label>
                     <input type="password" class="form-control" id="passphrase" ng-model="passphrase" placeholder="">
                 </div> 

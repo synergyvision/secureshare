@@ -156,13 +156,13 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
   
 
     var getDates = function (feedbacks){
-    for (i = 0; i < feedbacks.length; i++){
+    for (var i = 0; i < feedbacks.length; i++){
       if (feedbacks[i].data.reactions){
         feedbacks[i].reactions = checkLike(feedbacks[i].data.reactions)
       }else{
         feedbacks[i].reactions = null;
       }
-      sent = new Date(feedbacks[i].data.timestamp);
+      var sent = new Date(feedbacks[i].data.timestamp);
       feedbacks[i].data.timestamp = sent.toLocaleString();
       if (!feedbacks[i].picture){
         feedbacks[i].picture = "img/default-user-icon-8.jpg"
@@ -184,7 +184,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
           console.log(response.data.data)
-          feedbacks = response.data.data;
+          var feedbacks = response.data.data;
           $scope.feedbacks = getDates(feedbacks);
       }).catch(function(error){
         console.log(error);

@@ -30,7 +30,7 @@
   }])
 
 .controller('messagesController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage,$stateParams,$rootScope){
-      uid = $localStorage.uid
+      var uid = $localStorage.uid
       $scope.userKeys = $localStorage[uid + 'keys'];
       var token = $localStorage.userToken;
       var popup = angular.element("#messageSpinner");
@@ -106,7 +106,7 @@
                 publicKeys: await Promise.all(pubkeys)       				  
               }
               return openpgp.encrypt(options).then(ciphertext => {
-                encrypted = ciphertext.data 
+                var encrypted = ciphertext.data 
                 return encrypted
               })
           }else{
@@ -119,14 +119,13 @@
                   privateKeys: [privKeyObj]                                
               }
               return openpgp.encrypt(options).then(ciphertext => {
-                encrypted = ciphertext.data 
+                var encrypted = ciphertext.data 
                 return encrypted
             })
           }  
       };
 
       $scope.getContacts = function (){
-
         $http({
             url: __env.apiUrl + __env.profile + uid + '/contacts',
             method: 'GET',
@@ -146,12 +145,12 @@
       } 
 
       $scope.encrypt = function (key,userdata) {
-            keyPublic = getPublicKey($scope.chatKey);
-            keyPrivate = getPrivateKey($scope.chatKey);
+            var keyPublic = getPublicKey($scope.chatKey);
+            var keyPrivate = getPrivateKey($scope.chatKey);
             userdata[uid] = $scope.chatKey;
-            pKeys = [keyPublic,key]
-            Private = decryptKey(keyPrivate,$scope.passphrase);
-            message = encryptWithMultiplePublicKeys(pKeys,Private,$scope.passphrase,$scope.message,);
+            var pKeys = [keyPublic,key]
+            var PrivateKey = decryptKey(keyPrivate,$scope.passphrase);
+            var message = encryptWithMultiplePublicKeys(pKeys,PrivateKey,$scope.passphrase,$scope.message,);
             message.then( function (encryptedMessage){
               sendMessage(encryptedMessage,userdata);
             }).catch(function (error){
@@ -168,7 +167,7 @@
           $scope.publish = false;
         }
 
-        messageRequest = $.param({
+        var messageRequest = $.param({
           id_sender: uid,
           username: $localStorage[uid + '-username'],
           content: messageEncrypted,
@@ -248,10 +247,10 @@
       }
 
       $scope.decrypt = async () => {
-        privateKey = getPrivateKey();
+        var privateKey = getPrivateKey();
         try {
           privateKey = decryptKey(privateKey,$scope.passphrase);
-          message = decriptMessage(privateKey, $scope.passphrase, $scope.data.content)
+          var message = decriptMessage(privateKey, $scope.passphrase, $scope.data.content)
         }catch(e){
           alert("Su passphrase es incorrecto")
         }
@@ -270,8 +269,8 @@
       }
 
       var getDate = function (messages){
-        for (i = 0; i < messages.length; i++){
-          sent = new Date(messages[i].data.timestamp);
+        for (var i = 0; i < messages.length; i++){
+          var sent = new Date(messages[i].data.timestamp);
           messages[i].sent = sent.toLocaleString();
         }
         return messages
@@ -290,7 +289,7 @@
           }).then(function (response){
               console.log(response);
               if (response.data.status == 200){
-                  messages = response.data.data;
+                  var messages = response.data.data;
                   $scope.correos = getDate(messages);
               }
           }).catch(function (error){
