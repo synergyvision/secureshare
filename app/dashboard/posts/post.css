@@ -35,3 +35,8 @@
 #userComments{
     background-color: #f8f9fc
 }
+
+#postForm{
+    padding-left: 0; 
+    padding-right: 0;
+}

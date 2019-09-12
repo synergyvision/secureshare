@@ -6,14 +6,14 @@
                 <div class="card-header">
                     Nueva publicación 
                 </div>
-                <div class="card-body">
+                <div class="card-body m-0" >
                     <form class="container" name="postForm" id="postForm">
-                        <input class="border-bottom w-100 m-0" id="status" type="text" ng-model="status" placeholder="¿En qué estás pensando?">
-                        </div>
+                        <input class="border-bottom w-100" id="status" type="text" ng-model="status" placeholder="¿En qué estás pensando?">
+                </div>
                         <div class="card-footer text-muted">
                             <ul class="nav justify-content-between" style="width: 100%">
                                 <li class="nav-item">
-                                    <div class="m-1">
+                                    <div class="m-1 ml-3">
                                         <input type="checkbox" class="form-check-input" value="false" ng-model="public" id="public" required>
                                         <label class="form-check-label" for="public">Público</label>
                                     </div>   
@@ -35,7 +35,7 @@
                         <div class="card">
                             <div class="card-header">
                                 <div class="row justify-content-between">
-                                    <span><img class="img-profile rounded-circle" style="height: 40px;width: 40px; margin-right: 2px;" ng-src="{{post.userPicture}}" onerror="this.src='img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
+                                    <span><img class="img-profile rounded-circle mr-2" style="height: 40px;width: 40px; margin-right: 2px;" ng-src="{{post.userPicture}}" onerror="this.src='img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
                                     <div ng-if="post.data.user_id == uid">
                                         <div class="btn-group" role="group" aria-label="Basic example">
                                             <button type="button" class="btn btn-primary" ng-click="editPost(post.id,post.data.content)"><i class="fas fa-edit"></i></button>
@@ -75,7 +75,7 @@
                             <div class="card">
                                 <div class="card-header">
                                     <div class="row justify-content-between">
-                                        <span><img class="img-profile rounded-circle" style="height: 40px;width: 40px; margin-right: 2px" ng-src="{{post.userPicture}}" onerror="this.src='../../img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
+                                        <span><img class="img-profile rounded-circle mr-2" style="height: 40px;width: 40px; margin-right: 2px" ng-src="{{post.userPicture}}" onerror="this.src='../../img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
                                         <ul class="navbar-nav ml-auto">
                                             <div class="btn-group" role="group" aria-label="Basic example">
                                                 <button type="button" class="btn btn-danger" ng-click="deletePost(post.id)"><i class="fas fa-trash"></i></button>

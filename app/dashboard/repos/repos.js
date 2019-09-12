@@ -48,6 +48,9 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
         $scope.tokenExists = response.data.tokenExists
         if ($scope.tokenExists == true){
           getRepoList()
+        }else{
+          console.log('here')
+          $state.go('dash.config')
         }
     }).catch(function (error){
         console.log(error)
@@ -78,42 +81,6 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
       })
     }
   
-    var encryptPassword = async (password) =>{
-      var publicKey = getServerKey()
-      return publicKey.then(async (publicKey) => {
-        publicKey = publicKey.replace(/(?:\\[r])+/g, "");
-        const options = {
-          message: openpgp.message.fromText(password),      
-          publicKeys: (await openpgp.key.readArmored(publicKey)).keys 
-        }
-        return openpgp.encrypt(options).then(ciphertext => {
-            var encrypted = ciphertext.data
-            return encrypted
-        })
-      })
-    }
-
-    $scope.getToken = function (){
-      password = encryptPassword($scope.password)
-      password.then(function (password){
-        var loginGit = $.param({
-          username: $scope.username,
-          password: password
-        }) 
-        $http({
-          url: __env.apiUrl + __env.repos + uid + '/getToken',
-          method: 'POST',
-          data: loginGit,
-          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token} 
-        }).then(function (response){
-            console.log(response.data)
-            $state.reload()
-        }).catch(function (error){
-            console.log(error)
-        })
-      })  
-    }
-
     $scope.getRepo = function (){
         $http({
           url: __env.apiUrl + __env.repos + uid + '/getRepo/' + dir,
