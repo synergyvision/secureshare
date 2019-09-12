@@ -198,6 +198,7 @@ angular.module('sharekey.posts', ['ui.router'])
           headers: {'Authorization':'Bearer: ' + token} 
         }).then(function (response){
            $scope.$parent.post = response.data.data;
+           console.log(response)
         }).catch (function (error){
           console.log(error.code)
           console.log(error.message)
@@ -205,6 +206,7 @@ angular.module('sharekey.posts', ['ui.router'])
       }
 
       $scope.askPassphrase = function (content){
+        console.log(content)
         $scope.$parent.postContent = content;
         var popup = angular.element('#Passphrase');
         popup.modal('show')
@@ -236,6 +238,7 @@ angular.module('sharekey.posts', ['ui.router'])
       $scope.decryptPost = function (passphrase){
         var privateKey = getMyDefaultPrivateKey();
         privateKey = decryptKey(privateKey,passphrase);
+        console.log($scope.postContent)
         post = decryptPost(privateKey,passphrase,$scope.postContent)
         post.then (function (content){
           var popup = angular.element('#Passphrase');

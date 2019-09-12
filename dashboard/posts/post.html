@@ -5,9 +5,10 @@
             <div class="card" ng-init="loadPost()">
                 <div class="card-header">
                     <div class="row justify-content-between">
-                        <span ng-if="post.userPicture"><img class="img-profile rounded-circle" ng-src="{{post.userPicture}}" style="height: 60px;width: 60px" onerror="this.src='img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
-                        <span ng-if="!post.userPicture"><img class="img-profile rounded-circle" src="img/default-user-icon-8.jpg" style="height: 60px;width: 60px" onerror="this.src='img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
+                        <span ng-if="post.userPicture"><img class="img-profile rounded-circle mr-2" ng-src="{{post.userPicture}}" style="height: 60px;width: 60px" onerror="this.src='img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
+                        <span ng-if="!post.userPicture"><img class="img-profile rounded-circle mr-2" src="img/default-user-icon-8.jpg" style="height: 60px;width: 60px" onerror="this.src='img/default-user-icon-8.jpg'">{{post.name}} ha publicado</span>
                         <div class="btn-group" role="group"  ng-if="post.data.user_id == uid" aria-label="Basic example" style="height: 50%">
+                                <button type="button" class="btn btn-primary" ng-if="post.data.public == 'false'" ng-click="askPassphrase(post.data.content)"><i class="far fa-eye"></i></button>
                             <button type="button" class="btn btn-primary" ng-if="post.data.public == 'true'" ng-click="editPost(post.id,post.data.content)"><i class="fas fa-edit"></i></button>
                             <button type="button" class="btn btn-danger" ng-click="deletePost(post.id)"><i class="fas fa-trash"></i></button>
                         </div>

@@ -3,49 +3,82 @@
    <p>Agrega redes sociales para verificar tu identidad</p>
    <div id="fb-root"></div>
 
-   <div class="shadow-sm p-3 mb-5 rounded" id="networks" ng-init="getSocials()">
-                <br>
-                <div id="facebook" ng-if="validFacebook == false">
-                        <div class="form-group">  
-                                <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email,user_posts"></div>      
+   <div ng-init="getSocials()">
+                <div class="card">
+                        <div class="card-header">
+                                Facebook
                         </div>
-                        <div class="form-group" ng-if="faceLogin">
-                                <div class="alert alert-info" role="alert">
-                                        Has iniciado sesión con Facebook, ahora pare validar coloca este mensaje en tus estados de Facebook y presiona verificar.
+                        <div class="card-body" ng-if="validFacebook == false">
+                                <div class="form-group">  
+                                        <div class="fb-login-button" data-width="" data-size="large" data-button-type="continue_with" data-auto-logout-link="false" data-use-continue-as="false" scope="public_profile,email,user_posts"></div>      
                                 </div>
-                                <div class="alert alert-info" role="alert">
-                                        "{{validationMessage}}"
-                                </div> 
-                                <button type="button" class="btn btn-primary btn-sm" ng-click="verify()">Verificar</button>
-                        </div>  
+                                <div class="form-group" ng-if="faceLogin">
+                                        <div class="alert alert-info" role="alert">
+                                                Has iniciado sesión con Facebook, ahora pare validar coloca este mensaje en tus estados de Facebook y presiona verificar.                                                        </div>
+                                        <div class="input-group mb-3">
+                                                <input type="text" class="form-control" id="validationMessage" value="{{validationMessage}}" disabled>
+                                                <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary" type="button" id="clipboard" data-toggle="tooltip" data-placement="top" title="Copiar" ng-click="copy()"><i class="fas fa-clipboard"></i></button>
+                                                </div>
+                                        </div> 
+                                        <button type="button" class="btn btn-primary" ng-click="verify()">Verificar</button>
+                                </div>  
+                        </div>
+                        <div class="card-body" ng-if="validFacebook == true">
+                                        <p>Facebook <i class="fas fa-check-double"></i></p>   
+                        </div>        
                 </div> 
-                <div id="facebook" ng-if="validFacebook == true">     
-                        <p>Facebook <i class="fas fa-check-double"></i></p>   
-                </div>              
-                <div class="form-group" id="twitter" ng-if="validTwitter == false">  
-                        <Label>Twitter</Label>
-                        <button type="button" class="btn btn-outline-info" ng-click="showTwitterMessage()">Añadir</button>
-                        <div class="form-group m-1" ng-if="showTwitter">
-                                <Label>Usuario de twitter</Label>
-                                <input type="text" class="form-control mb-3" ng-model="$parent.$parent.twitterUsername">
-                                <div class="alert alert-info" role="alert">
-                                        Para validar su twitter coloque el siguiente mensaje en su timeline y oprima verificar.
-                                </div>
-                                <div class="alert alert-info" role="alert">
-                                        "{{validationMessage}}"
+                <div class="card">
+                        <div class="card-header">
+                                Twitter
+                        </div>
+                        <div class="card-body" ng-if="validTwitter == false">
+                                <div class="form-group m-1" ng-init="showTwitterMessage()">
+                                        <Label>Usuario de twitter</Label>
+                                        <input type="text" class="form-control mb-3" ng-model="$parent.$parent.twitterUsername">
+                                        <div class="alert alert-info" role="alert">
+                                                Para validar su twitter coloque el siguiente mensaje en su timeline y oprima verificar.
+                                        </div>
+                                        <div class="input-group mb-3">
+                                                <input type="text" class="form-control" id="validationMessage" value="{{validationMessage}}" disabled>
+                                                <div class="input-group-append">
+                                                  <button class="btn btn-outline-secondary" type="button" id="clipboard" data-toggle="tooltip" data-placement="top" title="Copiar" ng-click="copy()"><i class="fas fa-clipboard"></i></button>
+                                                </div>
+                                        </div>
+                                        <button type="button" class="btn btn-primary" ng-click="getTwitterFeed()">Verificar</button>
                                 </div> 
-                                <button type="button" class="btn btn-primary" ng-click="getTwitterFeed()">Verificar</button>
-                        </div> 
-                        
+                               
+                        </div>
+                        <div class="card-body" ng-if="validTwitter == true">
+                                <p>Twitter <i class="fas fa-check-double"></i></p>     
+                        </div>        
                 </div>  
-                <div id="twitter" ng-if="validTwitter == true">     
-                        <p>Twitter <i class="fas fa-check-double"></i></p>   
-                </div>    
-                <div class="form-group" id="github" ng-if="validGitHub == true">
-                        <p>Github <i class="fas fa-check-double"></i></p>
-                </div>
-                <div class="form-group" id="github" ng-if="validGitHub == false">
-                        <a class="nav-link" ui-sref="dash.repos">Github</a>
-                </div>
-        </div>        
+                <div class="card">
+                        <div class="card-header">
+                                Github
+                        </div>
+                        <div class="card-body" ng-if="validGitHub == false">
+                                <div class="alert alert-primary" role="alert">
+                                        Para acceder a los repositorios por favor inicia sesión en Github.
+                                        </div>
+                                        <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-init="requestData()">
+                                        <form ng-submit="getToken()">
+                                                <div class="form-group">
+                                                        <label for="name">Usuario</label>
+                                                        <input type="text" class="form-control" ng-model="$parent.username" id="username">
+                                                </div>
+                                                <div class="form-group">
+                                                        <label for="lastname">Contraseña</label>
+                                                        <input type="password" class="form-control" id="password" ng-model="$parent.password">
+                                                </div>
+                                                <button type="submit" class="btn btn-primary">Enviar</button>
+                                        </form>
+                                </div>  
+                                
+                        </div>
+                        <div class="card-body" ng-if="validGitHub == true">
+                                        <p>Github <i class="fas fa-check-double"></i></p>
+                        </div>        
+                </div>        
+   </div>        
 </div>

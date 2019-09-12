@@ -1,24 +1,6 @@
 <div class="container-fluid" ng-controller="reposController">
        <div ng-init="checkToken()">
              <h2>Repositorios</h2>
-             <div ng-show="tokenExists == false">
-                  <div class="alert alert-primary" role="alert">
-                        Para acceder a los repositorios por favor inicia sesión en Github.
-                  </div>
-                  <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-init="requestData()">
-                        <form ng-submit="getToken()">
-                              <div class="form-group">
-                                    <label for="name">Usuario</label>
-                                    <input type="text" class="form-control" ng-model="username" id="username">
-                              </div>
-                              <div class="form-group">
-                                    <label for="lastname">Contraseña</label>
-                                    <input type="password" class="form-control" id="password" ng-model="password">
-                              </div>
-                              <button type="submit" class="btn btn-primary">Enviar</button>
-                        </form>
-                  </div>  
-            </div>
             <div ng-show="tokenExists == true">
                   <div ng-repeat="repo in repoList">
                         <div class="list-group">

@@ -81,6 +81,7 @@
             }).then(function (response){
                 console.log('chat created')
                 storeLocalChats(response.data.Id,$scope.title,participants); 
+                $scope.getChat(response.data.Id)
             }).catch(function (error){
               console.log(error);
               alert('Error en la creacion de chat intenta de nuevo')

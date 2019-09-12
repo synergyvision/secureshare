@@ -45,6 +45,8 @@ function encryptKeys(key,seed){
       $scope.showPassword = !$scope.showPassword;
     }
 
+    $scope.error = false;
+
 
     // receives a random generated 12 words phrase
     $scope.generarPalabras = function (){
@@ -240,6 +242,7 @@ function encryptKeys(key,seed){
     //get a keyname to recover
 
     $scope.getRecover = function (name){
+      $scope.error = false;
       $localStorage.KeyRecover = name;
       $scope.recoverKeys();
     }
@@ -319,6 +322,8 @@ function encryptKeys(key,seed){
       var popup = angular.element("#changeKey");
       //for hide model
       popup.modal('hide');
+      $scope.error = false;
+      $scope.phraseRecovery = ""
       delete $localStorage.KeyRecover;
       delete $localStorage.recoveryKey;
     }
@@ -326,35 +331,56 @@ function encryptKeys(key,seed){
     $scope.checkWords = function (){
       var words = translate($scope.phraseRecovery)
       var bytes  = CryptoJS.AES.decrypt($localStorage.recoveryKey.PrivKey,words);
-      var priv = bytes.toString(CryptoJS.enc.Utf8);
-      if (priv != ""){
-          $localStorage.recoveryKey.PrivKey = priv;
+      try {
+        var priv = bytes.toString(CryptoJS.enc.Utf8);
+        $localStorage.recoveryKey.PrivKey = priv;
           var popup = angular.element("#changeKey");
           //for hide model
           popup.modal('hide');
           var popup = angular.element("#appPass");
           //for hide model
           popup.modal('show');
-          
-      }else{
-        alert("La clave insertada no es correcta")
+      }catch(e){
+       $scope.error = 'La clave insertada no es correcta'
       }
-      
     }
+
+    
+    var encryptContent = async (privkey,pubkey,passphrase) =>{
+      const privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
+      await privKeyObj.decrypt(passphrase)
+      const options = {
+          message: openpgp.message.fromText('hello there'),      
+          publicKeys: (await openpgp.key.readArmored(pubkey)).keys                              
+      }
+
+      return openpgp.encrypt(options).then(ciphertext => {
+        var encrypted = ciphertext.data 
+        console.log(encrypted)
+        return encrypted
+
+      })
+    }    
+
 
     $scope.newPassword = function (){
       var words = translate($scope.keyPass)
       if (words){
-        console.log('here');
-        var localPrivateKey = encryptKeys($localStorage.recoveryKey.PrivKey,words)
-        localPrivateKey = localPrivateKey.toString();
-        localStorekeys($localStorage.recoveryKey.PubKey,localPrivateKey,$localStorage.recoveryKey.name,$localStorage.recoveryKey.default);
-        var popup = angular.element("#appPass");
-        //for hide model
-        popup.modal('hide');
-        alert("Su llave se ha activado exitosamente");
-        delete $localStorage.recoveryKey
-        $window.location.reload();
+            a = encryptContent($localStorage.recoveryKey.PrivKey,$localStorage.recoveryKey.PubKey,words)
+            a.then(function (){
+            var localPrivateKey = encryptKeys($localStorage.recoveryKey.PrivKey,words)
+            localPrivateKey = localPrivateKey.toString();
+            localStorekeys($localStorage.recoveryKey.PubKey,localPrivateKey,$localStorage.recoveryKey.name,$localStorage.recoveryKey.default);
+            var popup = angular.element("#appPass");
+            popup.modal('hide');
+            alert("Su llave se ha activado exitosamente")
+            delete $localStorage.recoveryKey
+            $scope.keyPass = ""
+            $window.location.reload();
+          }).catch(function (error){
+            console.log(error)
+            $scope.error = "passhphrase incorrecto"
+          })
       }else{
         alert('inserte passphrase de llave')
       }

@@ -84,6 +84,7 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
 
   (function(d){
     // load the Facebook javascript SDK
+    console.log('here')
     var js,
     id = 'facebook-jssdk',
     ref = d.getElementsByTagName('script')[0];
@@ -205,4 +206,60 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
          console.log(error)
       })
     }
+
+    var getServerKey = function (){
+      return $http({
+        url: __env.apiUrl + 'config/serverKeys',
+        method: 'GET'
+      }).then(function(response){
+        return response.data.publickey
+      }).catch(function (error){
+        console.log(error)
+      })
+    }
+
+    var encryptPassword = async (password) =>{
+      var publicKey = getServerKey()
+      return publicKey.then(async (publicKey) => {
+        publicKey = publicKey.replace(/(?:\\[r])+/g, "");
+        const options = {
+          message: openpgp.message.fromText(password),      
+          publicKeys: (await openpgp.key.readArmored(publicKey)).keys 
+        }
+        return openpgp.encrypt(options).then(ciphertext => {
+            var encrypted = ciphertext.data
+            return encrypted
+        })
+      })
+    }
+
+    $scope.getToken = function (){
+      console.log($scope.username,$scope.password)
+      password = encryptPassword($scope.password)
+      password.then(function (password){
+        var loginGit = $.param({
+          username: $scope.username,
+          password: password
+        }) 
+        $http({
+          url: __env.apiUrl + __env.repos + uid + '/getToken',
+          method: 'POST',
+          data: loginGit,
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token} 
+        }).then(function (response){
+            console.log(response.data)
+            alert('Github asociado exitosamente')
+            $scope.getSocials()
+        }).catch(function (error){
+            console.log(error)
+            alert('Usuario o contraseña invalidos')
+        })
+      })  
+    }
+
+    $scope.copy = function(){
+      var copyText = document.getElementById('validationMessage');
+      copyText.select(); 
+      document.execCommand("copy");
+    }    
 })

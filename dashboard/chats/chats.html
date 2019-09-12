@@ -33,7 +33,7 @@
                   <div class="col align-self-end mr-4 ml-2" ng-if="message.data.id_sender == uid" data-toggle="modal" data-target=".addPassphrase">  
                             <p id="sentMessage" class="text-md-right text-break bg-primary text-white pr-4"  style="font-size: 1.1em;">
                                 <small>{{message.data.username}}</small><br>
-                              <span ng-if="!message.decripted">Toca para ver</span>
+                              <span ng-if="!message.decripted">Click para ver</span>
                               <span ng-if="message.decripted">{{message.data.content}}</span>
                               <br>
                             <small style="font-size: 0.5em">{{message.sent}}</small></p>
@@ -41,7 +41,7 @@
                   <div class="col align-self-start ml-4 mr-2" ng-if="message.data.id_sender != uid" data-toggle="modal" data-target=".addPassphrase"> 
                                 <p id="receivedMessage" class="text-md-left text-break bg-light text-black pl-4" style="font-size: 1.1em;">
                                   <small>{{message.data.username}}</small><br>
-                                  <span ng-if="!message.decripted">Toca para ver</span>
+                                  <span ng-if="!message.decripted">Click para ver</span>
                                  <span ng-if="message.decripted">{{message.data.content}}</span>
                                 <br>
                                 <small style="font-size: 0.5em">{{message.sent}}</small></p>
