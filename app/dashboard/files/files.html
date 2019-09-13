@@ -13,8 +13,8 @@
                 <div class="form-group">
                     <label for="file">Selecciona el archivo</label>
                     <div class="custom-file mb-2 mr-sm-2" style="overflow: hidden;">
-                            <input type="file" file="file" id="customFile" required>
-                            <label class="custom-file-label" id="filelabel" for="customFile">{{file.name}}</label>
+                            <input type="file" file="file" id="customFile" class="custom-file-input" id="customFileLangHTML"required>
+                            <label class="custom-file-label" id="filelabel" data-browse="Elegir" for="customFile">{{file.name}}</label>
                     </div>
                 </div>
                 <div class="form-group">
@@ -27,8 +27,33 @@
                         <label for="user">Clave</label>
                     <input type="password" class="form-control" id="passphrase" ng-model="passphrase" placeholder="">
                 </div> 
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#contactsModal">Compartir</button>
                 <button type="submit" class="btn btn-primary">Descargar</button>
             </form>
         </div>    
     </div>
 </div>
+
+
+<div class="modal fade" id="contactsModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Contactos</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body" ng-init="getContacts()">
+                <div class="form-group form-check" ng-repeat="contact in contacts | orderBy: 'this.name'">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1" ng-click="addId(contact.id)">
+                    <label class="form-check-label" for="exampleCheck1">{{contact.name}} {{contact.lastname}}</label>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="deleteContacts()">Cancelar</button>
+              <button type="button" class="btn btn-primary" ng-click="getMultipleKeys()"  data-dismiss="modal">Seleccionar</button>
+            </div>
+          </div>
+        </div>
+      </div>

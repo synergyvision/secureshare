@@ -100,7 +100,7 @@ angular.module('sharekey.posts', ['ui.router'])
             posts[i].userPicture = 'img/default-user-icon-8.jpg'
           }
           var sent = new Date(posts[i].data.timestamp);
-          posts[i].data.timestamp = sent.toLocaleString(); 
+          posts[i].data.posted= sent.toLocaleString(); 
         }
         return posts
       } 

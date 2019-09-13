@@ -1,6 +1,6 @@
 <div class="container-fluid" ng-controller="surveyController">
     <div class="row justify-content-center" ng-init="getSurvey()">
-        <div class="col-12 align-self-center">
+        <div class="col-11 align-self-center">
             <div ng-if="survey.expired == false">
                 <div ng-if="survey.answered == false">
                     <div class="shadow-sm p-3 mb-5 rounded">
@@ -8,11 +8,12 @@
                             <h5>{{survey.title}}</h5>
                             <hr>
                             <div ng-repeat="question in survey.questions">
-                                <label for="question">{{question.question}}</label>  
+                                <label for="question">* {{question.question}}</label>  
                                 <br>
-                                <div class="form-check form-check-inline">
+                                <hr>
+                                <div class="form-check mb-2 p-0">
                                     <div ng-repeat="answer in question.answers">  
-                                        <div class="form-check form-check-inline">
+                                        <div class="form-check mb-2">
                                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="questionAnswer" ng-click="getId(question.questionId,answer)">
                                             <label class="form-check-label" for="questionAnswer">{{answer.content}}</label>
                                         </div>
@@ -37,15 +38,15 @@
                     <form id="Survey" ng-submit="fillSurvey()">
                         <h4>{{survey.title}} ha expirado!</h4>
                         <hr>
-                        <h5>Resultados</h5>
                         <div ng-repeat="question in survey.questions">
                             <label for="question">{{question.question}}</label>  
                             <br>
-                            <div class="form-check form-check-inline">
+                            <hr>
+                            <div class="form-check mb-2 p-0">
                                 <div ng-repeat="answer in question.answers">  
-                                    <div class="form-check form-check-inline">
-                                        <label class="form-check-label">&nbsp;{{answer.content}}</label>
-                                        <label class="form-check-label" for="questionAnswer">&nbsp;{{answer.votes}}</label>
+                                    <div class="form-check mb-2 p-0">
+                                        <label class="form-check-label">{{answer.content}}</label>
+                                        <label class="form-check-label" for="questionAnswer">{{answer.votes}}</label>
                                     </div>
                                 </div>  
                             </div>             
