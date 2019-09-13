@@ -1,6 +1,6 @@
 <div class="container">
   <h2>Ver mensaje</h2>
-    <div ng-controller="messagesController" ng-init="askPassphrase()">
+    <div ng-controller="messagesController">
       <form id="message">
         <div class="form-group">
           <div ng-if="data.sender">
@@ -13,7 +13,7 @@
         <div class="row">
           <div class="col-12">
             <div class="form-group">
-              <textarea class="form-control" id="message" ng-model="decrypted" rows="10"></textarea>
+              <textarea class="form-control" id="message" ng-model="decryptedContent" rows="10"></textarea>
             </div>
 
           <button type="submit" class="btn btn-primary" ng-click="respond(data.sender,data.id_sender)">Responder</button>
@@ -47,25 +47,4 @@
   </div>  
 
 
-    <div class="modal fade readModal" tabindex="-1" id="readPass" role="dialog" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" ng-init="getMessage()">
-            <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Introduzca clave para {{namekey}}</h5>
-              </div>
-              <div class="modal-body">
-                  <div class="form-group">
-                    <div ng-if="message">
-                        <div class="alert alert-danger" role="alert">
-                                {{message}}
-                        </div>
-                    </div>
-                    <input type="password" class="form-control" id="passphrase" ng-model="passphrase" placeholder="Clave de {{namekey}}"  >
-                  </div>
-              </div>
-              <div class="modal-footer">
-                  <button type="submit" class="btn btn-info" ng-click="decrypt()" data-dismiss="modal">Ver mensaje</button>
-              </div>
-            </div>
-        </div>
-    </div>    
+     

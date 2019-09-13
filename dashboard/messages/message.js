@@ -13,7 +13,10 @@
       url: '/messages?id',
       templateUrl: 'dashboard/messages/readMessage.html',
       controller: 'messagesController',
-      css: 'messages.css'
+      css: 'messages.css',
+      params: {
+        content: null 
+      }
     })
     $stateProvider.state('dash.inbox', {
       url: '/messageInbox',
@@ -35,6 +38,7 @@
       var token = $localStorage.userToken;
       var popup = angular.element("#messageSpinner");
       var read = angular.element("#readingSpinner");
+      $scope.decryptedContent = $stateParams.content
       
       $scope.getPublicKey =  function (idUser){
         if (!$scope.message){
@@ -96,7 +100,7 @@
 
       }
 
-      var encryptWithMultiplePublicKeys  = async (pubkeys, privkey = null, passphrase, message) => {
+      var encryptWithMultiplePublicKeys  = async (pubkeys, privkey, passphrase, message) => {
             pubkeys = pubkeys.map(async (key) => {
               return (await openpgp.key.readArmored(key)).keys[0]
             });
@@ -110,6 +114,7 @@
                 return encrypted
               })
           }else{
+            console.log('hola')
               const privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
               await privKeyObj.decrypt(passphrase)
 
@@ -149,10 +154,9 @@
             var keyPrivate = getPrivateKey($scope.chatKey);
             userdata[uid] = $scope.chatKey;
             var pKeys = [keyPublic,key]
-            if ($scope.publish == true){
+            if ($scope.passphrase){
               var PrivateKey = decryptKey(keyPrivate,$scope.passphrase);
             }
-           
             var message = encryptWithMultiplePublicKeys(pKeys,PrivateKey,$scope.passphrase,$scope.message,);
             message.then( function (encryptedMessage){
               sendMessage(encryptedMessage,userdata);
@@ -250,17 +254,17 @@
       }
 
       $scope.decrypt = async () => {
-        var privateKey = getPrivateKey();
+        var privateKey = getPrivateKey($rootScope.messageKeyname);
         try {
           privateKey = decryptKey(privateKey,$scope.passphrase);
-          var message = decriptMessage(privateKey, $scope.passphrase, $scope.data.content)
+          var message = decriptMessage(privateKey, $scope.passphrase, $rootScope.messageContent)
         }catch(e){
           alert("Su passphrase es incorrecto")
         }
         message.then(function (decrypted){
-          read.modal('hide');
-          $scope.decrypted = decrypted;
-          $scope.$apply();
+          console.log(decrypted)
+          $scope.passphrase = "";
+          $scope.readMessage($rootScope.messageId,$rootScope.status,decrypted)
         }).catch(function (error){
             alert('Verifique que su llave y passphrase sean correctas')
         })
@@ -329,11 +333,15 @@
         })
     }
 
-      $scope.readMessage =  function (id, status){
+      $scope.readMessage =  function (id, status,content){
         if (status == 'unread'){
             updateStatus(id);
         }
-        $state.go('dash.read',{'id': id})
+        delete  $rootScope.messageKeyname
+        delete $rootScope.messageId
+        delete $rootScope.status
+        delete $rootScope.messageContent
+        $state.go('dash.read',{'id': id,'content': content})
       }
 
       $scope.publishMessage = function (){
@@ -355,13 +363,11 @@
         })
       }
 
-      $scope.setName = function (keyname){
-        $scope.keyname = keyname
-      }
-
-      $scope.askPassphrase = function (){
-        modal = angular.element('#readPass')
-        modal.modal('show')
+      $scope.askPassphrase = function (id,key,content,status){
+        $rootScope.messageKeyname = key[uid]
+        $rootScope.messageContent = content
+        $rootScope.messageId = id
+        $rootScope.status = status
       }
 
 })

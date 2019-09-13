@@ -14,6 +14,8 @@ angular.module('sharekey.files', ['ui.router','ngFileSaver'])
     var uid = $localStorage.uid;
     var token = $localStorage.userToken;
     $scope.userKeys = $localStorage[uid + 'keys'];
+    $scope.share = false;
+    $scope.selected = [];
 
     
     var decryptContent = async (key,passphrase,content) => {
@@ -83,12 +85,32 @@ angular.module('sharekey.files', ['ui.router','ngFileSaver'])
       }
     }
 
+    var encryptMultipleKeys = async (pubkeys, message) => {
+        pubkeys = pubkeys.map(async (key) => {
+          return (await openpgp.key.readArmored(key)).keys[0]
+        });
+          const options = {
+            message: openpgp.message.fromText(message),
+            publicKeys: await Promise.all(pubkeys)       				  // for encryption
+          }
+          return openpgp.encrypt(options).then(ciphertext => {
+            var data = new Blob([ciphertext.data], { type: 'text/plain;charset=utf-8' });
+            FileSaver.saveAs(data, $scope.file.name);
+            $state.reload()
+        })
+     };
+
     var readFileEncrypt = function (key){
       var aReader = new FileReader();
       aReader.readAsText($scope.file, "UTF-8");
         aReader.onload = function (evt) {
           var fileContent = aReader.result;
-          encryptContent(key,fileContent)
+          if ($scope.otherKeys){
+            $scope.otherKeys.push(key);
+            encryptMultipleKeys($scope.otherKeys,fileContent)
+          }else{
+            encryptContent(key,fileContent)
+          }
       }
       aReader.onerror = function (evt) {
           console.log(evt)
@@ -103,9 +125,58 @@ angular.module('sharekey.files', ['ui.router','ngFileSaver'])
       }else if ($scope.operation == 1){
         var key = getPublicKey($scope.key)
         readFileEncrypt(key)
-
       }
     }
 
+    $scope.addId = function (id){
+      $scope.exists = false
+      for (var i = 0; i < $scope.selected.length; i++){
+        if ($scope.selected[i] == id){
+          $scope.selected.splice(i,1)
+          $scope.exists = true
+        }
+      }
+      if ($scope.exists == false){
+        $scope.selected.push(id)
+      }
+      console.log($scope.selected)
+      
+    }
+
+    $scope.getContacts = function (){
+      $http({
+        url: __env.apiUrl + __env.profile + uid + '/contacts',
+        method: 'GET',
+        headers: {'Authorization':'Bearer: ' + token} 
+      }).then(function (response){
+          $scope.contacts = response.data.data;
+          console.log($scope.contacts)
+      }).catch(function (error){
+          alert(error.message);
+      })
+    }
+
+    $scope.deleteContacts = function(){
+      $scope.selected = [];
+      console.log($scope.selected)
+    }
+
+       $scope.getMultipleKeys = async()=>{
+        var keyRequest = $.param({
+          id: JSON.stringify($scope.selected)
+        })
+       await $http({
+          url: __env.apiUrl + __env.profile + uid + '/getMultipleKeys',
+          method: 'POST',
+          data: keyRequest,
+          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
+        }).then(function (response){
+            console.log('retrieved public keys from server')
+            $scope.otherKeys = response.data.data;
+        }).catch(function (error){
+            console.log(error);
+        })
+    }
+    
 
 })
