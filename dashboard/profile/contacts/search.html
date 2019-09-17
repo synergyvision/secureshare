@@ -1,6 +1,6 @@
 <div id="contatcs" ng-controller="contactsController">
     <div class="m-3">
-        <h2>Busqueda</h2>        
+        <h2>{{'contacts.search_title' | translate}}</h2>        
     </div>
     <div class="content" ng-init="getUsers()">
         <div ng-repeat="user in users | filter: search">    
@@ -14,10 +14,10 @@
                         <div class="card-body">
                             <h5 class="card-title">{{user.name}} {{user.lastname}}</h5>
                             <div ng-if="user.contact == true">
-                            <a id="button" class="btn btn-primary" ui-sref="dash.publications({user_id: contact.id})">Ver publicaciones</a>
+                            <a id="button" class="btn btn-primary" ui-sref="dash.publications({user_id: contact.id})">{{'contacts.profile' | translate}}</a>
                             </div>
                             <div ng-if="user.contact == false && user.id != uid">
-                                <a id="button" class="btn btn-primary" ng-click="sendRequest(user.id)">Enviar solicitud</a>
+                                <a id="button" class="btn btn-primary" ng-click="sendRequest(user.id)">{{'contacts.requests' | translate}}</a>
                             </div>    
                         </div>
                     </div> 

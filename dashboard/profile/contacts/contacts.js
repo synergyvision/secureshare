@@ -16,10 +16,12 @@
       })
   }])
 
-  .controller('contactsController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage,__env,$stateParams){
+  .controller('contactsController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage,__env,$stateParams,$filter){
       var uid = $localStorage.uid;
       var token = $localStorage.userToken;
       $scope.uid = $localStorage.uid;
+
+      var translate = $filter('translate')
       
       $scope.getContacts = function (){
 
@@ -35,7 +37,6 @@
             }
         }).catch(function (error){
             if (error.status == 401){
-              alert('Su sesion ha vencido')
               $state.go('dash.login');
             }
         })
@@ -55,7 +56,6 @@
             }).catch(function (error){
                 if (error){
                   if (error.status == 401){
-                      alert('Su sesion ha vencido')
                       $state.go('login');
                   }
                   else{
@@ -78,12 +78,11 @@
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
             if (response.data.status == 201){
-                alert('Solicitud enviada');
+                alert(translate('contacts.sent_request'));
             }
         }).catch(function (error){
                 if (error){
                     if (error.status == 401){
-                        alert('Su sesion ha vencido')
                         $state.go('login');
                     }
                     else{

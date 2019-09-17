@@ -1,8 +1,8 @@
 <div class="d-sm-flex align-items-left justify-content-start" id = "title">
-    <h1 class="h3 text-gray-800">Tus llaves</h1>
+    <h1 class="h3 text-gray-800">{{'keys.title' | translate}}</h1>
 </div>
 <div class="d-sm-flex align-items-left justify-content-start" id = "title">
-    <p>Lista de llaves creadas por ti</p>
+    <p>{{'keys.undertitle' | translate}}</p>
 </div>
 
 <div ng-controller="keysController">
@@ -13,7 +13,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">Nombre<th>
+                <th scope="col">{{'keys.table_name' | translate}}<th>
               </tr>
             </thead>
               <tbody>
@@ -21,41 +21,41 @@
                   <td ng-if="key.default == true"><i class="fas fa-star" style="color: blue;"></i> {{key.name}} </td>
                   <td ng-if="key.default == false"><i class="far fa-star" ng-click="useKeys(key.name)"></i>{{key.name}}</a> </td>
                   <td id="activated" ng-if="key.activated == true"></i><button id="borrar" type="button" data-toggle="modal" data-target=".deleteWarning" class="btn btn-danger" ng-click="getKeyname(key.name)"><i class="fas fa-trash"></i></button></td>
-                  <td id="activated" ng-if="key.activated == false"><button type="button" class="btn btn-link btn-sm" ng-click="getRecover(key.name)">Activar</button></td>
+                  <td id="activated" ng-if="key.activated == false"><button type="button" class="btn btn-link btn-sm" ng-click="getRecover(key.name)">{{'keys.activate' | translate}}</button></td>
                 </tr>
               </tbody>  
           </table>
           </div>
         </div>
         <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-if="!keys">
-            <span>No tiene llaves creadas.</span>
+            <span>{{'keys.no_keys' | translate}}</span>
         </div>   
     </div>  
 
   <div class="d-sm-flex align-items-center justify-content-between" id = "title">
-      <h1 class="h3 mb-1 text-gray-800">Agregar</h1>
+      <h1 class="h3 mb-1 text-gray-800">{{'keys.add_title' | translate}}</h1>
   </div>
   <div class="d-sm-flex align-items-left justify-content-start" id = "title">
-      <p>Crea una nueva llave</p>
+      <p>{{'keys.add_undertitle' | translate}}</p>
   </div>
   
       <div class="row justify-content-center m-3">
           <div class="shadow-sm p-3 mb-5 rounded w-100" id="form" ng-init="generarPalabras()">
               <form ng-submit="generateKeys()">
                   <div class="form-group">
-                      <label for="keyname">Nombre de la llave</label>
+                      <label for="keyname">{{'keys.keyname' | translate}}</label>
                       <input type="text" id="keyname" ng-model="newName" class="form-control" required>  
                     </div>
                     <div class="form-group">
-                      <label for="name">Nombre de usuario</label>
+                      <label for="name">{{'keys.username' | translate}}</label>
                       <input type="text" class="form-control" ng-model="name" id="name" required>
                     </div>
                     <div class="form-group">
-                      <label for="email">Correo</label>
+                      <label for="email">{{'keys.email' | translate}}</label>
                       <input type="text" class="form-control" ng-model="email" id="email" required>
                     </div>
                     <div class="form-group">
-                      <label for="passphrase">Clave</label>
+                      <label for="passphrase">{{'keys.pass' | translate}}</label>
                       <div class="input-group mb-3">
                         <input type="text" class="form-control" ng-model="passphrase" id="passphrase" ng-attr-type="{{ showPassword ? 'text':'password'}}" required>
                         <div class="input-group-append">
@@ -64,14 +64,14 @@
                       </div>
                     </div>
                     <div class="form-group">
-                      <label for="name">Frase de recuperación</label>
+                      <label for="name">{{'keys.recovery' | translate}}</label>
                       <div class="alert alert-info" role="alert">
-                        Debe insertar una frase de doce palabras para resguardar sus llaves, puede usar una frase propia o utilizar la generada por la aplicación.
+                        {{'keys.alert' | translate}}
                       </div>
                     </div>
                     <div class="form-group">
                       <div class="alert alert-danger" role="alert">
-                        Debe resguardar en un lugar seguro, si la pierde no podra recuperar la llave, no deje especios al final de las palabras.
+                        {{'keys.alert2' | translate}}
                       </div>
                       <div class="form-group">
                       </div>
@@ -83,7 +83,7 @@
                         </div>
                       </div>
                     </div>
-                      <button type="submit" data-target=".spinnerModal"class="btn btn-primary">Agregar</button>
+                      <button type="submit" data-target=".spinnerModal"class="btn btn-primary">{{'keys.new_key' | translate}}</button>
               </form>
             </div>  
           </div>  
@@ -95,19 +95,19 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Advertencia</h5>
+        <h5 class="modal-title" id="exampleModalLabel">{{'keys.warning' | translate}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
         <div class="alert alert-danger" role="alert">
-          Esta acción es altamente destructiva, al borrar su llave perderá acceso a todo su contenido previo que haya sido encriptado (chats,archivos,mensajes)
+          {{'keys.delete_warning' | translate}}
         </div>
       </div>
       <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-dismiss="modal">Me arrepiento</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteKeys()">Seguir adelante</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal"> {{'keys.back_button' | translate}}</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" ng-click="deleteKeys()"> {{'keys.delete_button' | translate}}</button>
       </div>
     </div>
   </div>
@@ -118,7 +118,7 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Informacion</h5>
+            <h5 class="modal-title" id="exampleModalLabel"> {{'keys.modal_title' | translate}}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -126,7 +126,7 @@
           <div class="modal-body">
             <div class="form-group">
               <div class="alert alert-info" role="alert">
-                Para activar su clave, introduzca sus frase de 12 palabras
+                {{'keys.ask_recovery' | translate}}
               </div>
               <div ng-if="error != false" class="alert alert-danger" role="alert">
                   {{error}}
@@ -135,8 +135,8 @@
             </div>
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-dark" ng-click="closeRecover()">Cancelar</button>
-            <button type="button" class="btn btn-success" ng-click="checkWords()">Continuar</button>
+              <button type="button" class="btn btn-dark" ng-click="closeRecover()">{{'keys.cancel_button' | translate}}</button>
+            <button type="button" class="btn btn-success" ng-click="checkWords()">{{'keys.continue' | translate}}</button>
           </div>
         </div>
       </div>
@@ -146,12 +146,12 @@
       <div class="modal-dialog modal-lg">
           <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+              <h5 class="modal-title" id="exampleModalLabel">{{'keys.modal_title' | translate}}</h5>
           </div>
           <div class="modal-body">
               <div class="form-group">
               <div class="alert alert-info" role="alert">
-                  Introduzca la clave de la llave
+                {{'keys.ask_pass' | translate}}
               </div>
               <div ng-if="error != false">
                   <div class="alert alert-danger" role="alert">
@@ -172,7 +172,7 @@
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
-          Creando credenciales
+        {{'keys.loading' | translate}}
       </div>
       <div class="modal-body">
           <div class="d-flex justify-content-center">

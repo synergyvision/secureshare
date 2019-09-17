@@ -5,3 +5,21 @@
 #days{
     width: 10%;
 }
+
+@media (max-width: 800px){
+    #newSurveysButton{
+      margin-left: -33px;
+    }
+  }
+  
+  @media (min-width: 1600px){
+    #newSurveysButton{
+      padding-left: 80px
+    }
+  }
+  
+  
+  #newSurveysButton{
+    padding-left: 33px;
+  
+  }

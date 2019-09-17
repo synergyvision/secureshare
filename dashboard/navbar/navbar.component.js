@@ -28,21 +28,16 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
 
 
 
-.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage,__env,toaster){
+.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage,__env,toaster,$filter){
     $scope.user = $localStorage[$localStorage.uid + '-username']
     var uid = $localStorage.uid;
     $scope.profilePicture = $localStorage.userPicture;
     var token = $localStorage.userToken;
     $scope.someToast = false;
-    if ($localStorage.search){
-        $scope.search = $localStorage.search;
-    }
-    if (!uid){
-        alert('Inicie sesión para disfrutar de la aplicación')
-        $state.go('login');
-    }
 
     var i = 0;
+
+    var translate = $filter('translate')
 
     $scope.getSearch = function (){
         if ($scope.search){
@@ -62,7 +57,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
         }).then(function (response){
             console.log(response.data)
         }).catch(function (error){
-            alert(error)
+            console.log(error)
         })
     }
 
@@ -86,7 +81,6 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
         }).catch(function (error){
             console.log(error);
             if (error.status == 401){
-              alert('Su sesion ha vencido por inactividad')
               $state.go('dash.login');
             }
         })
@@ -117,16 +111,15 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
             console.log(response.data)
             if (response.data.status == 200){
                 if (response.data.accepted == true){
-                    alert('Has aceptado la solicitud de amistad')
+                    alert(translate('navbar.request_accepted'))
                     $state.reload();
                 }else{
-                    alert('Has rechazado la soliciud');
+                    alert(translate('navbar.request_denied'));
                     $state.reload();
                 }
             }
         }).catch(function (error){
             if (error.status == 401){
-                alert('Su sesion ha vencido')
                 $state.go('login');
               }
         })
@@ -157,7 +150,7 @@ angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
         }).catch(function (error){
             console.log(error);
             if (error.status == 401){
-              alert('Su sesion ha vencido')
+              alert(translate('navbar.token_expired'))
               $state.go('login');
             }
         })

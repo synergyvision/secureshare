@@ -6,7 +6,7 @@
             <a class="sidebar-brand d-flex align-items-center justify-content-center" ui-sref="dash.posts">
             <div class="sidebar-brand-icon rotate-n-15">
             </div>
-            <div class="sidebar-brand-text mx-3">sharekey</div>
+            <div class="sidebar-brand-text mx-3">{{'sidebar.title' | translate }}</div>
             </a>
         
             <!-- Divider -->
@@ -16,7 +16,7 @@
             <li class="nav-item active">
             <a class="nav-link" ui-sref="dash.posts">
                 <i class="fas fa-home"></i>
-                <span>Inicio</span></a>
+                <span>{{'sidebar.home' | translate }}</span></a>
             </li>
         
             <hr class="sidebar-divider">
@@ -24,42 +24,42 @@
             <li class="nav-item active">
                 <a class="nav-link collapsed" data-toggle="collapse" data-target="#profileMenu" aria-expanded="true" aria-controls="#profileMenu">
                     <i class="fas fa-user-circle"></i>
-                    <span>Perfil</span>
+                    <span>{{'sidebar.profile' | translate }}</span>
                 </a>
                 <div id="profileMenu" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                    <a class="collapse-item" ui-sref="dash.profile">Información personal</a>
-                    <a class="collapse-item" ui-sref="dash.keys">Llaves</a>
-                    <a class="collapse-item" ui-sref="dash.contacts">Contactos</a>
-                    <a class="collapse-item" ui-sref="dash.config">Conectar Redes</a>
-                    <a class="collapse-item" ui-sref="dash.publications({user_id: id})">Publicaciones</a>
+                    <a class="collapse-item" ui-sref="dash.profile">{{'sidebar.personal_info' | translate }}</a>
+                    <a class="collapse-item" ui-sref="dash.keys">{{'sidebar.keys' | translate }}</a>
+                    <a class="collapse-item" ui-sref="dash.contacts">{{'sidebar.contacts' | translate }}</a>
+                    <a class="collapse-item" ui-sref="dash.config">{{'sidebar.networks' | translate }}</a>
+                    <a class="collapse-item" ui-sref="dash.publications({user_id: id})">{{'sidebar.feedbacks' | translate }}</a>
                     </div>
                 </div>
             </li>
             <li class="nav-item active">
                     <a class="nav-link" ui-sref="dash.inbox">
                         <i class="fas fa-envelope"></i>
-                        <span>Mensajes</span></a>
+                        <span>{{'sidebar.messages' | translate }}</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" ui-sref="dash.chats">
                     <i class="fas fa-comments"></i>
-                    <span>Chats</span></a>
+                    <span>{{'sidebar.chats' | translate }}</span></a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" ui-sref="dash.surveys">
                     <i class="fas fa-poll-h"></i>
-                    <span>Encuestas</span></a>
+                    <span>{{'sidebar.surveys' | translate }}</span></a>
             </li>
             <li class="nav-item active">
                     <a class="nav-link" ui-sref="dash.repos">
                         <i class="fas fa-folder-open"></i>
-                        <span>Repositorios</span></a>
+                        <span>{{'sidebar.repos' | translate }}</span></a>
             </li>  
             <li class="nav-item active">
                 <a class="nav-link" ui-sref="dash.files">
                     <i class="fas fa-file"></i>
-                    <span>Archivos</span></a>
+                    <span>{{'sidebar.files' | translate }}</span></a>
              </li>      
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -73,7 +73,7 @@
        <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column" >
             <!-- Main Content -->
-        <div id="content">
+        <div id="content"  style="background-color: rgb(255, 255,255) !important">
             <navbar></navbar>
             <div id="container-fluid" ng-controller="dashboardController" ng-init="keysExists()">
                     <ui-view></ui-view>

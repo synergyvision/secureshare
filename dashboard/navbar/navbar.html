@@ -9,7 +9,7 @@
         <!-- Topbar Search -->
         <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search" ng-submit="getSearch()">
         <div class="input-group">
-            <input type="text" class="form-control" style="margin-top: 2px;" placeholder="Búsqueda..." aria-label="Search" aria-describedby="basic-addon2" value="search" ng-model="search">
+            <input type="text" class="form-control" style="margin-top: 2px;" placeholder="{{'navbar.search' | translate}}" aria-label="Search" aria-describedby="basic-addon2" value="search" ng-model="search">
             <div class="input-group-append">
             <button class="btn btn-primary" type="submit">
                 <i class="fas fa-search fa-sm"></i>
@@ -24,7 +24,7 @@
         <div id="content">
 
         <!-- Topbar Navbar -->
-        <ul class="navbar-nav ml-auto" style="justify-content: flex-end">
+        <ul class="navbar-nav ml-auto bg-white"  style="justify-content: flex-end">
 
         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
         <li class="nav-item dropdown no-arrow d-sm-none">
@@ -35,7 +35,7 @@
             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
             <form class="form-inline mr-auto w-100 navbar-search">
                 <div class="input-group">
-                <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                <input type="text" class="form-control bg-light border-0 small" placeholder="{{'navbar.search | translate'}}" aria-label="Search" aria-describedby="basic-addon2">
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="button">
                     <i class="fas fa-search fa-sm"></i>
@@ -55,12 +55,12 @@
             <!-- Dropdown - Alerts -->
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown" >
             <h6 class="dropdown-header">
-                Solicitudes
+                {{'navbar.request' | translate}}
             </h6>
             <div ng-if="quantity == '0'">
                 <a class="dropdown-item d-flex align-items-center">
                     <div>
-                        <span class="font-weight-bold">No hay solicitudes nuevas</span>
+                        <span class="font-weight-bold">{{'navbar.no_request_found' | translate}}</span>
                     </div>
                 </a>
             </div>    
@@ -73,10 +73,10 @@
                                     <div class="status-indicator bg-success"></div>
                                 </div>
                         <div>
-                            <span class="font-weight-bold">{{request.name}} {{request.lastname}} te ha enviado una solicitud de amistad!</span>
+                            <span class="font-weight-bold">{{request.name}} {{request.lastname}} {{'navbar.request_body' | translate}}</span>
                             <div id="buttons">
-                                <button type="button" class="btn btn-primary btn-sm" ng-click="acceptRequest(request.requestId)">Aceptar</button>
-                                <button type="button" class="btn btn-secondary btn-sm" ng-click="rejectRequest(request.requestId)">Rechazar</button>
+                                <button type="button" class="btn btn-primary btn-sm" ng-click="acceptRequest(request.requestId)">{{'navbar.accept_button' | translate}}</button>
+                                <button type="button" class="btn btn-secondary btn-sm" ng-click="rejectRequest(request.requestId)">{{'navbar.deny_button' | translate}}</button>
                             </div>    
                         </div>
                     </a>
@@ -95,12 +95,12 @@
             <!-- Dropdown - Messages -->
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="messagesDropdown">
             <h6 class="dropdown-header">
-                Mensajes
+                {{'navbar.messages' | translate}}
             </h6>
             <div ng-if="!unreadMessages">
                 <a class="dropdown-item d-flex align-items-center">
                     <div>
-                        <span class="font-weight-bold">No hay mensajes nuevos</span>
+                        <span class="font-weight-bold">{{'navbar.no_messages' | translate}}</span>
                     </div>
                 </a>
             </div>
@@ -109,11 +109,11 @@
                     <div ng-if="message.data.status == 'unread'">
                         <a class="dropdown-item d-flex align-items-center">
                             <div class="font-weight-bold">
-                                <div class="text-truncate">{{message.data.sender}} te ha enviado un mensaje!</div>
+                                <div class="text-truncate">{{message.data.sender}} {{'navbar.message_body' | translate}}</div>
                                 <!-- <div class="small text-gray-500">Hace {{message.data.timestamp}}</div> -->
                                 <div id="buttons">
-                                        <button type="button" class="btn btn-primary btn-sm" ng-click="readMessage(message.id,message.data.status)">Ver</button>
-                                        <button type="button" class="btn btn-secondary btn-sm" ng-click="deleteMessage(message.id)">Eliminar</button>
+                                        <button type="button" class="btn btn-primary btn-sm" ng-click="readMessage(message.id,message.data.status)">{{'navbar.message_button' | translate}}</button>
+                                        <button type="button" class="btn btn-secondary btn-sm" ng-click="deleteMessage(message.id)">{{'navbar.message_delete' | translate}}</button>
                                 </div>    
                             </div>  
                          </a> 
@@ -136,7 +136,7 @@
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
             <a class="dropdown-item" ng-click="logout()">
                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400" ></i>
-                Cerrar sesión
+                {{'navbar.logout' | translate}}
             </a>
             </div>
         </li>

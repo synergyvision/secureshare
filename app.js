@@ -32,10 +32,12 @@ var ngModule = angular.module('sharekey', [
   'sharekey.surveys',
   'sharekey.repos',
   'sharekey.files',
-  'sharekey.config'
+  'sharekey.config',
+  'pascalprecht.translate'
 ]).
-config(['$locationProvider', '$urlRouterProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {
+config(['$locationProvider', '$urlRouterProvider','$translateProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {
   $locationProvider.hashPrefix('!')
+
 }])
 
 ngModule.constant('__env', env)

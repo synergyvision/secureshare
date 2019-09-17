@@ -1,20 +1,20 @@
 <div class="container">
-  <h4>Nuevo mensaje</h4>
+  <h4>{{'messages.new_message' | translate}}</h4>
   <div ng-controller="messagesController" ng-init="getContacts()">
     <div class="row justify-content-center">
       <form id="newMessage" class="col-6 shadow-sm p-3 mb-5 rounded" ng-submit="getPublicKey(id_recipient)">
         <div class="form-group">
-          <label for="user">Enviar mensaje a</label>
+          <label for="user">{{'messages.new_message_to' | translate}}</label>
           <select class="form-control" id="recipient" ng-model="id_recipient">
               <option ng-repeat="contact in contacts" value="{{contact.id}}">{{contact.name}} {{contact.lastname}}</option>
             </select>
         </div>
         <div class="form-group">
-          <label for="message">Mensaje</label>
+          <label for="message">{{'messages.text' | translate}}</label>
           <textarea class="form-control" id="message" ng-model="$parent.message" rows="3"></textarea>
         </div>
         <div class="form-group">
-            <label for="keys">Seleccione la llave</label>
+            <label for="keys">{{'messages.key_Select' | translate}}</label>
             <select class="form-control" id="userkeys" ng-model="$parent.chatKey">
                 <option ng-repeat="key in userKeys" value="{{key.keyname}}" ng-click="setName(key.keyname)">{{key.keyname}}</option>
               </select>
@@ -22,18 +22,18 @@
         <div class="form-group">
               <div class="input-group mb-3">
                   <div class="input-group-prepend">
-                    <span class="input-group-text" id="basic-addon1">Firmar</span>
+                    <span class="input-group-text" id="basic-addon1">{{'messages.sign' | translate}}</span>
                   </div>
                   <input type="password" class="form-control" ng-model="$parent.passphrase" id="signMessage" placeholder="clave para {{$parent.chatKey}}" aria-describedby="basic-addon1">
               </div>
             <div class="form-check">
               <input class="form-check-input" type="checkbox" id="publishMessage" ng-model="publish">
               <label class="form-check-label" for="publishMessage">
-                Público
+                {{'messages.publish?' | translate}}
               </label>
           </div>
         </div> 
-          <button type="submit" class="btn btn-primary">Enviar</button>
+          <button type="submit" class="btn btn-primary">{{'messages.send' | translate}}</button>
         </form>
       </div>
   </div>

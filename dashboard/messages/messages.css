@@ -35,6 +35,19 @@
   margin-bottom: 3px;
 }
 
+@media (max-width: 800px){
+  #newMessageButton{
+    margin-left: -33px;
+  }
+}
+
+@media (min-width: 1600px){
+  #newMessageButton{
+    padding-left: 80px
+  }
+}
+
+
 #newMessageButton{
   padding-left: 33px;
 

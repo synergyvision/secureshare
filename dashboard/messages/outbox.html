@@ -1,7 +1,7 @@
 <div class="container" ng-controller="messagesController" id="messageList">
         <div class="row">
                 <div class="col-11">
-                    <h2>Bandeja de Salida</h2>
+                    <h2>{{'messages.outbox' | translate}}</h2>
                 </div>
                 <div class="col-1" id="newMessageButton">
                      <button type="button" id="newCorreo" ui-sref="dash.messages" class="btn btn-info"><i class="fas fa-plus-circle"></i></button>
@@ -10,10 +10,10 @@
         <div id ="trays">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" ui-sref="dash.inbox">Entrada</a>
+                    <a class="nav-link" ui-sref="dash.inbox">{{'messages.tab-inbox' | translate}}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active">Enviados</a>
+                    <a class="nav-link active">{{'messages.tab_outbox' | translate}}</a>
                 </li>
             </ul>
         </div>    
@@ -21,7 +21,7 @@
             <div ng-repeat="correo in correos | orderBy: '-this.data.timestamp'">
                 <a id="mail"class="list-group-item list-group-item-secondary list-group-item-action w-100">
                     <div class="d-flex w-90 justify-content-between">
-                        <h5 class="sm-1">A: {{correo.data.r_username}}</h5>
+                        <h5 class="sm-1">{{'messages.to' | translate}} {{correo.data.r_username}}</h5>
                         <small>{{correo.sent}}</small>
                         <div class="btn-group">
                             <button type="button" class="btn btn-success" ng-click="readMessage(correo.id,correo.data.status)"><i class="far fa-eye"></i></button>

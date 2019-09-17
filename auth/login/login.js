@@ -22,8 +22,9 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
   $urlRouterProvider.otherwise('/');
 }])
 
-.controller('LoginController', function($scope,$http,$location,$cookies,$localStorage,$state,__env) {
+.controller('LoginController', function($scope,$http,$location,$cookies,$localStorage,$state,__env,$filter,$translate) {
   
+  var translate = $filter('translate')
 
   var getServerKey = function (){
     return $http({
@@ -77,18 +78,18 @@ angular.module('sharekey.login', ['ui.router','ngCookies'])
                   $localStorage.userPicture = response.data.content.profileUrl;
                   $state.go('dash.posts');
               }else{
-                errorLogin(response.data.message);
+                errorLogin(translate('login.error'));
               }  
             })
           }else{
             if (response.data.status === 'auth/wrong-password'){
-              errorLogin('Su contraseña es incorrecta');
+              errorLogin(translate('login.password_error'));
             } else if (response.data.status === 'auth/user-not-found'){
-              errorLogin('Su correo es inválido');
+              errorLogin(translate('login.email_error'));
             }
           }
         }).catch(function (error){
-          alert('Ha ocurrido un error intentelo mas tarde')
+          alert(translate('login.error'))
         })
       })  
     }
