@@ -25,7 +25,9 @@ angular.module('sharekey.reset', ['ngRoute'])
   });
 }])
 
-.controller('CheckEmailController', function($scope,$http,__env) {
+.controller('CheckEmailController', function($scope,$http,__env,$filter) {
+
+  var translate = $filter('translate')
   
   $scope.sendEmail = function(){
     var emailRequest = $.param({
@@ -39,9 +41,9 @@ angular.module('sharekey.reset', ['ngRoute'])
       headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'}
     }).then(function(response){
       if (response.data.status == 200){
-        message(response.data.message);
+        alert(response.data.message);
       }else {
-          error('Su correo es invalido o no se encuentra registrado')
+          error(translate('recoverPassword.error_not_found'))
       }
     })
   }

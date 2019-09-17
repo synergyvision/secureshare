@@ -41,8 +41,9 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
   };
 })
 
-.controller('profileController', function($scope,$http,$localStorage,$state,$location,$stateParams){
+.controller('profileController', function($scope,$http,$localStorage,$state,$location,$stateParams,$filter){
   var token = $localStorage.userToken;
+  var translate = $filter('translate')
 
       $scope.requestData = function(){
         $http({
@@ -62,7 +63,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
             }
         }).catch(function (e){
           if (e.status == 401){
-              error('Su sesion ha vencido')
+              error(translate('personalInfo.expired_error'))
               $state.go('login');
             }
           })
@@ -86,7 +87,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
             if (response.data.status == 200){
                 console.log('User data updated');
                 $state.reload();
-                success('El perfil se ha actualizado exitosamente');
+                success(translate('personalInfo.success'));
                 $scope.uploadPhoto();
             }else{
               error(response.data.message)
@@ -227,7 +228,7 @@ angular.module('sharekey.profile', ['ngRoute','ui.router'])
           }
       }).catch(function (e){
         if (e.status == 401){
-            error('Su sesion ha vencido')
+          error(translate('feedback.expired_error'))
             $state.go('login');
           }
         })    

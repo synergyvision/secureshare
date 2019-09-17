@@ -19,8 +19,10 @@ angular.module('sharekey.register', ['ngRoute'])
   });
 }])
 
-.controller('SignUpController', function($scope,$http,$location,$state,__env) {
+.controller('SignUpController', function($scope,$http,$location,$state,__env,$filter) {
   
+  var translate = $filter('translate')
+
   $scope.sendData = function(){
     var signUpRequest = $.param({
       email: $scope.email,
@@ -42,9 +44,9 @@ angular.module('sharekey.register', ['ngRoute'])
         $state.go('login');
       }else{
         if (response.data.status == 400){
-          error('El nombre de usuario no esta disponible');
+          error(translate('register.username_error'));
         } else if (response.data.status === 'auth/email-already-in-use'){
-          errorLogin('Su correo ya se encuentra asociado a una cuenta');
+          errorLogin(translate('register.email_error'));
         }
       }
     })

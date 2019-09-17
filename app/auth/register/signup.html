@@ -2,38 +2,38 @@
   <div class="row">
       <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
           <div class="media justify-content-center mx-auto" style="margin-top: 45px">
-              <img class="align-self-center" src="../../img/vision.svg" style="width: 80%;height: 80%;" alt="Generic placeholder image">
+              <img class="align-self-center" src="../../img/vision.svg" style="width: 45%;height: 45%;" alt="Generic placeholder image">
           </div>
         
         <div class="card card-signin my-5">
           <div class="card-body">
-            <h5 class="card-title text-center">Crear cuenta</h5>
+            <h5 class="card-title text-center">{{'register.title' | translate}}</h5>
             <div ng-controller="SignUpController">
             <form class="user" id="register" ng-submit="sendData()">
             <div class="form-group">
-                    <input type="text" id="name" ng-model="name" placeholder="Nombre" class="form-control form-control-user" required autofocus>
+                    <input type="text" id="name" ng-model="name" placeholder="{{'register.name' | translate}}" class="form-control form-control-user" required autofocus>
             </div>
             <div class="form-group">
-                    <input type="text" id="lastname" ng-model="lastname" placeholder="Apellido" class="form-control form-control-user" required>
+                    <input type="text" id="lastname" ng-model="lastname" placeholder="{{'register.lastname' | translate}}" class="form-control form-control-user" required>
             </div>
               <div class="form-group">
-                <input type="email" id="email" ng-model="email" class="form-control form-control-user" placeholder="Correo eléctronico" required>
+                <input type="email" id="email" ng-model="email" class="form-control form-control-user" placeholder="{{'register.email' | translate}}" required>
               </div>
               <div class="form-group">
-                <input type="password" id="password" ng-model="password" placeholder="Contraseña" class="form-control form-control-user" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
+                <input type="password" id="password" ng-model="password" placeholder="{{'register.password' | translate}}" class="form-control form-control-user" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
               </div>
               <div class="form-group">
-                  <input type="password" id="password2" ng-model="password2" placeholder="Repetir ontraseña" class="form-control form-control-user" required>
+                  <input type="password" id="password2" ng-model="password2" placeholder="{{'register.password2' | translate}}" class="form-control form-control-user" required>
               </div>
-              <small ng-if="password != password2" style="color: red">Las contraseñas deben coincidir</small>
+              <small ng-if="password != password2" style="color: red">"{{'register.password_error' | translate}}"</small>
               <div class="form-group">
-                    <input type="text" id="username" ng-model="username" placeholder="Usuario" class="form-control form-control-user" required>
+                    <input type="text" id="username" ng-model="username" placeholder="{{'register.username' | translate}}" class="form-control form-control-user" required>
             </div>
             <div class="form-group">
-                    <input type="text" id="phone" ng-model="phone" placeholder="Telefono"class="form-control form-control-user" required>
+                    <input type="text" id="phone" ng-model="phone" placeholder="{{'register.phone' | translate}}" class="form-control form-control-user" required>
             </div>
-              <button class="btn btn-primary btn-user btn-block" type="submit">Registrar</button>
-              <a class="btn btn-secundary btn-user btn-block" ui-sref="login">Regresar</a>
+              <button class="btn btn-primary btn-user btn-block" type="submit">{{'register.button_continue' | translate}}</button>
+              <a class="btn btn-secundary btn-user btn-block" ui-sref="login">{{'register.button_back' | translate}}</a>
             </form>
             </div>
           </div>

@@ -10,7 +10,7 @@
 
   }])
 
-  .controller('chatController', function($scope,$http,$localStorage,$state,$sessionStorage,$stateParams,$location,__env){
+  .controller('chatController', function($scope,$http,$localStorage,$state,$sessionStorage,$stateParams,$location,__env,$filter){
       var uid = $localStorage.uid
       var token = $localStorage.userToken;
       $scope.uid =$localStorage.uid;
@@ -18,6 +18,8 @@
       var decrypted = [];
       $scope.show = false;
       $scope.userChats = [];
+
+      var translate = $filter('translate')
       
       $scope.getUserChats = async () => {
        $http({
@@ -84,7 +86,7 @@
                 $scope.getChat(response.data.Id)
             }).catch(function (error){
               console.log(error);
-              alert('Error en la creacion de chat intenta de nuevo')
+              alert(translate('chats.chat_error'))
             })
       }
 
@@ -282,7 +284,7 @@
               return decrypted
           })
         }catch(error){
-          alert('Error: Verifique que su par de llave y passphrase sean correctos')
+          alert(translate('chats.chat_pass_error'))
         }  
     }
 
@@ -319,7 +321,6 @@
         }).catch(function (error){
           if (error){
             if (error.status == 401){
-                alert('Su sesion ha vencido')
                 $state.go('dash.login');
             }
             else{
@@ -343,7 +344,7 @@
           popup.modal('hide');
           $scope.$apply();
         }).catch(function(error){
-          alert('Su passphrase es incorrecto')
+          alert(translate('chats.pass_error'))
         })
 
       }

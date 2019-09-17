@@ -1,16 +1,16 @@
 <div class="container" style="margin-left: 0px">
-    <h2>Lista de chats</h2>
+    <h2>{{'chats.title' | translate}}</h2>
   <div class="row">
     <div class="col-6" id="chatList" >
       <nav class="navbar navbar-light" id="chatBox" ng-init="getUserChats()">
         <!-- Navbar content -->
-          <span>Conversaciones</span>
+          <span>{{'chats.undertitle' | translate}}</span>
             <form class="form-inline my-2 my-lg-0 ">
               <div class="input-group mb">
                   <div class="input-group-prepend">
                       <span class="input-group-text" id="basic-addon1"><i class="fas fa-search fa-sm"></i></span>
                   </div>
-                  <input class="form-control mr-sm-2" type="text" id="chatSearch" placeholder="Busqueda de chat" ng-model="chatSearch" aria-label="Search">
+                  <input class="form-control mr-sm-2" type="text" id="chatSearch" placeholder="{{'chats.search_placeholder' | translate}}" ng-model="chatSearch" aria-label="Search">
               </div>
             </form>
             <button class="btn btn-outline-success" data-toggle="modal" data-target="#newChat" ng-click="getContacts()"><i class="fas fa-plus-circle"></i></button>
@@ -33,7 +33,7 @@
                   <div class="col align-self-end mr-4 ml-2" ng-if="message.data.id_sender == uid" data-toggle="modal" data-target=".addPassphrase">  
                             <p id="sentMessage" class="text-md-right text-break bg-primary text-white pr-4"  style="font-size: 1.1em;">
                                 <small>{{message.data.username}}</small><br>
-                              <span ng-if="!message.decripted">Click para ver</span>
+                              <span ng-if="!message.decripted">{{'chats.see' | translate}}</span>
                               <span ng-if="message.decripted">{{message.data.content}}</span>
                               <br>
                             <small style="font-size: 0.5em">{{message.sent}}</small></p>
@@ -41,7 +41,7 @@
                   <div class="col align-self-start ml-4 mr-2" ng-if="message.data.id_sender != uid" data-toggle="modal" data-target=".addPassphrase"> 
                                 <p id="receivedMessage" class="text-md-left text-break bg-light text-black pl-4" style="font-size: 1.1em;">
                                   <small>{{message.data.username}}</small><br>
-                                  <span ng-if="!message.decripted">Click para ver</span>
+                                  <span ng-if="!message.decripted">{{'chats.see' | translate}}</span>
                                  <span ng-if="message.decripted">{{message.data.content}}</span>
                                 <br>
                                 <small style="font-size: 0.5em">{{message.sent}}</small></p>
@@ -50,7 +50,7 @@
         </div>
         <div id="bottonChat">
             <div class="input-group mb-2" id="textBox">
-                <input type="text" class="form-control" ng-model="$parent.chatMessage" id="text" placeholder="Inserta texto">
+                <input type="text" class="form-control" ng-model="$parent.chatMessage" id="text" placeholder="{{'chats.new_message_placeholder' | translate}}">
                 <div class="input-group-append">
                   <button class="btn btn-outline-success" type="button" id="button-addon2" ng-click="sendToChat()"><i class="far fa-paper-plane"></i></button>
                 </div>
@@ -63,7 +63,7 @@
                       <i class="fas fa-comments" id="chatIcon"></i>
                 </div>    
                 <div class="row justify-content-center align-items-center">
-                    <p>Lista de mensajes</p> 
+                    <p>{{'chats.message_list' | translate}}</p> 
                 </div>
             </div>
       </div>
@@ -75,7 +75,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="chatLabel">Nueva conversación</h5>
+        <h5 class="modal-title" id="chatLabel">{{'chats.new_title' | translate}}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -83,17 +83,17 @@
       <div class="modal-body">
         <form>
           <div class="form-group">
-            <label for="recipient-name" class="col-form-label">Título</label>
+            <label for="recipient-name" class="col-form-label">{{'chats.chat_title' | translate}}</label>
             <input type="text" ng-model="title" class="form-control" id="chatTitle">
           </div>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Participantes</label>
+            <label for="message-text" class="col-form-label">{{'chats.participants' | translate}}</label>
             <select class="form-control" id="participants" ng-model="name" multiple>
               <option ng-repeat="contact in contacts" value="{{contact.id}}">{{contact.name}} {{contact.lastname}}</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="message-text" class="col-form-label">Llave de chat</label>
+            <label for="message-text" class="col-form-label">{{'chats.chatKey' | translate}}</label>
             <select class="form-control" id="participants" ng-model="keyname">
               <option ng-repeat="key in keys" value="{{key.keyname}}">{{key.keyname}}</option>
             </select>
@@ -101,8 +101,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="createChat()">Crear</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{'chats.close' | translate}}</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="createChat()">{{'chats.create' | translate}}</button>
       </div>
     </div>
   </div>
@@ -115,7 +115,7 @@
     <div class="modal-dialog vertical-align-center">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Información</h5>
+          <h5 class="modal-title" id="exampleModalLabel">{{'chats.modal_title' | translate}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -123,14 +123,14 @@
         <div class="modal-body">
           <div class="form-group">
             <div class="alert alert-info" role="alert">
-              Inserte su clave.
+              {{'chats.ask_key' | translate}}
             </div>
             <input type="password" class="form-control" id="frase" ng-model="passphraseChat" id="passphraseChat" >
           </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-dark" data-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-success" ng-click="savePass()">Continuar</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal">{{'chats.cancel' | translate}}</button>
+          <button type="button" class="btn btn-success" ng-click="savePass()">{{'chats.continue' | translate}}</button>
         </div>
       </div>
     </div>
@@ -140,7 +140,7 @@
       <div class="modal-dialog vertical-align-center">
         <div class="modal-content">
           <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Descifrando Mensajes</h5>
+              <h5 class="modal-title" id="exampleModalLabel">{{'chats.decripting' | translate}}</h5>
               <div class="d-flex justify-content-right">
                   <div class="spinner-border" role="status">
                     <span class="sr-only">Loading...</span>

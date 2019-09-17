@@ -15,7 +15,7 @@ angular.module('sharekey.posts', ['ui.router'])
     })
   }])
   
-  .controller('postsController', function($scope,$http,$localStorage,$state,$window,$stateParams,__env){
+  .controller('postsController', function($scope,$http,$localStorage,$state,$window,$stateParams,__env,$filter){
       $scope.uid = $localStorage.uid;
       var uid = $localStorage.uid;
       var userKeys = $localStorage[uid + 'keys'];
@@ -23,6 +23,8 @@ angular.module('sharekey.posts', ['ui.router'])
       var post = $stateParams.post_id;
       $scope.username = $localStorage[uid + '-username'];
       $scope.edit = false;
+
+      var translate = $filter('translate')
 
       var getMyDefaultKey = function (){
         for (var i = 0 ; i < userKeys.length; i++){
@@ -246,7 +248,7 @@ angular.module('sharekey.posts', ['ui.router'])
           $scope.post.data.content = content;
           $scope.$apply();
         }).catch(function (error){
-            alert('Error: verifique que su llave y passphrase sean correctos')
+            alert(translate('posts.error_passphrase'))
         })
       }
 

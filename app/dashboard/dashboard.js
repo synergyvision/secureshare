@@ -21,15 +21,16 @@ angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
   })
 }])
 
-.controller('dashboardController', function($scope,$state,$sessionStorage,$localStorage,$window,$http){
+.controller('dashboardController', function($scope,$state,$sessionStorage,$localStorage,$window,$http,$filter){
   var uid = $localStorage.uid
   $scope.id = uid;
   $scope.storedKeys = $localStorage[uid+'keys'];
   var token = $localStorage.userToken;
+  var translate = $filter('translate')
 
   $scope.keysExists = function (){
     if (!$scope.storedKeys){
-      alert('Por favor cree o active una llave.')
+      alert(translate('sidebar.keys_message'))
       $state.go('dash.keys')
     }
   }

@@ -32,9 +32,12 @@ function encryptKeys(key,seed){
     })
   }])
   
-  .controller('keysController', function($scope,$http,$localStorage,$state,$window,$sessionStorage,__env){
+  .controller('keysController', function($scope,$http,$localStorage,$state,$window,$sessionStorage,__env,$filter){
     var uid = $localStorage.uid;
     var token = $localStorage.userToken;
+
+    var filter = $filter('translate')
+
     if ($localStorage[uid + 'keys']){
       $scope.userKeys = $localStorage[uid + 'keys']
     }else{
@@ -90,7 +93,7 @@ function encryptKeys(key,seed){
             console.log($scope.keys.length)
       }).catch(function (error){
           if (error.status == 401){
-            alert('Su sesion ha vencido')
+            alert(filter('keys.expired_error'))
             $state.go('login');
           }else{
             console.log(error.data);
@@ -124,7 +127,6 @@ function encryptKeys(key,seed){
             $state.reload();
       }).catch(function (error){
           if (error.status == 401){
-            alert('Su sesion ha vencido')
             $state.go('login');
           }else{
             console.log(error.data);
@@ -164,7 +166,6 @@ function encryptKeys(key,seed){
             }
         }).catch(function (e){
           if (e.status == 401){
-              alert('Su sesion ha vencido')
               $state.go('login');
             }
           })
@@ -228,7 +229,7 @@ function encryptKeys(key,seed){
                 console.log(error.code + '\n' + error.message);
               })
             }else{
-              alert('Por favor llene todos los campos')
+              alert(filter('keys.error_field'))
             }    
         }
         
@@ -278,7 +279,6 @@ function encryptKeys(key,seed){
             }
         }).catch(function (e){
           if (e.status == 401){
-              alert('Su sesion ha vencido')
               $state.go('login');
             }else{
               console.log(e)
@@ -309,7 +309,6 @@ function encryptKeys(key,seed){
           }
       }).catch(function (e){
           if (e.status == 401){
-              alert('Su sesion ha vencido')
               $state.go('login');
             }else{
               console.log(e.data);
@@ -341,7 +340,7 @@ function encryptKeys(key,seed){
           //for hide model
           popup.modal('show');
       }catch(e){
-       $scope.error = 'La clave insertada no es correcta'
+       $scope.error = filter('keys.error_pass')
       }
     }
 
@@ -373,13 +372,13 @@ function encryptKeys(key,seed){
             localStorekeys($localStorage.recoveryKey.PubKey,localPrivateKey,$localStorage.recoveryKey.name,$localStorage.recoveryKey.default);
             var popup = angular.element("#appPass");
             popup.modal('hide');
-            alert("Su llave se ha activado exitosamente")
+            alert(filter('keys.success'))
             delete $localStorage.recoveryKey
             $scope.keyPass = ""
             $window.location.reload();
           }).catch(function (error){
             console.log(error)
-            $scope.error = "passhphrase incorrecto"
+            $scope.error = filter('keys.error_pass')
           })
       }else{
         alert('inserte passphrase de llave')

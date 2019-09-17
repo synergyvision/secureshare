@@ -9,12 +9,14 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
   })
 }])
 
-.controller('configController', function($scope,$http,$localStorage,$state,$location,$stateParams,$location,$rootScope,$window){
+.controller('configController', function($scope,$http,$localStorage,$state,$location,$stateParams,$location,$rootScope,$window,$filter){
     var token = $localStorage.userToken;
     var uid = $localStorage.uid;
     var username = $localStorage[uid + '-username'];
     var preMessage = 'Soy ' + username + ' en Sharekey ';
   
+    var translate = $filter('translate')
+
     function makeid() {
       var result           = '';
       var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -33,7 +35,7 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
         $scope.validationMessage = preMessage + makeid();
         $scope.$apply();
       } else {
-        alert('Not Connected');
+        alert(translate('networks.not_connected'));
       }
     });
   }
@@ -122,7 +124,7 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
         }
     }
     if (valid == false){
-      alert('Ha ocurrido un error, validando el mensaje, revisa que el mensaje se subio en facebook o recarga la pagina para obtener otro mensaje')
+      alert(translate('networks.invalid_feed'))
     }
    }
 
@@ -132,7 +134,7 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
        method: 'POST',
        headers: {'Authorization':'Bearer: ' + token}
      }).then(function (response){
-        alert('Se ha validado la información de facebook exitosamente')
+        alert(translate('networks.valid_feed'))
         $state.reload();
      }).catch(function (error){
         console.log(error)
@@ -171,7 +173,7 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
           if (response.data.feed.errors){
-            alert('No pudimos encontrar tu usuario por favor verifícalo')
+            alert(translate('networks.tw_user_404'))
           }else{
             validateTweet(response.data.feed)
           }
@@ -190,7 +192,7 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
           }
       }
       if (valid == false){
-        alert('Ha ocurrido un error validando el mensaje, revisa que el mensaje se subio en twitter o recarga la pagina para obtener otro mensaje')
+        alert(translate('networks.tw_invalid'))
       }
     }
 
@@ -200,7 +202,7 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
         method: 'POST',
         headers: {'Authorization':'Bearer: ' + token}
       }).then(function (response){
-         alert('Se ha validado la información de twitter exitosamente')
+         alert(translate('networks.tw_valid'))
          $state.reload();
       }).catch(function (error){
          console.log(error)
@@ -248,11 +250,11 @@ angular.module('sharekey.config', ['ngRoute','ui.router'])
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token} 
         }).then(function (response){
             console.log(response.data)
-            alert('Github asociado exitosamente')
+            alert(translate('networks.gh_valid'))
             $scope.getSocials()
         }).catch(function (error){
             console.log(error)
-            alert('Usuario o contraseña invalidos')
+            alert(translate('networks.gh_invalid'))
         })
       })  
     }

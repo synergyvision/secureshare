@@ -1,13 +1,13 @@
 <div class="container">
-  <h2>Ver mensaje</h2>
+  <h2>{{'messages.read' | translate}}</h2>
     <div ng-controller="messagesController">
       <form id="message">
         <div class="form-group">
           <div ng-if="data.sender">
-            <h2for="user">Mensaje de {{data.sender}}</h2>
+            <h2for="user">{{'messages.message_from' | translate}} {{data.sender}}</h2>
           </div>
           <div ng-if="data.r_username">
-              <h2 for="user">Mensaje enviado a {{data.r_username}}</h2>
+              <h2 for="user">{{'messages.message_to' | translate}} {{data.r_username}}</h2>
           </div>    
         </div>
         <div class="row">
@@ -16,9 +16,9 @@
               <textarea class="form-control" id="message" ng-model="decryptedContent" rows="10"></textarea>
             </div>
 
-          <button type="submit" class="btn btn-primary" ng-click="respond(data.sender,data.id_sender)">Responder</button>
-          <button ng-if="data.tray != 'published' && data.publish == 'true' && !data.r_username" type="submit" class="btn btn-info" ng-click="publishMessage()">Publicar mensaje</button>
-          <button type="submit" ng-if="data.tray == 'published'" class="btn btn-info" disabled>Publicado</button>
+          <button type="submit" class="btn btn-primary" ng-click="respond(data.sender,data.id_sender)">{{'messages.answer' | translate}}</button>
+          <button ng-if="data.tray != 'published' && data.publish == 'true' && !data.r_username" type="submit" class="btn btn-info" ng-click="publishMessage()">{{'messages.publish' | translate}}</button>
+          <button type="submit" ng-if="data.tray == 'published'" class="btn btn-info" disabled>{{'messages.published' | translate}}</button>
           </div> 
         </div>  
       </form>
@@ -30,7 +30,7 @@
       <div class="modal-dialog modal-md">
         <div class="modal-content">
           <div class="modal-header">
-              Leyendo mensaje....
+              {{'messages.reading' | translate}}
           </div>
           <div class="modal-body">
               <div class="d-flex justify-content-center">

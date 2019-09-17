@@ -12,13 +12,13 @@
               <p class="card-text">{{bio}}</p>
               <p class="card-text">
                   <small class="text-muted" ng-if="facebook == true">
-                        facebook <i class="fas fa-check-double"></i>
+                        {{'publications.facebook' | translate}} <i class="fas fa-check-double"></i>
                  </small>
                  <small class="text-muted" ng-if="github">
-                        Github <i class="fas fa-check-double"></i>
+                    {{'publications.github' | translate}} <i class="fas fa-check-double"></i>
                  </small>
                  <small class="text-muted" ng-if="twitter">
-                        Twitter <i class="fas fa-check-double"></i>
+                    {{'publications.twitter' | translate}} <i class="fas fa-check-double"></i>
                  </small>
               </p>
             </div>
@@ -26,7 +26,7 @@
         </div>
     </div> 
     <div id="title">
-        <h2>Publicaciones</h2>
+        <h2>{{'publications.title' | translate}}</h2>
     </div>
     <div id="published" ng-init="getFeedbacks()">
         <div ng-repeat="feedback in feedbacks | orderBy: '-this.data.timestamp'">
@@ -35,7 +35,7 @@
                     <div class="row">
                         <p>
                         <img class="img-profile rounded-circle" style="height: 60px;width: 60px; margin: 2px" ng-src="{{feedback.picture}}">
-                        De {{feedback.data.sender}}<br>
+                        {{feedback.data.sender}}<br>
                         {{feedback.data.posted}}</p>
                     </div>    
                 </div>

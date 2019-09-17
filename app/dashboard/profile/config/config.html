@@ -1,12 +1,12 @@
 <div class="container-fluid" ng-controller="configController">
-   <h2>Conectar redes</h2>
-   <p>Agrega redes sociales para verificar tu identidad</p>
+   <h2>{{'networks.title' | translate}}</h2>
+   <p>{{'networks.undertitle' | translate}}</p>
    <div id="fb-root"></div>
 
    <div ng-init="getSocials()">
                 <div class="card">
                         <div class="card-header">
-                                Facebook
+                                {{'networks.facebook' | translate}}
                         </div>
                         <div class="card-body" ng-if="validFacebook == false">
                                 <div class="form-group">  
@@ -14,30 +14,30 @@
                                 </div>
                                 <div class="form-group" ng-if="faceLogin">
                                         <div class="alert alert-info" role="alert">
-                                                Has iniciado sesión con Facebook, ahora pare validar coloca este mensaje en tus estados de Facebook y presiona verificar.                                                        </div>
+                                                {{'networks.fb_message' | translate}}                                                        </div>
                                         <div class="input-group mb-3">
                                                 <input type="text" class="form-control" id="validationMessage" value="{{validationMessage}}" disabled>
                                                 <div class="input-group-append">
                                                         <button class="btn btn-outline-secondary" type="button" id="clipboard" data-toggle="tooltip" data-placement="top" title="Copiar" ng-click="copy()"><i class="fas fa-clipboard"></i></button>
                                                 </div>
                                         </div> 
-                                        <button type="button" class="btn btn-primary" ng-click="verify()">Verificar</button>
+                                        <button type="button" class="btn btn-primary" ng-click="verify()">{{'networks.verify' | translate}}</button>
                                 </div>  
                         </div>
                         <div class="card-body" ng-if="validFacebook == true">
-                                        <p>Facebook <i class="fas fa-check-double"></i></p>   
+                                        <p>{{'networks.facebook' | translate}} <i class="fas fa-check-double"></i></p>   
                         </div>        
                 </div> 
                 <div class="card">
                         <div class="card-header">
-                                Twitter
+                                {{'networks.twitter' | translate}}
                         </div>
                         <div class="card-body" ng-if="validTwitter == false">
                                 <div class="form-group m-1" ng-init="showTwitterMessage()">
-                                        <Label>Usuario de twitter</Label>
+                                        <Label>{{'networks.tw_user' | translate}}</Label>
                                         <input type="text" class="form-control mb-3" ng-model="$parent.$parent.twitterUsername">
                                         <div class="alert alert-info" role="alert">
-                                                Para validar su twitter coloque el siguiente mensaje en su timeline y oprima verificar.
+                                                {{'networks.tw_message' | translate}}
                                         </div>
                                         <div class="input-group mb-3">
                                                 <input type="text" class="form-control" id="validationMessage" value="{{validationMessage}}" disabled>
@@ -45,39 +45,39 @@
                                                   <button class="btn btn-outline-secondary" type="button" id="clipboard" data-toggle="tooltip" data-placement="top" title="Copiar" ng-click="copy()"><i class="fas fa-clipboard"></i></button>
                                                 </div>
                                         </div>
-                                        <button type="button" class="btn btn-primary" ng-click="getTwitterFeed()">Verificar</button>
+                                        <button type="button" class="btn btn-primary" ng-click="getTwitterFeed()">{{'networks.verify' | translate}}</button>
                                 </div> 
                                
                         </div>
                         <div class="card-body" ng-if="validTwitter == true">
-                                <p>Twitter <i class="fas fa-check-double"></i></p>     
+                                <p>{{'networks.twitter' | translate}} <i class="fas fa-check-double"></i></p>     
                         </div>        
                 </div>  
                 <div class="card">
                         <div class="card-header">
-                                Github
+                                {{'networks.github' | translate}}
                         </div>
                         <div class="card-body" ng-if="validGitHub == false">
                                 <div class="alert alert-primary" role="alert">
-                                        Para acceder a los repositorios por favor inicia sesión en Github.
+                                        {{'networks.gh_message' | translate}}
                                         </div>
                                         <div class="shadow-sm p-3 mb-5 rounded" id="form" ng-init="requestData()">
                                         <form ng-submit="getToken()">
                                                 <div class="form-group">
-                                                        <label for="name">Usuario</label>
+                                                        <label for="name">{{'networks.gh_user' | translate}}</label>
                                                         <input type="text" class="form-control" ng-model="$parent.username" id="username">
                                                 </div>
                                                 <div class="form-group">
-                                                        <label for="lastname">Contraseña</label>
+                                                        <label for="lastname">{{'networks.password' | translate}}</label>
                                                         <input type="password" class="form-control" id="password" ng-model="$parent.password">
                                                 </div>
-                                                <button type="submit" class="btn btn-primary">Enviar</button>
+                                                <button type="submit" class="btn btn-primary">{{'networks.send' | translate}}</button>
                                         </form>
                                 </div>  
                                 
                         </div>
                         <div class="card-body" ng-if="validGitHub == true">
-                                        <p>Github <i class="fas fa-check-double"></i></p>
+                                        <p>{{'networks.github' | translate}} <i class="fas fa-check-double"></i></p>
                         </div>        
                 </div>        
    </div>        

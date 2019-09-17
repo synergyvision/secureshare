@@ -32,13 +32,15 @@
     })
   }])
 
-.controller('messagesController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage,$stateParams,$rootScope){
+.controller('messagesController', function($scope,$http,$localStorage,$state,$window,$location,$sessionStorage,$stateParams,$rootScope,$filter){
       var uid = $localStorage.uid
       $scope.userKeys = $localStorage[uid + 'keys'];
       var token = $localStorage.userToken;
       var popup = angular.element("#messageSpinner");
       var read = angular.element("#readingSpinner");
       $scope.decryptedContent = $stateParams.content
+
+      var translate = $filter('translate')
       
       $scope.getPublicKey =  function (idUser){
         if (!$scope.message){
@@ -69,7 +71,7 @@
               }
               else{
                 console.log(error.message);
-                alert('Su passphrase es incorrecto')
+                alert(translate('messages.error_pass'))
                 $window.location.reload();
               }
             } 
@@ -114,7 +116,6 @@
                 return encrypted
               })
           }else{
-            console.log('hola')
               const privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
               await privKeyObj.decrypt(passphrase)
 
@@ -142,7 +143,6 @@
             }
         }).catch(function (error){
             if (error.status == 401){
-              alert('Su sesion ha vencido')
               $state.go('dash.login');
             }
         })
@@ -189,13 +189,12 @@
           headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
           popup.modal('hide');
-          alert('Su mensaje se ha enviado');
+          alert(translate('messages.sent_success'));
           console.log('message sent');
           reset();
         }).catch(function (error){
           if (error){
             if (error.status == 401){
-                alert('Su sesion ha vencido')
                 $state.go('dash.login');
             }
             else{
@@ -219,7 +218,6 @@
         }).catch(function (error){
           if (error){
             if (error.status == 401){
-                alert('Su sesion ha vencido')
                 $state.go('dash.login');
             }
             else{
@@ -259,14 +257,14 @@
           privateKey = decryptKey(privateKey,$scope.passphrase);
           var message = decriptMessage(privateKey, $scope.passphrase, $rootScope.messageContent)
         }catch(e){
-          alert("Su passphrase es incorrecto")
+          alert(translate('messages.error_pass'))
         }
         message.then(function (decrypted){
           console.log(decrypted)
           $scope.passphrase = "";
           $scope.readMessage($rootScope.messageId,$rootScope.status,decrypted)
         }).catch(function (error){
-            alert('Verifique que su llave y passphrase sean correctas')
+            alert(translate('messages.error_pass2'))
         })
       } 
 
@@ -313,7 +311,7 @@
           }).then(function (response){
               if (response.data.status == 200){
                   console.log(response.data);
-                  alert('se ha eliminado un mensaje')
+                  alert(translate('messages.deleted'))
                   $state.reload();
               }
           }).catch(function (error){
@@ -357,7 +355,7 @@
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
             console.log(response);
-            alert('Su feedback ha sido publicado exitosamente')
+            alert(translate('publish_message'))
         }).catch(function (error){
             console.log(error);
         })
