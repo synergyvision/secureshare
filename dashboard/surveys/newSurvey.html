@@ -3,17 +3,17 @@
         <div class="col-12 align-self-center">
             <div class="shadow-sm p-3 mb-5 rounded">
                 <form id="newSurvey">
-                    <h5>Nueva encuesta</h5>
+                    <h5>{{'suveys.new_survey' | translate}}</h5>
                     <hr>
                     <div class="form-group">
-                        <label for="surveyTitle">Titulo</label>
+                        <label for="surveyTitle">{{'suveys.survey_title' | translate}}</label>
                         <input type="text" class="form-control" ng-model="surveyTitle" id="surveyTitle">
                     </div>
                     <div class="form-group">
-                        <label for="question">Pregunta</label>
+                        <label for="question">{{'suveys.question' | translate}}</label>
                         <input type="text" class="form-control" ng-model="question.title" value="{{question.title}}" id="question">
                         <div class="form-group">
-                            <label for="answers">Respuestas</label>
+                            <label for="answers">{{'suveys.answer' | translate}}</label>
                             <div ng-repeat="answer in answers">
                                     <input type="text" class="form-control" ng-model="answer.content" value="" required>
                                 <br>
@@ -24,7 +24,7 @@
                         </div>    
                     </div>
                     <div class="form-inline">
-                        <label for="expires">Duración &nbsp;</label>
+                        <label for="expires">{{'suveys.duration' | translate}} &nbsp;</label>
                         <select class="col-sm-1 form-control w-25" id="days" ng-model="expires">
                                 <option>1</option>
                                 <option>2</option>
@@ -34,9 +34,9 @@
                                 <option>6</option>
                                 <option>7</option>
                        </select>
-                       <span>&nbsp;dias</span>
+                       <span>&nbsp;{{'suveys.days' | translate}}</span>
                     </div>    
-                    <button type="button" ng-click="createSurvey()" class="btn btn-outline-info btn-sm">Crear</button>
+                    <button type="button" ng-click="createSurvey()" class="btn btn-outline-info btn-sm">{{'suveys.create' | translate}}</button>
                 </form>
             </div>    
         </div>    

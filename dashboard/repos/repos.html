@@ -1,14 +1,14 @@
 <div class="container-fluid" ng-controller="reposController">
        <div ng-init="checkToken()">
-             <h2>Repositorios</h2>
+             <h2>{{'repositories.title' | translate}}</h2>
             <div ng-show="tokenExists == true">
                   <div ng-repeat="repo in repoList">
                         <div class="list-group">
                               <a ui-sref="dash.repo({dir: repo.name})" class="list-group-item list-group-item-action">
                                     <div class="d-flex w-100 justify-content-between">
                                     <h5 class="mb-1">{{repo.name}}</h5>
-                                    <small ng-if="repo.private == false">público</small>
-                                    <small ng-if="repo.private == true">privado</small>
+                                    <small ng-if="repo.private == false">{{'repositories.public' | translate}}</small>
+                                    <small ng-if="repo.private == true">{{'repositories.private' | translate}}</small>
                                     </div>
                                     <p class="mb-1">{{repo.html_url}}</p>
                               </a>

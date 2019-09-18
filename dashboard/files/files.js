@@ -9,14 +9,14 @@ angular.module('sharekey.files', ['ui.router','ngFileSaver'])
     });
 }])
 
-.controller('filesController', function(FileSaver,Blob,$scope,$http,$localStorage,$state,$window,$stateParams,__env){
+.controller('filesController', function(FileSaver,Blob,$scope,$http,$localStorage,$state,$window,$stateParams,__env,$filter){
     $scope.uid = $localStorage.uid;
     var uid = $localStorage.uid;
     var token = $localStorage.userToken;
     $scope.userKeys = $localStorage[uid + 'keys'];
     $scope.share = false;
     $scope.selected = [];
-
+    var translate = $filter('translate')
     
     var decryptContent = async (key,passphrase,content) => {
       try{
@@ -33,7 +33,7 @@ angular.module('sharekey.files', ['ui.router','ngFileSaver'])
           $state.reload()
         })
       }catch(e){
-        alert('Error verifique su llave seleccionada y passphrase sean correctos')
+        alert(translate('files.error'))
       }
     }
 

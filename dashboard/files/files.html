@@ -2,33 +2,33 @@
     <div class="row">
         <div class="col-12">
             <form id="downloadFiles" ng-submit="decipher()">
-                <h3>Manejo de archivos</h3>
+                <h3>{{'files.title' | translate}}</h3>
                 <div class="form-group">
-                    <label for="operation">Elige la operación</label>
+                    <label for="operation">{{'files.operation' | translate}}</label>
                     <select class="form-control" id="operation" ng-model="operation">
-                        <option value="1">Cifrar archivo</option>
-                        <option value="2">Ver archivo</option>
+                        <option value="1">{{'files.code' | translate}}</option>
+                        <option value="2">{{'files.decode' | translate}}</option>
                     </select>
                 </div> 
                 <div class="form-group">
-                    <label for="file">Selecciona el archivo</label>
+                    <label for="file">{{'files.select_file' | translate}}</label>
                     <div class="custom-file mb-2 mr-sm-2" style="overflow: hidden;">
                             <input type="file" file="file" id="customFile" class="custom-file-input" id="customFileLangHTML"required>
-                            <label class="custom-file-label" id="filelabel" data-browse="Elegir" for="customFile">{{file.name}}</label>
+                            <label class="custom-file-label" id="filelabel" data-browse="{{'files.browse' | translate}}" for="customFile">{{file.name}}</label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="keys">Selecciona la llave</label>
+                    <label for="keys">{{'files.select_key' | translate}}</label>
                     <select class="form-control" id="fileKey" ng-model="key">
                         <option ng-repeat="key in userKeys" value="{{key.keyname}}">{{key.keyname}}</option>
                     </select>
                 </div>  
                 <div class="form-group" ng-show="operation == '2'">
-                        <label for="user">Clave</label>
+                        <label for="user">{{'files.pass' | translate}}</label>
                     <input type="password" class="form-control" id="passphrase" ng-model="passphrase" placeholder="">
                 </div> 
-                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#contactsModal">Compartir</button>
-                <button type="submit" class="btn btn-primary">Descargar</button>
+                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#contactsModal">{{'files.share' | translate}}</button>
+                <button type="submit" class="btn btn-primary">{{'files.download' | translate}}</button>
             </form>
         </div>    
     </div>
@@ -39,7 +39,7 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Contactos</h5>
+              <h5 class="modal-title" id="exampleModalLabel">{{'files.contact' | translate}}</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -51,8 +51,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="deleteContacts()">Cancelar</button>
-              <button type="button" class="btn btn-primary" ng-click="getMultipleKeys()"  data-dismiss="modal">Seleccionar</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" ng-click="deleteContacts()">{{'files.cancel' | translate}}</button>
+              <button type="button" class="btn btn-primary" ng-click="getMultipleKeys()"  data-dismiss="modal">{{'files.select' | translate}}</button>
             </div>
           </div>
         </div>
