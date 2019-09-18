@@ -1,40 +1,40 @@
 <div class="container-fluid" ng-controller="reposController">
-        <h2>Repositorios</h2>
+        <h2>{{'repositories.title' | translate}}</h2>
         <div class="row justify-content-center">
                 <div class="col-10 align-self-center">
                     <div class="shadow-sm p-3 mb-5 rounded">
                         <form id="newRepo" ng-submit="readFile()">
-                            <h5>Crear Archivo</h5>
+                            <h5>{{'repositories.new_file' | translate}}</h5>
                             <hr>
                             <div class="form-group">
-                                <label for="repoName">Directorio: {{repository}}/{{directory}}</label>
+                                <label for="repoName">{{'repositories.path' | translate}}: {{repository}}/{{directory}}</label>
                             </div>
                             <div class="form-group">
-                                <label for="repoName">Nombre del archivo</label>
+                                <label for="repoName">{{'repositories.new_file' | translate}}</label>
                                 <input type="text" class="form-control" ng-model="fileName" id="fileName" required>
                             </div>
                             <div class="form-group">
-                                    <label for="repoDescription">Mensaje del commit</label>
+                                    <label for="repoDescription">{{'repositories.commit' | translate}}</label>
                                     <input type="text" class="form-control" ng-model="commit" id="commit" required>
                             </div>
                             <div class="form-group">
-                                <label for="repoDescription">Archivo</label>
+                                <label for="repoDescription">{{'repositories.file' | translate}}</label>
                                 <div class="custom-file mb-2 mr-sm-2" style="overflow: hidden;">
-                                        <input type="file" file="file" id="customFile" required>
-                                        <label class="custom-file-label" id="filelabel" for="customFile">{{file.name}}</label>
+                                        <input type="file" file="file" id="customFile" class="custom-file-input" id="customFileLangHTML" required>
+                                        <label class="custom-file-label" id="filelabel" data-browse="Elegir" for="customFile">{{file.name}}</label>
                                 </div>
                             </div>
                             <div class="form-group form-check">
                                 <input type="checkbox" class="form-check-input" id="private" ng-model="publicFile">
-                                <label class="form-check-label" for="public">Cifrar</label>
+                                <label class="form-check-label" for="public">{{'repositories.code' | translate}}</label>
                             </div>
                             <div ng-show="publicFile" class="form-group">
-                                    <label for="keys">Llave para proteger el archivo</label>
+                                    <label for="keys">{{'repositories.file_key' | translate}}</label>
                                     <select class="form-control" id="keys" ng-model="$parent.repoKey">
                                       <option ng-repeat="key in userKeys" value="{{key.keyname}}">{{key.keyname}}</option>
                                     </select>
                               </div> 
-                            <button type="submit" class="btn btn-outline-info btn-sm">Crear</button>
+                            <button type="submit" class="btn btn-outline-info btn-sm">{{'repositories.create' | translate}}</button>
                         </form>
                     </div>    
                 </div>           

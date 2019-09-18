@@ -30,7 +30,7 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
 
   }])
 
-  .controller('reposController', function(FileSaver,Blob,$scope,$http,$localStorage,$state,$window,$stateParams,__env){
+  .controller('reposController', function(FileSaver,Blob,$scope,$http,$localStorage,$state,$window,$stateParams,__env,$filter){
     $scope.uid = $localStorage.uid;
     var uid = $localStorage.uid;
     var token = $localStorage.userToken;
@@ -38,6 +38,8 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
      $scope.directory = $stateParams.directory
      $scope.repository = $stateParams.repo;
      $scope.userKeys = $localStorage[uid + 'keys'];
+
+     var translate = $filter('translate')
 
     $scope.checkToken = function (){
       $http({
@@ -278,7 +280,7 @@ angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
             popup.modal('hide')
           })
       }catch(error){
-        alert('Error verifique su llave y passphrase')
+        alert(translate('repositories.error'))
       }  
 
     }

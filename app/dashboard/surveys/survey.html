@@ -20,23 +20,23 @@
                                     </div>  
                                 </div>             
                             </div>    
-                            <button type="submit" id="answerButton" class="btn btn-outline-info">Responder</button>
+                            <button type="submit" id="answerButton" class="btn btn-outline-info">{{'suveys.answer_button' | translate}}</button>
                         </form>
                     </div>
                 </div>   
                 <div ng-if="survey.answered == true">
                     <div class="row justify-content-center">
-                        <h1>Ya has completado esta encuesta!</h1>
+                        <h1>{{'suveys.Answered' | translate}}</h1>
                     </div>
                     <div class="row justify-content-center">
-                            <button type="button" ui-sref="dash.surveys" class="btn btn-outline-info btn-sm">Ir a encuestas</button>
+                            <button type="button" ui-sref="dash.surveys" class="btn btn-outline-info btn-sm">{{'suveys.back' | translate}}</button>
                         </div>
                 </div>
             </div>    
             <div ng-if = "survey.expired == true">
                 <div class="shadow-sm p-3 mb-5 rounded">
                     <form id="Survey" ng-submit="fillSurvey()">
-                        <h4>{{survey.title}} ha expirado!</h4>
+                        <h4>¡{{survey.title}} {{'suveys.expired' | translate}}</h4>
                         <hr>
                         <div ng-repeat="question in survey.questions">
                             <label for="question">{{question.question}}</label>  
@@ -45,7 +45,7 @@
                             <div class="form-check mb-2 p-0">
                                 <div ng-repeat="answer in question.answers">  
                                     <div class="form-check mb-2 p-0">
-                                        <label class="form-check-label">{{answer.content}}</label>
+                                        <label class="form-check-label">{{answer.content}}:</label>
                                         <label class="form-check-label" for="questionAnswer">{{answer.votes}}</label>
                                     </div>
                                 </div>  

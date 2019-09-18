@@ -1,14 +1,14 @@
 <div class="container-fluid" ng-controller="reposController">
     <div class="row">
         <div class="col m-1">
-            <h2>Repositorios</h2>
+            <h2>{{'repositories.title' | translate}}</h2>
             <div ng-init="getRepo()">
                 <div class="list-group">
                     <a ng-click="homeRepo()" class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
                             <h5 class="mb-1">{{repo.name}}</h5>
-                            <small ng-if="repo.private == false">público</small>
-                            <small ng-if="repo.private == true">privado</small>
+                            <small ng-if="repo.private == false">{{'repositories.public' | translate}}</small>
+                            <small ng-if="repo.private == true">{{'repositories.private' | translate}}</small>
                             </div>
                             <p class="mb-1">{{repo.html_url}}</p>
                     </a>
@@ -39,7 +39,7 @@
                     <div ng-if="!size">
                         <a class="list-group-item list-group-item-action">
                             <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">Nombre: {{repoFiles.name}}</h5>
+                                <h5 class="mb-1">{{'repositories.name' | translate}} {{repoFiles.name}}</h5>
                                 <div class="btn-group" role="group">
                                     <button type="button" class="btn btn-dark btn-sm" data-toggle="tooltip" data-placement="bottom" ng-click="openPush()" title="Subir de nuevo"><i class="far fa-edit"></i></button>
                                     <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="bottom" title="Descargar" ng-click="downloadFile(repoFiles.name,repoFiles.content) "><i class="fas fa-download"></i></button>
@@ -53,7 +53,7 @@
                     </div>
                 </div>
                 <div ng-show="empty == true">
-                    <h4>Este repositorio esta vacio</h4>
+                    <h4>{{'repositories.empty' | translate}}</h4>
                     <button type="button" id="newFile" ng-click="goToNewFile()" class="btn btn-info m-2"><i class="fas fa-plus-circle"></i></button>    
                 </div>                
             </div> 
@@ -66,11 +66,11 @@
     <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Escoge llave y passphrase</h5>
+                <h5 class="modal-title" id="exampleModalLabel">{{'repositories.modal_title' | translate}}</h5>
             </div>
             <div class="modal-body">
                 <div class="form-group">
-                        <label for="keys">Llave para ver el archivo</label>
+                        <label for="keys">{{'repositories.keyfile' | translate}}</label>
                         <select class="form-control" id="keys" ng-model="$parent.repoKey">
                             <option ng-repeat="key in userKeys" value="{{key.keyname}}">{{key.keyname}}</option>
                         </select>
@@ -79,45 +79,46 @@
                     <input type="password" class="form-control" id="frase" ng-model="keyPass" id="keyPass" placeholder="" >
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-success" ng-click="decipherDownload()">Continuar</button>
+                    <button type="button" class="btn btn-success" ng-click="decipherDownload()">{{'repositories.continue' | translate}}</button>
                 </div>
             </div>
         </div>
     </div>  
 </div>    
 
-<div class="modal fade pushModal" tabindex="-1" id="update" role="dialog" data-backdrop="false" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade pushModal" tabindex="-1" id="update" role="dialog" data-backdrop="true" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Editar archivo</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{'repositories.edit' | translate}}</h5>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
                         <div class="form-group">
-                            <label for="repoDescription">Archivo</label>
+                            <label for="repoDescription">{{'repositories.file' | translate}}</label>
                             <div class="custom-file mb-2 mr-sm-2" style="overflow: hidden;">
-                                    <input type="file" file="file" id="customFile" required>
-                                    <label class="custom-file-label" id="filelabel" for="customFile">{{file.name}}</label>
+                                    <input type="file" file="file" id="customFile" class="custom-file-input" id="customFileLangHTML" required>
+                                    <label class="custom-file-label" id="filelabel" data-browse="Elegir" for="customFile">{{file.name}}</label>
                             </div>
                         </div>
                      </div>   
                     <div ng-show="publicFile" class="form-group">
-                            <label for="keys">Llave para ver el archivo</label>
+                            <label for="keys">{{'repositories.keyfile' | translate}}</label>
                             <select class="form-control" id="keys" ng-model="$parent.repoKey">
                                 <option ng-repeat="key in userKeys" value="{{key.keyname}}">{{key.keyname}}</option>
                             </select>
                         </div> 
                     <div class="form-group">
-                            <label for="repoDescription">Mensaje del commit</label>
+                            <label for="repoDescription">{{'repositories.keyfile' | translate}}</label>
                             <input type="text" class="form-control" ng-model="commit" id="commit" required>
                     </div>    
                     <div class="form-group form-check">
                             <input type="checkbox" class="form-check-input" id="private" ng-model="publicFile">
-                            <label class="form-check-label" for="public">Cifrar</label>
+                            <label class="form-check-label" for="public">{{'repositories.code' | translate}}</label>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" ng-click="pushFile()">Continuar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{'repositories.cancel' | translate}}</button>
+                        <button type="button" class="btn btn-success" ng-click="pushFile()">{{'repositories.continue' | translate}}</button>
                     </div>
                 </div>
             </div>
