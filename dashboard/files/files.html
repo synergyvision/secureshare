@@ -28,8 +28,7 @@
                     <input type="password" class="form-control" id="passphrase" ng-model="passphrase" placeholder="">
                 </div> 
                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#contactsModal">{{'files.share' | translate}}</button>
-                <button type="submit" ng-if="operation == '1'" class="btn btn-primary">{{'files.encrypt' | translate}}</button>
-                <button type="submit" ng-if="operation == '2'" class="btn btn-primary">{{'files.decrypt' | translate}}</button>
+                <button type="submit" ng-show="operation" class="btn btn-primary"><span ng-if="operation == '1'">{{'files.encrypt' | translate}}</span><span ng-if="operation == '2'">{{'files.decrypt' | translate}}</span></button>
 
             </form>
         </div>    

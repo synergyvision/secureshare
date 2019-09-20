@@ -8,7 +8,7 @@
 
 }
 
-angular.module('sharekey.dashboard', ['ngRoute','ui.router'])
+angular.module('SecureShare.dashboard', ['ngRoute','ui.router'])
 
 .config(['$stateProvider', function($stateProvider) {
   $stateProvider.state('dash',{

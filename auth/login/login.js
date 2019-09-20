@@ -4,7 +4,7 @@ function errorLogin(message){
   alert(message)
 }
 
-angular.module('sharekey.login', ['ui.router','ngCookies'])
+angular.module('SecureShare.login', ['ui.router','ngCookies'])
 
 .config(['$stateProvider','$urlRouterProvider', function($stateProvider,$urlRouterProvider) {
   $stateProvider.state('/', {

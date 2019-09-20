@@ -24,7 +24,7 @@
                         <h5 class="sm-1">{{'messages.to' | translate}} {{correo.data.r_username}}</h5>
                         <small>{{correo.sent}}</small>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-success" ng-click="readMessage(correo.id,correo.data.status)"><i class="far fa-eye"></i></button>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#readPass" ng-click="askPassphrase(correo.id,correo.data.keys,correo.data.content,correo.data.status)"><i class="far fa-eye"></i></button>
                             <button type="button" class="btn btn-danger" ng-click="deleteMessage(correo.id)"><i class="far fa-trash-alt"></i></button>                        
                         </div>
                     </div>
@@ -32,3 +32,26 @@
             </div>
         </div>    
     </div>
+
+    <div class="modal fade readModal" tabindex="-1" id="readPass" role="dialog" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true" ng-controller="messagesController">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">{{'messages.ask_pass' | translate}} {{messageKeyname}}</h5>
+                  </div>
+                  <div class="modal-body">
+                      <div class="form-group">
+                        <div ng-if="message">
+                            <div class="alert alert-danger" role="alert">
+                                    {{message}}
+                            </div>
+                        </div>
+                        <input type="password" class="form-control" id="passphrase" ng-model="passphrase" placeholder="Clave de {{messageKeyname}}"  >
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <button type="submit" class="btn btn-info" ng-click="decrypt()" data-dismiss="modal">{{'messages.read' | translate}}</button>
+                  </div>
+                </div>
+            </div>
+        </div>   

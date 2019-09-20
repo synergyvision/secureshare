@@ -9,7 +9,7 @@ function message(message){
 }
 
 
-angular.module('sharekey.reset', ['ngRoute'])
+angular.module('SecureShare.reset', ['ngRoute'])
 
 .config(['$stateProvider', function($stateProvider) {
   $stateProvider.state('checkEmail', {

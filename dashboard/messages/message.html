@@ -2,7 +2,7 @@
   <h4>{{'messages.new_message' | translate}}</h4>
   <div ng-controller="messagesController" ng-init="getContacts()">
     <div class="row justify-content-center">
-      <form id="newMessage" class="col-6 shadow-sm p-3 mb-5 rounded" ng-submit="getPublicKey(id_recipient)">
+      <form id="newMessage" class="col-12 shadow-sm p-3 mb-5 rounded" ng-submit="getPublicKey(id_recipient)">
         <div class="form-group">
           <label for="user">{{'messages.new_message_to' | translate}}</label>
           <select class="form-control" id="recipient" ng-model="id_recipient">
@@ -40,7 +40,7 @@
 </div>
 
 
-<div class="modal fade spinerModal" tabindex="-1" id="messageSpinner" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+<div class="modal fade spinerModal" tabindex="-1" id="messageSpinner" data-backdrop="false" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div class="modal-header">

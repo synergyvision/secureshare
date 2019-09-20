@@ -65,7 +65,6 @@
                                         <button type="button" class="btn btn-outline-danger" ng-click="likeStatus('dislike',post.id)"><i class="fas fa-thumbs-down">{{post.data.dislikes}}</i></button>
                                         <button type="button" class="btn btn-outline-primary" ng-click="likeStatus('like',post.id)" ><i class="fas fa-thumbs-up"></i>{{post.data.likes}}</button>
                                     </div>
-
                                 </div>
                             </div>
                         </div>   
@@ -78,7 +77,8 @@
                                         <span><img class="img-profile rounded-circle mr-3" style="height: 40px;width: 40px; margin-right: 2px" ng-src="{{post.userPicture}}" onerror="this.src='../../img/default-user-icon-8.jpg'">{{post.name}} {{'posts.post_published' | translate}}</span>
                                         <ul class="navbar-nav ml-auto">
                                             <div class="btn-group" role="group" aria-label="Basic example">
-                                                <button type="button" class="btn btn-danger" ng-click="deletePost(post.id)"><i class="fas fa-trash"></i></button>
+                                                    <button type="button" class="btn btn-primary" ng-if="post.data.public == 'false'" ng-click="goToPost(post.id)"><i class="far fa-eye"></i></button>
+                                                    <button type="button" class="btn btn-danger" ng-click="deletePost(post.id)"><i class="fas fa-trash"></i></button>
                                             </div>
                                         </ul> 
                                     </div>    
@@ -87,11 +87,20 @@
                                     <p class="card-text" ng-click="goToPost(post.id)">{{'posts.private_post' | translate}}</p>
                                 </div>
                                 <div class="card-footer text-muted">
-                                    <div class="row justify-content-between">
-                                        <button class="btn btn-sm-success" ng-click="goToPost(post.id)">{{'posts.post_link' | translate}}</button>
+                                    <div class="row justify-content-end">
                                         <div>
-                                            <button type="button" class="btn btn-outline-danger" ng-click="likeStatus('dislike',post.id)"><i class="fas fa-thumbs-down">{{post.data.dislikes}}</i></button>
-                                            <button type="button" class="btn btn-outline-primary" ng-click="likeStatus('like',post.id)"><i class="fas fa-thumbs-up"></i>{{post.data.likes}}</button>
+                                            <div  ng-if="post.reactions == 'liked'">
+                                                    <button type="button" class="btn btn-outline-danger" ng-click="likeStatus('dislike',post.id)"><i class="fas fa-thumbs-down">{{post.data.dislikes}}</i></button>
+                                                    <button type="button" class="btn btn-outline-primary" ng-click="likeStatus('like',post.id)" disabled><i class="fas fa-thumbs-up"></i>{{post.data.likes}}</button>
+                                                </div>
+                                                <div  ng-if="post.reactions == 'disliked'">
+                                                    <button type="button" class="btn btn-outline-danger" ng-click="likeStatus('dislike',post.id)" disabled><i class="fas fa-thumbs-down">{{post.data.dislikes}}</i></button>
+                                                    <button type="button" class="btn btn-outline-primary" ng-click="likeStatus('like',post.id)" ><i class="fas fa-thumbs-up"></i>{{post.data.likes}}</button>
+                                                </div>
+                                                <div  ng-if="post.reactions == null">
+                                                    <button type="button" class="btn btn-outline-danger" ng-click="likeStatus('dislike',post.id)"><i class="fas fa-thumbs-down">{{post.data.dislikes}}</i></button>
+                                                    <button type="button" class="btn btn-outline-primary" ng-click="likeStatus('like',post.id)" ><i class="fas fa-thumbs-up"></i>{{post.data.likes}}</button>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>

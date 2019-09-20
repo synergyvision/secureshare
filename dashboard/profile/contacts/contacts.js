@@ -1,5 +1,5 @@
 
-  angular.module('sharekey.contacts', ['ui.router'])
+  angular.module('SecureShare.contacts', ['ui.router'])
   
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.contacts', {

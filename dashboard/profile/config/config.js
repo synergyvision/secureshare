@@ -1,4 +1,4 @@
-angular.module('sharekey.config', ['ngRoute','ui.router'])
+angular.module('SecureShare.config', ['ngRoute','ui.router'])
 
 .config(['$stateProvider', function($stateProvider) {
   $stateProvider.state('dash.config', {

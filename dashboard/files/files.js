@@ -1,4 +1,4 @@
-angular.module('sharekey.files', ['ui.router','ngFileSaver'])
+angular.module('SecureShare.files', ['ui.router','ngFileSaver'])
   
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.files', {

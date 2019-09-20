@@ -20,19 +20,31 @@
                 <div class="card-footer text-muted">
                     <div class="row justify-content-end">
                         <div>
-                            <button type="button" class="btn btn-outline-danger" ng-click="likeStatus('dislike',post.id)"><i class="fas fa-thumbs-down">{{post.data.dislikes}}</i></button>
-                            <button type="button" class="btn btn-outline-primary" ng-click="likeStatus('like',post.id)"><i class="fas fa-thumbs-up"></i>{{post.data.likes}}</button>
+                                <div  ng-if="post.reactions == 'liked'">
+                                        <button type="button" class="btn btn-outline-danger" ng-click="likeStatus('dislike',post.id)"><i class="fas fa-thumbs-down">{{post.data.dislikes}}</i></button>
+                                        <button type="button" class="btn btn-outline-primary" ng-click="likeStatus('like',post.id)" disabled><i class="fas fa-thumbs-up"></i>{{post.data.likes}}</button>
+                                    </div>
+                                    <div  ng-if="post.reactions == 'disliked'">
+                                        <button type="button" class="btn btn-outline-danger" ng-click="likeStatus('dislike',post.id)" disabled><i class="fas fa-thumbs-down">{{post.data.dislikes}}</i></button>
+                                        <button type="button" class="btn btn-outline-primary" ng-click="likeStatus('like',post.id)" ><i class="fas fa-thumbs-up"></i>{{post.data.likes}}</button>
+                                    </div>
+                                    <div  ng-if="post.reactions == null">
+                                        <button type="button" class="btn btn-outline-danger" ng-click="likeStatus('dislike',post.id)"><i class="fas fa-thumbs-down">{{post.data.dislikes}}</i></button>
+                                        <button type="button" class="btn btn-outline-primary" ng-click="likeStatus('like',post.id)" ><i class="fas fa-thumbs-up"></i>{{post.data.likes}}</button>
+                                    </div>
                         </div>
                     </div>
                 </div>
             </div> 
-            <div id="comments" class="bg-white p-1 w-100" ng-init="getComments()">
+            <div id="comments" class="bg-white w-100" ng-init="getComments()">
                 <div id="background">
-                    <form class="form-inline m-0 w-100" id="commentForm">
-                            <div class="form-group col-md-12">
-                                <input type="text" class="form-control" ng-model="newComment" id="newComment" placeholder="{{'posts.comment_placeholder' | translate}}">
-                                <button id="commentButton" class="btn btn-success btn-sm" ng-click="sendComment()"><i class="fas fa-share"></i></button>
+                    <form class="form-inline" id="commentForm">
+                        <div class="input-group mb-3 col-md-12 p-0">
+                            <input type="text" class="form-control"  ng-model="newComment" id="newComment"  placeholder="{{'posts.comment_placeholder' | translate}}" aria-describedby="button-addon2">
+                            <div class="input-group-append">
+                                    <button id="commentButton" class="btn btn-success" ng-click="sendComment()"><i class="fas fa-share"></i></button>
                             </div>
+                        </div>
                     </form>
                 </div>    
                 <div ng-repeat="comment in comments">

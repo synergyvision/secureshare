@@ -1,4 +1,4 @@
-angular.module('sharekey.sidebar', ['ngRoute'])
+angular.module('SecureShare.sidebar', ['ngRoute'])
 
 .component('sidebar',{
     css: '../css/sb-admin-2.min.css'

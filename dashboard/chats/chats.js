@@ -1,4 +1,4 @@
- angular.module('sharekey.chats', ['ui.router'])
+ angular.module('SecureShare.chats', ['ui.router'])
   
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.chats',{
