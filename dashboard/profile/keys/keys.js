@@ -272,7 +272,6 @@ function encryptKeys(key,seed){
         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
             if (response.status == 200){
-              alert('Se ha borrado una llave');
               delete $localStorage.keyDelete;
               localDelete(name);
               $state.reload();
