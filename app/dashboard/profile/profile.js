@@ -8,7 +8,7 @@ function error(message){
   alert(message)
 }
 
-angular.module('sharekey.profile', ['ngRoute','ui.router'])
+angular.module('SecureShare.profile', ['ngRoute','ui.router'])
 
 
 .config(['$stateProvider', function($stateProvider) {

@@ -1,4 +1,4 @@
-angular.module('sharekey.repos', ['ui.router','ngFileSaver'])
+angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
   
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.repos', {

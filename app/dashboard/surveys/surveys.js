@@ -1,4 +1,4 @@
-angular.module('sharekey.surveys', ['ui.router'])
+angular.module('SecureShare.surveys', ['ui.router'])
   
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.surveys', {

@@ -1,4 +1,4 @@
-angular.module('sharekey.posts', ['ui.router'])
+angular.module('SecureShare.posts', ['ui.router'])
   
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.posts', {
@@ -76,7 +76,7 @@ angular.module('sharekey.posts', ['ui.router'])
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
           console.log(response);
-          $state.reload();
+          $scope.getPosts();
         }).catch(function (error){
             console.log(error)
         })
@@ -122,6 +122,31 @@ angular.module('sharekey.posts', ['ui.router'])
         })
       }
 
+
+      var changeReaction = function(post_id,status){
+        for (var i = 0; i < $scope.posts.length; i++){
+          if ($scope.posts[i].id == post_id){
+            if (!$scope.posts[i].reactions){
+              if (status == 'like'){
+                $scope.posts[i].reactions = 'liked'
+                $scope.posts[i].data.likes += 1;
+              }else{
+                $scope.posts[i].reactions = 'disliked'
+                $scope.posts[i].data.dislikes += 1;
+              }
+            } else if ($scope.posts[i].reactions == 'liked' && status != 'like') {
+                $scope.posts[i].reactions = 'disliked'
+                $scope.posts[i].data.likes -= 1;
+                $scope.posts[i].data.dislikes += 1;
+            } else if ($scope.posts[i].reactions == 'disliked' && status == 'like'){
+              $scope.posts[i].reactions = 'liked'
+              $scope.posts[i].data.likes += 1;
+              $scope.posts[i].data.dislikes -= 1;
+            }
+          }
+        }
+      }
+
       $scope.likeStatus = function (status,post_id){
         if (status == 'like'){
             var statusRequest = $.param({
@@ -141,7 +166,7 @@ angular.module('sharekey.posts', ['ui.router'])
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
           console.log(response.data);
-          $state.reload();
+          changeReaction(post_id,status);
         }).catch(function (error){
           console.log(error)
         })

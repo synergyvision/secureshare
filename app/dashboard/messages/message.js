@@ -1,6 +1,6 @@
 
 
-  angular.module('sharekey.message', ['ui.router'])
+  angular.module('SecureShare.message', ['ui.router'])
   
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.messages', {
@@ -189,9 +189,8 @@
           headers:  {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
           popup.modal('hide');
-          alert(translate('messages.sent_success'));
           console.log('message sent');
-          reset();
+          $state.go('dash.inbox', {'tray': 'inbox'})
         }).catch(function (error){
           if (error){
             if (error.status == 401){

@@ -1,7 +1,7 @@
 (function() {
 
     angular
-      .module('sharekey')
+      .module('SecureShare')
       .config(translator);
   
       translator.$inject = ['$translateProvider'];

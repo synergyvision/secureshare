@@ -21,7 +21,7 @@ function encryptKeys(key,seed){
 
  }
 
-  angular.module('sharekey.keys', ['ui.router'])
+  angular.module('SecureShare.keys', ['ui.router'])
   
   .config(['$stateProvider', function($stateProvider) {
     $stateProvider.state('dash.keys', {

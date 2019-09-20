@@ -9,7 +9,7 @@ if(window){
 
 
 // Declare app level module which depends on views, and core components
-var ngModule = angular.module('sharekey', [
+var ngModule = angular.module('SecureShare', [
   'ngRoute',
   'toaster',
   'ui.router',
@@ -17,22 +17,22 @@ var ngModule = angular.module('sharekey', [
   'ngAnimate',
   'ngStorage',
   'ngFileSaver',
-  'sharekey.login',
-  'sharekey.reset',
-  'sharekey.register',
-  'sharekey.navbar',
-  'sharekey.sidebar',
-  'sharekey.profile',
-  'sharekey.keys',
-  'sharekey.dashboard',
-  'sharekey.contacts',
-  'sharekey.message',
-  'sharekey.chats',
-  'sharekey.posts',
-  'sharekey.surveys',
-  'sharekey.repos',
-  'sharekey.files',
-  'sharekey.config',
+  'SecureShare.login',
+  'SecureShare.reset',
+  'SecureShare.register',
+  'SecureShare.navbar',
+  'SecureShare.sidebar',
+  'SecureShare.profile',
+  'SecureShare.keys',
+  'SecureShare.dashboard',
+  'SecureShare.contacts',
+  'SecureShare.message',
+  'SecureShare.chats',
+  'SecureShare.posts',
+  'SecureShare.surveys',
+  'SecureShare.repos',
+  'SecureShare.files',
+  'SecureShare.config',
   'pascalprecht.translate'
 ]).
 config(['$locationProvider', '$urlRouterProvider','$translateProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {

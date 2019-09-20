@@ -8,7 +8,7 @@ function error(message){
   alert(message)
 }
 
-angular.module('sharekey.register', ['ngRoute'])
+angular.module('SecureShare.register', ['ngRoute'])
 
 .config(['$stateProvider', function($stateProvider) {
   $stateProvider.state('signup', {

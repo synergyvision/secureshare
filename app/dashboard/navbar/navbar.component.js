@@ -1,6 +1,6 @@
 
 
-angular.module('sharekey.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
+angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate'])
 
 .component('navbar',{
     templateUrl: 'dashboard/navbar/navbar.html',
