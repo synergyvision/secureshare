@@ -50,17 +50,13 @@
                 <div ng-repeat="comment in comments">
                     <div id="userComments" class="m-3 rounded-pill">
                         <div class="row justify-content-between">
-                             <p class="m-3 p-1">{{comment.user}}: {{comment.comment}}</p>
-                            <div class="dropdown">
-                                <div ng-if="comment.userId == uid">
-                                    <button class="btn btn-light btn-sm m-3" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-ellipsis-h"></i>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                        <button class="dropdown-item" type="button" ng-click="editComment(comment.id,comment.comment)">{{'posts.edit_comment_button' | translate}}</button>
-                                        <button class="dropdown-item" type="button" ng-click="deleteComment(comment.id)">{{'posts.delete_comment_button' | translate}}</button>
-                                    </div>  
-                                </div>
+                             <p class="m-3 p-1"> 
+                                 <img ng-src="{{comment.picture}}" id="userPicture" class="img-profile rounded-circle" ng-src="{{profilePicture}}" onerror="this.src='img/default-user-icon-8.jpg'">
+                                  {{comment.username}}: {{comment.comment}}
+                            </p>
+                            <div class="btn-group align-self-center" role="group" aria-label="Basic example" style="margin-right: 30px;">
+                                <button type="button" id="opButton" class="btn btn-primary btn-sm" ng-click="editComment(comment.id,comment.comment)"><i class="fas fa-edit"></i></button>
+                                <button type="button" id="opButton" class="btn btn-danger btn-sm" ng-click="deleteComment(comment.id)"><i class="fas fa-trash"></i></button>
                             </div>
                         </div>   
                     </div>

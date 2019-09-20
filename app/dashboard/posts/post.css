@@ -35,3 +35,14 @@
     padding-left: 0; 
     padding-right: 0;
 }
+
+#userPicture{
+    width: 30px;
+    height: 30px;
+    margin-right: 3px;
+}
+
+#opButton{
+    width: 50%;
+    height: 50%;
+}
