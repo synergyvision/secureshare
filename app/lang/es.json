@@ -6,8 +6,8 @@
         "login_button": "Iniciar Sesión",
         "forgot_password": "¿Olvidé mi contraseña?",
         "register": "¿Usuario nuevo? Regístrate",
-        "password_error": "Su contraseña es incorrecta",
-        "email_error": "Su correo es inválido",
+        "password_error": "Sus credenciales son inválidas.",
+        "email_error": "Sus credenciales son inválidas.",
         "error": "Ha ocurrido un error intentelo mas tarde"
     },
     "recoverPassword":{
@@ -33,7 +33,7 @@
         "button_back": "Regresar"
     },
     "sidebar":{
-        "title": "Sharekey",
+        "title": "Secureshare",
         "home": "Inicio",
         "profile": "Perfil",
         "personal_info": "Información personal",
@@ -177,7 +177,7 @@
         "from": "De:",
         "to": "A:",
         "sending": "Enviando mensaje",
-        "ask_pass": "Introduzca clave para",
+        "ask_pass": "Introduzca la clave de",
         "read": "Ver mensaje",
         "message_from": "Mensaje de",
         "message_to": "Mensaje enviado a",
@@ -263,7 +263,7 @@
         "error": "Error verifique su llave y passphrase"
     },
     "files":{
-        "title": "Manejo de archivos",
+        "title": "Archivos",
         "operation": "Elige la operación",
         "code": "Cifrar archivo",
         "decode": "Ver archivo",
@@ -271,10 +271,11 @@
         "select_key": "Selecciona la llave",
         "pass": "Clave",
         "share": "Compartir",
-        "download": "Descargar",
-        "contacts": "Contactos",
+        "encrypt": "Cifrar",
+        "decrypt": "Descifrar",
+        "contacts": "Compartir el archivo con",
         "cancel": "Cancelar",
-        "select": "Seleccionar",
+        "select": "Compartir",
         "browse": "Elegir",
         "error": "Error verifique su llave seleccionada y passphrase sean correctos"
     }
