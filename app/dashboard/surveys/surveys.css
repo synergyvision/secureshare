@@ -7,19 +7,14 @@
 }
 
 @media (max-width: 800px){
-    #newSurveysButton{
-      margin-left: -33px;
+    #newSurveys{
+      margin-left: -40px;
     }
   }
   
   @media (min-width: 1600px){
-    #newSurveysButton{
-      padding-left: 80px
+    #newSurveys{
+      padding-left: 60px
     }
   }
   
-  
-#newSurveysButton{
-  padding-left: 33px;
-
-}
