@@ -45,6 +45,8 @@ angular.module('SecureShare.profile', ['ngRoute','ui.router'])
   var token = $localStorage.userToken;
   var translate = $filter('translate')
 
+  //retrieves user data
+
       $scope.requestData = function(){
         $http({
           url: __env.apiUrl + __env.profile + $localStorage.uid,
@@ -68,6 +70,8 @@ angular.module('SecureShare.profile', ['ngRoute','ui.router'])
             }
           })
       }
+
+      //retrieves the user data
 
       $scope.updateData =  function(){
         var updateRequest = $.param({
@@ -94,6 +98,8 @@ angular.module('SecureShare.profile', ['ngRoute','ui.router'])
             }
         })
       }
+
+      //uplaods a profile picture to the server
 
       $scope.uploadPhoto = function (){
           $http({
@@ -126,6 +132,8 @@ angular.module('SecureShare.profile', ['ngRoute','ui.router'])
         });
       }
 
+      //reads the selected file
+
       $scope.SelectFile = function (e) {
         var reader = new FileReader();
         reader.onload = function (e) {
@@ -147,6 +155,8 @@ angular.module('SecureShare.profile', ['ngRoute','ui.router'])
    var user_id = $stateParams.user_id;
   $scope.username = $localStorage[uid + '-username'];
 
+  //check if any of the publications has been liked by the user
+
     var checkLike = function (reactions){
       if (reactions[uid]){
         return reactions[uid];
@@ -154,6 +164,8 @@ angular.module('SecureShare.profile', ['ngRoute','ui.router'])
         return null;
       }
     }
+
+    //converts the publication timestamps to dates
   
 
     var getDates = function (feedbacks){
@@ -171,6 +183,8 @@ angular.module('SecureShare.profile', ['ngRoute','ui.router'])
     }
     return feedbacks;
   } 
+
+  //retrieves the users published messages
 
    $scope.getFeedbacks = function(){
 
@@ -192,6 +206,8 @@ angular.module('SecureShare.profile', ['ngRoute','ui.router'])
       })
    }
 
+   //user likes a feedback
+
    $scope.likeFeedback = function(messageId){
      $http({
        url: __env.apiUrl + __env.messages + user_id +'/'+ messageId + '/react',
@@ -204,6 +220,8 @@ angular.module('SecureShare.profile', ['ngRoute','ui.router'])
        console.log(error);
      })
    }
+
+   //retrieves user data
 
    $scope.getUserData = function (){
       $http({

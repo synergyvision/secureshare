@@ -28,6 +28,8 @@ angular.module('SecureShare.dashboard', ['ngRoute','ui.router'])
   var token = $localStorage.userToken;
   var translate = $filter('translate')
 
+  //check if there is any keys activated
+
   $scope.keysExists = function (){
     if (!$scope.storedKeys){
       alert(translate('sidebar.keys_message'))

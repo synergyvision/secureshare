@@ -26,6 +26,8 @@ angular.module('SecureShare.login', ['ui.router','ngCookies'])
   
   var translate = $filter('translate')
 
+  //gets the server public key
+
   var getServerKey = function (){
     return $http({
       url: __env.apiUrl + 'config/serverKeys',
@@ -36,6 +38,8 @@ angular.module('SecureShare.login', ['ui.router','ngCookies'])
       console.log(error)
     })
   }
+
+  //gets encrypts the user password
 
   var encryptPassword = function(password){
     var publicKey = getServerKey()
@@ -51,6 +55,8 @@ angular.module('SecureShare.login', ['ui.router','ngCookies'])
       })
     })
   }
+
+  //sends the user log in credentials and then gets the users token
 
   $scope.sendData = function(){
     var password = encryptPassword($scope.password)

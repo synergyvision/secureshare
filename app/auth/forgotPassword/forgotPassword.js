@@ -29,6 +29,8 @@ angular.module('SecureShare.reset', ['ngRoute'])
 
   var translate = $filter('translate')
   
+  //tells server to send the recovery email
+
   $scope.sendEmail = function(){
     var emailRequest = $.param({
       email: $scope.email,

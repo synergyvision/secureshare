@@ -23,6 +23,8 @@ angular.module('SecureShare.register', ['ngRoute'])
   
   var translate = $filter('translate')
 
+  //sends the user data for signing up
+
   $scope.sendData = function(){
     var signUpRequest = $.param({
       email: $scope.email,

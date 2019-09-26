@@ -39,6 +39,8 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
 
     var translate = $filter('translate')
 
+    //realices a search with the data of the search bar
+
     $scope.getSearch = function (){
         if ($scope.search){
             if ($state.current.name == 'dash.searchContacts'){
@@ -48,6 +50,8 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
             $scope.search = "";
         }
     }
+
+    //updates the estatus of a friend request
 
     var updateStatus = function(id){
         $http({
@@ -60,6 +64,8 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
             console.log(error)
         })
     }
+    
+    //goes to read message screen
 
     $scope.readMessage =  function (id, status){
         if (status == 'unread'){
@@ -67,6 +73,8 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
         }
         $state.go('dash.read',{'id': id})
     }
+
+    //retrieves the users friend requests
 
     $scope.getFriendRequest = function (){
         $http({
@@ -86,6 +94,8 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
         })
     }
 
+    // acceps friends requests
+
     $scope.acceptRequest = function (id,rStatus){
         var updateStatus = $.param({
             status: true
@@ -93,12 +103,17 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
         sendStatus(id,updateStatus)
     }
 
+
+    //rejects user friend request
+
     $scope.rejectRequest = function (id,rStatus){
         var updateStatus = $.param({
             status: false
         })
         sendStatus(id,updateStatus)
     }
+
+    //sends the user acceptance or rejection of friends requests
 
     sendStatus = function (id,status){ 
         console.log(status);
@@ -125,6 +140,8 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
         })
     }
 
+    //counts unread messages
+
     var countUnread = function (messages){
         var count = 0;
         for (var i = 0; i < messages.length; i++){
@@ -136,6 +153,8 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
             }
         }
     }
+
+    //gets user lists of messages
 
     $scope.getMessages = function (){
         $http({
@@ -156,6 +175,8 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
         })
     }
 
+    //deletes a message
+
     $scope.deleteMessage = function (id){
         $http({
             url: __env.apiUrl + __env.messages + uid + '/' + id,
@@ -170,6 +191,8 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
             alert(error)
         })
     }
+
+    //log out
 
     $scope.logout = function(){
         $http({
@@ -235,7 +258,7 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
     SocketService.on('newChatMessages', function (data){
         update = checkModified(data);
     })*/
-
+    /*
     var checkChats = function (id){
         chats = $localStorage[uid + '-chats'];
         exists = false;
@@ -284,6 +307,6 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
                 }
             }
         }
-    }
+    }*/
     
 });

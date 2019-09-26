@@ -285,6 +285,8 @@ function encryptKeys(key,seed){
           })
     }
 
+    //retrieves a key from the server for recovery purposes
+
     $scope.recoverKeys = function (){
       var name = $localStorage.KeyRecover;
       var recoverRequest = $.param({
@@ -316,6 +318,8 @@ function encryptKeys(key,seed){
 
     }
 
+    //closes popup and deletes the locally stored key to activate
+
     $scope.closeRecover = function (){
       var popup = angular.element("#changeKey");
       //for hide model
@@ -325,6 +329,8 @@ function encryptKeys(key,seed){
       delete $localStorage.KeyRecover;
       delete $localStorage.recoveryKey;
     }
+
+    //function checks if the recovery key is correct
 
     $scope.checkWords = function (){
       var words = translate($scope.phraseRecovery)
@@ -343,7 +349,8 @@ function encryptKeys(key,seed){
       }
     }
 
-    
+    //function checks if the passsphrase if correct
+
     var encryptContent = async (privkey,pubkey,passphrase) =>{
       const privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
       await privKeyObj.decrypt(passphrase)
@@ -360,6 +367,7 @@ function encryptKeys(key,seed){
       })
     }    
 
+    //function stores the activated key if the passphrase is correct
 
     $scope.newPassword = function (){
       var words = translate($scope.keyPass)
