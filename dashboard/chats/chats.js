@@ -20,6 +20,8 @@
       $scope.userChats = [];
 
       var translate = $filter('translate')
+
+      //gets the user list of chats with at leats ine message
       
       $scope.getUserChats = async () => {
        $http({
@@ -40,6 +42,8 @@
         })
       }
 
+      //gets user list of contacts
+
       $scope.getContacts = function (){
         $http({
           url: __env.apiUrl + __env.profile + uid + '/contacts',
@@ -52,6 +56,8 @@
         })
       }
 
+      //stores a chat locally
+
       var storeLocalChats = function (id,title,participants){
         var chat = {
             chatID: id,
@@ -63,7 +69,7 @@
 
       }
 
-      
+      //creates a new chat
 
       $scope.createChat = function (){
         var participants = {}
@@ -90,11 +96,15 @@
             })
       }
 
+      //gets the info of a chat
+
       $scope.getChat = function (id){
         $scope.idChat = id;
         $scope.chatInfo(id);
         $scope.getMessages()
       }
+
+      //search the local chats for the desired one
 
       $scope.chatInfo = function (id_chat){
           for (i = 0; i < $localStorage[uid + '-chats'].length; i++){
@@ -103,6 +113,8 @@
               }
           }
       }
+
+      //deletes the users copy of a chat
 
       $scope.deleteChat = function(){
         $http({
@@ -118,6 +130,8 @@
         })
       }
 
+      //local deletes chat
+
       var localDeleteChat = function(id){
         for (var i = 0 ; i < $localStorage[uid + '-chats'].length; i++){
           if ($localStorage[uid + '-chats'][i].chatID == id){
@@ -125,6 +139,8 @@
           }
         }
       }
+
+      //gets id of chat participants
 
       var getRecipientId = function(){
           var ids = Object.keys($scope.infoChat.members)
@@ -135,6 +151,8 @@
             }
           }
       }
+
+      //gets public key of an user
 
       var getRecipientKey =  async (idUser) => {
             var keyRequest = $.param({
@@ -155,6 +173,8 @@
         
       }
 
+      //gets my key
+
       var getMyKey = function (name){
         if (name != 'default'){  
           for (var i = 0 ; i < $scope.keys.length; i++){
@@ -170,6 +190,8 @@
           }
         }  
       }
+
+      //gets my private public key
 
       var getMyPrivateKey = function (name){
         if (name != 'default'){
@@ -187,6 +209,7 @@
         }  
       }
 
+      //encrypts a chat message
 
       var encryptMessage = async (pubkeys, message) => {
         pubkeys = pubkeys.map(async (key) => {
@@ -201,6 +224,8 @@
             return encrypted
         })
        };
+
+       //sends chat message
 
        var sendRequest = function(request){
          $http({
@@ -217,6 +242,8 @@
            alert(error);
          })
        }
+
+       //gets public keys of several users
 
       var getMultipleKeys = async(keys)=>{
           var keyRequest = $.param({
@@ -235,6 +262,8 @@
               console.log(error);
           })
       }
+
+      //commences the flow of sending a message, getting content, getting keys, and encrypt it
 
       $scope.sendToChat = function (){
         var recipientId = getRecipientId($scope.idChat);
@@ -267,6 +296,8 @@
           alert(error)
         })
       }
+
+      //decrypts a message
   
       var decriptMessage = async (privateKey,passphrase,mensaje) => {
         try{
@@ -288,12 +319,16 @@
         }  
     }
 
+    //decrypts a key
+
       var decryptKey = function (key,password) {
         var bytes  = CryptoJS.AES.decrypt(key,password);
         var key = bytes.toString(CryptoJS.enc.Utf8);
         return key;
     
       }
+
+      //decrypts the list of messages
 
       var decryptMessages = async (messages) => {
         var private = getMyPrivateKey($scope.infoChat.members[uid]);
@@ -310,6 +345,8 @@
         }
         return messages
       } 
+
+      //gets chats list of messages
 
       $scope.getMessages =  function (){
         $http({
@@ -330,6 +367,8 @@
         } 
         })
       }
+
+      //opens modal
 
       $scope.savePass = function (){
         var popup = angular.element("#addPassphrase");

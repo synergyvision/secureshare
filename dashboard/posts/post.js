@@ -26,6 +26,9 @@ angular.module('SecureShare.posts', ['ui.router'])
 
       var translate = $filter('translate')
 
+
+      //retrieves locally stored user default public key
+
       var getMyDefaultKey = function (){
         for (var i = 0 ; i < userKeys.length; i++){
             if (userKeys[i].default == true){
@@ -34,6 +37,8 @@ angular.module('SecureShare.posts', ['ui.router'])
         }
       }
 
+         //retrieves locally stored user default private key
+
       var getMyDefaultPrivateKey = function (){
         for (var i = 0 ; i < userKeys.length; i++){
             if (userKeys[i].default == true){
@@ -41,6 +46,8 @@ angular.module('SecureShare.posts', ['ui.router'])
             }
         }
       }
+
+      //encryots the content of a post
 
       var encryptStatus = async (status) => {
           //const privKeyObj = (await openpgp.key.readArmored(privkey)).keys[0]
@@ -58,6 +65,8 @@ angular.module('SecureShare.posts', ['ui.router'])
               return encrypted
           })
         }
+
+      //creates a new post  
 
       $scope.newPost = async () =>{
         if (!$scope.public){
@@ -82,6 +91,8 @@ angular.module('SecureShare.posts', ['ui.router'])
         })
       }
 
+      //checks which publications had been liked or disliked by the user
+
         var checkLike = function (reactions){
           if (reactions[uid]){
             return reactions[uid];
@@ -90,6 +101,7 @@ angular.module('SecureShare.posts', ['ui.router'])
           }
         }
 
+        //converts posts timestamps to dates
 
       var getDates = function (posts){
         for (i = 0; i < posts.length; i++){
@@ -107,6 +119,8 @@ angular.module('SecureShare.posts', ['ui.router'])
         return posts
       } 
 
+      //retrieves the list of posts
+
       $scope.getPosts = function (){
         $http({
           url: __env.apiUrl + __env.posts,
@@ -122,6 +136,7 @@ angular.module('SecureShare.posts', ['ui.router'])
         })
       }
 
+      //changes the user reactios to the posts on the local scope
 
       var changeReaction = function(post_id,status){
         for (var i = 0; i < $scope.posts.length; i++){
@@ -147,6 +162,8 @@ angular.module('SecureShare.posts', ['ui.router'])
         }
       }
 
+      //functions updates the likes of a publication
+
       $scope.likeStatus = function (status,post_id){
         if (status == 'like'){
             var statusRequest = $.param({
@@ -171,6 +188,8 @@ angular.module('SecureShare.posts', ['ui.router'])
           console.log(error)
         })
       }
+
+      //function edits a post
 
       $scope.editPost =  function (id,content){
         var popup = angular.element("#edit");
@@ -201,6 +220,8 @@ angular.module('SecureShare.posts', ['ui.router'])
 
       }
 
+      //function deletes a post
+
       $scope.deletePost = function (id){
         $http({
           url: __env.apiUrl + __env.posts + id,
@@ -214,9 +235,13 @@ angular.module('SecureShare.posts', ['ui.router'])
         })
       }
 
+      //moves screen to a post
+
       $scope.goToPost = function (id){
         $state.go('dash.post',{'post_id': id})
       }
+
+      //gets data of a single post
 
       $scope.loadPost = function (){
         $http({
@@ -232,6 +257,8 @@ angular.module('SecureShare.posts', ['ui.router'])
         })
       }
 
+      //ask passphrase modal opens
+
       $scope.askPassphrase = function (content){
         console.log(content)
         $scope.$parent.postContent = content;
@@ -239,12 +266,16 @@ angular.module('SecureShare.posts', ['ui.router'])
         popup.modal('show')
       }
 
+      //decrypts the private key
+
       var decryptKey = function (key,passphrase) {
         var bytes  = CryptoJS.AES.decrypt(key,passphrase);
         var key = bytes.toString(CryptoJS.enc.Utf8);
         return key;
     
       }
+
+      //decrypts the users private key
 
       var decryptPost = async (privateKey,passphrase,mensaje) => {
         const privKeyObj = (await openpgp.key.readArmored(privateKey)).keys[0]
@@ -262,6 +293,8 @@ angular.module('SecureShare.posts', ['ui.router'])
         })
     }
 
+      //commences the decrypt post flow
+
       $scope.decryptPost = function (passphrase){
         var privateKey = getMyDefaultPrivateKey();
         privateKey = decryptKey(privateKey,passphrase);
@@ -277,6 +310,8 @@ angular.module('SecureShare.posts', ['ui.router'])
         })
       }
 
+      //retrieves a posts list of comments
+
       $scope.getComments = function(){
         $http({
           url: __env.apiUrl + __env.comments + $scope.uid + '/' + post,
@@ -289,6 +324,8 @@ angular.module('SecureShare.posts', ['ui.router'])
           console.log(error)
         })
       }
+
+      //sends a comments to a post
 
       $scope.sendComment = function(){
         var commentRequest = $.param({
@@ -309,6 +346,7 @@ angular.module('SecureShare.posts', ['ui.router'])
         })
       } 
 
+      //commences the process of edit posts
 
       $scope.editComment = function(id,content){
         console.log(id,content);
@@ -337,6 +375,8 @@ angular.module('SecureShare.posts', ['ui.router'])
           })
         }  
       }
+
+      //deletes a comment
 
       $scope.deleteComment = function (id){
         $http({

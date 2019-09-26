@@ -41,6 +41,8 @@
       $scope.decryptedContent = $stateParams.content
 
       var translate = $filter('translate')
+
+      //once a new message form is filed gets the puclic keys needed to cipher it
       
       $scope.getPublicKey =  function (idUser){
         if (!$scope.message){
@@ -79,6 +81,8 @@
         }
       }
 
+      //gets an user public key by name
+
       var getPublicKey = function (name){
         for (var i = 0 ; i < $scope.userKeys.length; i++){
             if ($scope.userKeys[i].keyname ==name){
@@ -86,6 +90,8 @@
             }
         }
       }
+
+      //gets an user private key by na,e
 
       var getPrivateKey = function (name){
         for (var i = 0 ; i < $scope.userKeys.length; i++){
@@ -95,12 +101,16 @@
         }
       }
 
+      //decrypts an user private key
+
       var decryptKey = function (key,password) {
         var bytes  = CryptoJS.AES.decrypt(key,password);
         var key = bytes.toString(CryptoJS.enc.Utf8);
         return key;
 
       }
+
+      //encrypts a message with multiple public keys
 
       var encryptWithMultiplePublicKeys  = async (pubkeys, privkey, passphrase, message) => {
             pubkeys = pubkeys.map(async (key) => {
@@ -131,6 +141,8 @@
           }  
       };
 
+      //gets user list of contacts
+
       $scope.getContacts = function (){
         $http({
             url: __env.apiUrl + __env.profile + uid + '/contacts',
@@ -149,6 +161,8 @@
 
       } 
 
+      //retrieves the keys for the new message and then passes the content to send messages
+
       $scope.encrypt = function (key,userdata) {
             var keyPublic = getPublicKey($scope.chatKey);
             var keyPrivate = getPrivateKey($scope.chatKey);
@@ -165,9 +179,13 @@
             })
         }
 
+        //resets input
+
       var reset = function(){
         document.getElementById('newMessage').reset();
       }
+
+      //sends new message to server
 
       var sendMessage = function (messageEncrypted,userdata){
         if (!$scope.publish){
@@ -204,6 +222,8 @@
         })
       }
 
+      //gets data of a single message
+
       $scope.getMessage = function (){
         $http({
           url: __env.apiUrl + __env.messages + uid + '/' + $stateParams.id,
@@ -227,6 +247,8 @@
         })
       }
 
+      //gets default private key
+
       var getPrivateKey = function (){
         for (var i = 0 ; i < $scope.userKeys.length; i++){
             if ($scope.userKeys[i].default == true){
@@ -234,6 +256,8 @@
             }
         }
       }
+
+      //decrypts message content
 
       var decriptMessage = async (privateKey,passphrase,mensaje) => {
           const privKeyObj = (await openpgp.key.readArmored(privateKey)).keys[0]
@@ -249,6 +273,8 @@
               return decrypted
           })
       }
+
+      //retrieves keys needed to decrypt a new message
 
       $scope.decrypt = async () => {
         var privateKey = getPrivateKey($rootScope.messageKeyname);
@@ -267,10 +293,14 @@
         })
       } 
 
+      //goes to new mesasge page
+
       $scope.respond = function(name,id) {
         console.log(name,id)
         $state.go('dash.messages',{'id_user': id,'name': name});
       }
+
+      //converts timestamps to dates
 
       var getDate = function (messages){
         for (var i = 0; i < messages.length; i++){
@@ -279,6 +309,8 @@
         }
         return messages
       }
+
+      //retrieves lists of messages
 
         $scope.getMessages = function (tray){
           $scope.correos = "";
@@ -301,6 +333,8 @@
           })
       }
 
+      //deletes a message
+
       $scope.deleteMessage = function (id){
           console.log(id);
           $http({
@@ -318,6 +352,8 @@
           })
       }
 
+      //updates the status of a message (from unread to read)
+
       var updateStatus = function(id){
         $http({
             url: __env.apiUrl + __env.messages + uid + '/' + id,
@@ -330,6 +366,8 @@
         })
     }
 
+    //goes to read page
+
       $scope.readMessage =  function (id, status,content){
         if (status == 'unread'){
             updateStatus(id);
@@ -340,6 +378,8 @@
         delete $rootScope.messageContent
         $state.go('dash.read',{'id': id,'content': content})
       }
+
+      //publish a received message
 
       $scope.publishMessage = function (){
         var publishRequest = $.param({
@@ -359,6 +399,8 @@
             console.log(error);
         })
       }
+
+      //ask passphrase modal have to user root because i could manage to pass the data any other way
 
       $scope.askPassphrase = function (id,key,content,status){
         $rootScope.messageKeyname = key[uid]

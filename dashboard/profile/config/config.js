@@ -17,6 +17,8 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
   
     var translate = $filter('translate')
 
+    //generates the random string message for verification
+
     function makeid() {
       var result           = '';
       var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -26,6 +28,8 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
       }
       return result;
    }
+
+   //inits fb observer
 
     initObserver = function (){
     FB.Event.subscribe('auth.authResponseChange', function(res) {
@@ -104,6 +108,8 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
 
   }(document));
 
+  //connects to the fb api and retrieves the user 5 last publications
+
     $scope.verify = function (){
         FB.api(
           "me/feed?limit=5",
@@ -114,6 +120,8 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
           }
       );
     }
+
+    //compares the user publications to the string message
 
    var validateFeed =  function (feed){
     var valid = false
@@ -128,6 +136,8 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
     }
    }
 
+   //sens notification to the server that the user has succesfully validated fb
+
    var validateFacebook = function (){
      $http({
        url: __env.apiUrl + __env.config + uid + '/validateFacebook',
@@ -140,6 +150,8 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
         console.log(error)
      })
    }
+
+   //retrieves the user active social networks
 
    $scope.getSocials = function (){
       $http({
@@ -155,11 +167,15 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
       })
     }
 
+    //shows twitter validation string form
+
     $scope.showTwitterMessage = function(){
       $scope.showTwitter = true;
       $scope.validationMessage = preMessage + makeid();
       $scope.$apply
     }
+
+    //gets user last 2 tweets to validate the string
 
     $scope.getTwitterFeed = function(){
       console.log($scope.twitterUsername)
@@ -182,6 +198,8 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
       })
     }
     
+    //compares twitter feed with the validation message
+
     var validateTweet = function (feed){
       console.log(feed)
       var valid = false
@@ -196,6 +214,8 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
       }
     }
 
+    //updates the database by marking twitter with verified
+
     var validateTwitter = function (){
       $http({
         url: __env.apiUrl + __env.config + uid + '/validateTwitter',
@@ -209,6 +229,8 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
       })
     }
 
+    //retrieves server key
+
     var getServerKey = function (){
       return $http({
         url: __env.apiUrl + 'config/serverKeys',
@@ -219,6 +241,8 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
         console.log(error)
       })
     }
+
+    //encripts the github password to be sent to the server
 
     var encryptPassword = async (password) =>{
       var publicKey = getServerKey()
@@ -234,6 +258,8 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
         })
       })
     }
+
+    //signs the user in with github and retrieves the ouath2 token
 
     $scope.getToken = function (){
       console.log($scope.username,$scope.password)
@@ -258,6 +284,8 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
         })
       })  
     }
+
+    //function to copy the validation message
 
     $scope.copy = function(){
       var copyText = document.getElementById('validationMessage');

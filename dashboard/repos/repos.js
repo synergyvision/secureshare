@@ -41,24 +41,28 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
 
      var translate = $filter('translate')
 
-    $scope.checkToken = function (){
-      $http({
-        url: __env.apiUrl + __env.repos + uid + '/checkToken',
-        method: 'GET',
-        headers: {'Authorization':'Bearer: ' + token} 
-    }).then(function (response){
-        $scope.tokenExists = response.data.tokenExists
-        if ($scope.tokenExists == true){
-          getRepoList()
-        }else{
-          console.log('here')
-          $state.go('dash.config')
-        }
-    }).catch(function (error){
-        console.log(error)
-    })
+    //function cheks if the user has created a github token by signing in with the app 
 
+    $scope.checkToken = function (){
+        $http({
+          url: __env.apiUrl + __env.repos + uid + '/checkToken',
+          method: 'GET',
+          headers: {'Authorization':'Bearer: ' + token} 
+      }).then(function (response){
+          $scope.tokenExists = response.data.tokenExists
+          if ($scope.tokenExists == true){
+            getRepoList()
+          }else{
+            console.log('here')
+            $state.go('dash.config')
+          }
+      }).catch(function (error){
+          console.log(error)
+      })
     }
+
+    //function gets the user lists of repositories
+
     var getRepoList = function (){
         $http({
             url: __env.apiUrl + __env.repos + uid + '/listRepos',
@@ -72,6 +76,8 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
         })
     }
 
+    //retrieves the server public key
+
    var getServerKey = function (){
       return $http({
         url: __env.apiUrl + 'config/serverKeys',
@@ -82,6 +88,8 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
         console.log(error)
       })
     }
+
+    //function retrieves basic data of a repo
   
     $scope.getRepo = function (){
         $http({
@@ -96,6 +104,8 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
         })
 
     }
+
+    //function gets the content of the given path of a repo
 
     $scope.getContents = function (path = null){
       if (path != null){
@@ -127,6 +137,8 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
       })
     }
 
+    //function creates a new repo
+
     $scope.createRepo = function(){
       var newRepo = {
         name: $scope.name,
@@ -149,9 +161,13 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
       })
     }
 
+    //function goes to the new file page
+
     $scope.goToNewFile = function (path = null){
       $state.go('dash.newFile',{'repo':dir ,'directory': path});
     }
+
+    //function gets the user chosen public key
 
     var getPublicKey = function (name){
       for (var i = 0 ; i < $scope.userKeys.length; i++){
@@ -161,6 +177,8 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
       }
     }
 
+    //function gets the user chosen private key
+
     var getPrivateKey = function (name){
       for (var i = 0 ; i < $scope.userKeys.length; i++){
           if ($scope.userKeys[i].keyname ==name){
@@ -168,6 +186,8 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
           }
       }
     }
+
+    //function encripts the content of a file with the given key
 
     encrypt = async (content,pubkey) => {
         const options = {
@@ -180,6 +200,8 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
           return encrypted
       })
     }
+
+    //function reads an uploaded file
 
     $scope.readFile = function (){
       if ($scope.publicFile){
@@ -201,6 +223,8 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
         createFile($scope.file)
       }  
     }
+
+    //function creates a new file and uploads it to the repo
 
     createFile = function (file){
       if ($scope.directory){
@@ -234,6 +258,8 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
       })
     }
 
+    //function deletes a file from the repo
+
     $scope.deleteFile = function(sha,name){
       var fileDelete = $.param({
         sha: sha,
@@ -252,16 +278,22 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
       })
     }
 
+    //function downloads a new file
+
     $scope.downloadFile = function (name,content){
       var data = new Blob([content], { type: 'text/plain;charset=utf-8' });
       FileSaver.saveAs(data, name);
     }
 
 
+    //deciphering modal
+
     $scope.openModal = function(){
       var popup = angular.element('#decipher')
       popup.modal('show')
     }
+
+    //decrypts the content of a filre
 
     decryptContent = async (key,passphrase) => {
       try {
@@ -285,6 +317,8 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
 
     }
 
+    //decrypts the private key to be used
+
     var decryptKey = function (key,password) {
       var bytes  = CryptoJS.AES.decrypt(key,password);
       var key = bytes.toString(CryptoJS.enc.Utf8);
@@ -292,16 +326,22 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
   
     }
 
+    //reads and encrypted file from the repo
+
     $scope.decipherDownload = function (){
       var key = getPrivateKey($scope.repoKey)
       key = decryptKey(key,$scope.keyPass)
       decryptContent(key,$scope.keyPass)
     }
 
+    //push modals
+
     $scope.openPush = function (){
       var popup = angular.element('#update')
       popup.modal("show")
     }
+
+    //function updates an existing file from the repo
 
     updateFile = function (file){
       var pushFile = {
@@ -332,6 +372,8 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
         })
       }
 
+    //reads encripted file from the repo to be updated  
+
     readEncrypted = function (){
       var aReader = new FileReader();
       aReader.readAsText($scope.file, "UTF-8");
@@ -349,6 +391,8 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
       }
     }
 
+    // if the file is not encripted it uploads it if not dit decrypt it
+
     $scope.pushFile = function(){
         if(!$scope.publicFile){
           updateFile($scope.file)
@@ -357,6 +401,8 @@ angular.module('SecureShare.repos', ['ui.router','ngFileSaver'])
         }
 
     }
+
+    //returns to home path of the repo
 
     $scope.homeRepo = function(){
       $state.reload()

@@ -17,6 +17,8 @@ angular.module('SecureShare.files', ['ui.router','ngFileSaver'])
     $scope.share = false;
     $scope.selected = [];
     var translate = $filter('translate')
+
+    //decrypts file content
     
     var decryptContent = async (key,passphrase,content) => {
       try{
@@ -37,6 +39,8 @@ angular.module('SecureShare.files', ['ui.router','ngFileSaver'])
       }
     }
 
+    //encrypts file content
+
     var encryptContent = async (key,content) =>{
       const options = {
           message: openpgp.message.fromText(content),      
@@ -50,12 +54,16 @@ angular.module('SecureShare.files', ['ui.router','ngFileSaver'])
       })
     }
 
+    //decrypts the private key
+
     var decryptKey = function (key,password) {
       var bytes  = CryptoJS.AES.decrypt(key,password);
       var key = bytes.toString(CryptoJS.enc.Utf8);
       return key;
   
     }
+
+    //gets a private key searching by name
 
     var getPrivateKey = function (name){
       for (var i = 0 ; i < $scope.userKeys.length; i++){
@@ -65,6 +73,8 @@ angular.module('SecureShare.files', ['ui.router','ngFileSaver'])
       }
     }
 
+    //gets a public key searching by name
+
     var getPublicKey = function (name){
       for (var i = 0 ; i < $scope.userKeys.length; i++){
           if ($scope.userKeys[i].keyname == name){
@@ -72,6 +82,8 @@ angular.module('SecureShare.files', ['ui.router','ngFileSaver'])
           }
       }
     }
+
+    //reads file content and passes it for decryption
 
     readFileDecrypt = function (key,passphrase){
       var aReader = new FileReader();
@@ -84,6 +96,8 @@ angular.module('SecureShare.files', ['ui.router','ngFileSaver'])
           console.log(evt)
       }
     }
+
+    //encrypts file content
 
     var encryptMultipleKeys = async (pubkeys, message) => {
         pubkeys = pubkeys.map(async (key) => {
@@ -99,6 +113,8 @@ angular.module('SecureShare.files', ['ui.router','ngFileSaver'])
             $state.reload()
         })
      };
+
+    // reads file content and sends it to encript
 
     var readFileEncrypt = function (key){
       var aReader = new FileReader();
@@ -117,6 +133,8 @@ angular.module('SecureShare.files', ['ui.router','ngFileSaver'])
       }
     }
 
+    //gets the keys for the decription
+
     $scope.decipher = function (){
       if ($scope.operation == 2){
         var key = getPrivateKey($scope.key)
@@ -127,6 +145,8 @@ angular.module('SecureShare.files', ['ui.router','ngFileSaver'])
         readFileEncrypt(key)
       }
     }
+
+    //adds id of the user to an array used to know to which user the file can be shared to
 
     $scope.addId = function (id){
       $scope.exists = false
@@ -143,6 +163,8 @@ angular.module('SecureShare.files', ['ui.router','ngFileSaver'])
       
     }
 
+    //gets the user contacts
+
     $scope.getContacts = function (){
       $http({
         url: __env.apiUrl + __env.profile + uid + '/contacts',
@@ -156,10 +178,14 @@ angular.module('SecureShare.files', ['ui.router','ngFileSaver'])
       })
     }
 
+    //deletes contacts from the array
+
     $scope.deleteContacts = function(){
       $scope.selected = [];
       console.log($scope.selected)
     }
+
+    //retrieves variosu keys from the server
 
        $scope.getMultipleKeys = async()=>{
         var keyRequest = $.param({

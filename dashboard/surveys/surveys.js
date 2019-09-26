@@ -37,6 +37,9 @@ angular.module('SecureShare.surveys', ['ui.router'])
 
     $scope.answeredQuestions = []
 
+
+    //function gets the list of surveys
+
     $scope.getSurveys = function (){
         $http({
             url: __env.apiUrl + __env.surveys,
@@ -50,6 +53,8 @@ angular.module('SecureShare.surveys', ['ui.router'])
             console.log(error)
         })
     }
+
+    //function checks if the user has answered a survey or if there are any expired
 
     var checkSurvey = function (survey){
         var now = new Date();
@@ -73,6 +78,8 @@ angular.module('SecureShare.surveys', ['ui.router'])
         }    
     }
 
+    //function gets a single survey
+
     $scope.getSurvey = function (){
         $http({
             url: __env.apiUrl + __env.surveys + survey,
@@ -86,6 +93,8 @@ angular.module('SecureShare.surveys', ['ui.router'])
             console.log(error)
         })
     }
+
+    //function creates a new answer
 
     var createAnswers = function (surveyId,questionId) {
         var newAnswers = $.param({
@@ -104,6 +113,8 @@ angular.module('SecureShare.surveys', ['ui.router'])
         })
     }
 
+    //function creates new question
+
     var createQuestion = function (surveyId){
         var newQuestion = $.param({
             content: $scope.question.title
@@ -121,6 +132,8 @@ angular.module('SecureShare.surveys', ['ui.router'])
         })
 
     }
+
+    //function starts the flow to create a survey
 
     $scope.createSurvey = function (){
         var created = new Date();
@@ -146,10 +159,14 @@ angular.module('SecureShare.surveys', ['ui.router'])
         })
     }
 
+    //function ads one more answer to array
+
     $scope.addLenght =  function (){
         answer = {};
         $scope.answers.push(answer)
     }
+
+    //function creates and pushes an array with the questionId and its chosen answer
 
     $scope.getId = function (questionId,answer){
         var exists = false;
@@ -167,6 +184,8 @@ angular.module('SecureShare.surveys', ['ui.router'])
             $scope.answeredQuestions.push(answeredQuestion);
         }
     }
+
+    //function starts the fill survey flow
 
     $scope.fillSurvey = function (){
         console.log($scope.answeredQuestions[0]);
@@ -193,6 +212,8 @@ angular.module('SecureShare.surveys', ['ui.router'])
             console.log('user has answered a survey')
         })
     }
+
+    // function deletes a survey
 
     $scope.deleteSurvey = function (id){
         $http({

@@ -22,6 +22,8 @@
       $scope.uid = $localStorage.uid;
 
       var translate = $filter('translate')
+
+      //gets user contact list
       
       $scope.getContacts = function (){
 
@@ -42,6 +44,8 @@
         })
 
       }
+
+      //realizes an user search
 
       $scope.getUsers = function (){
             $scope.search = $stateParams.user;
@@ -65,6 +69,8 @@
                 }  
             }) 
     }
+
+    //sends a friend request
 
     $scope.sendRequest =  function(id){
         var request = $.param({
@@ -92,6 +98,8 @@
                 }  
             }) 
     }
+
+    //goes to the message page
 
     $scope.sendMessage = function (name,id){
         $state.go('dash.messages',{'id_user': id,'name': name});
