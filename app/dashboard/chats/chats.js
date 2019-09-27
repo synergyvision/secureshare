@@ -19,6 +19,8 @@
       $scope.show = false;
       $scope.userChats = [];
 
+      $scope.seeButton = true;
+
       var translate = $filter('translate')
 
       //gets the user list of chats with at leats ine message
@@ -99,6 +101,7 @@
       //gets the info of a chat
 
       $scope.getChat = function (id){
+        $scope.seeButton =true
         $scope.idChat = id;
         $scope.chatInfo(id);
         $scope.getMessages()
@@ -378,6 +381,8 @@
         decripted.then(function (decripted){
           $scope.show = true;
           $scope.chatMessages = decripted;
+          $scope.passphraseChat = "";
+          $scope.seeButton = false;
           var popup = angular.element("#decryptingSpinner");
           //for hide model
           popup.modal('hide');

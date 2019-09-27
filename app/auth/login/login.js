@@ -26,6 +26,8 @@ angular.module('SecureShare.login', ['ui.router','ngCookies'])
   
   var translate = $filter('translate')
 
+  $scope.loginIn = false;
+
   //gets the server public key
 
   var getServerKey = function (){
@@ -59,6 +61,7 @@ angular.module('SecureShare.login', ['ui.router','ngCookies'])
   //sends the user log in credentials and then gets the users token
 
   $scope.sendData = function(){
+    $scope.loginIn = true;
     var password = encryptPassword($scope.password)
     password.then(function (password){
         var loginRequest = $.param({
@@ -90,12 +93,15 @@ angular.module('SecureShare.login', ['ui.router','ngCookies'])
           }else{
             if (response.data.status === 'auth/wrong-password'){
               errorLogin(translate('login.password_error'));
+              $scope.loginIn = false;
             } else if (response.data.status === 'auth/user-not-found'){
               errorLogin(translate('login.email_error'));
+              $scope.loginIn = false;
             }
           }
         }).catch(function (error){
           alert(translate('login.error'))
+          $scope.loginIn = false;
         })
       })  
     }
