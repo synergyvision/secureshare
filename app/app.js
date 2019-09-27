@@ -33,7 +33,8 @@ var ngModule = angular.module('SecureShare', [
   'SecureShare.repos',
   'SecureShare.files',
   'SecureShare.config',
-  'pascalprecht.translate'
+  'pascalprecht.translate'//,
+  //'btford.socket-io'
 ]).
 config(['$locationProvider', '$urlRouterProvider','$translateProvider', function($locationProvider, $stateProvider, $urlRouterProvider) {
   $locationProvider.hashPrefix('!')
@@ -41,3 +42,10 @@ config(['$locationProvider', '$urlRouterProvider','$translateProvider', function
 }])
 
 ngModule.constant('__env', env)
+
+
+/*ngModule.service('SocketService', ['socketFactory', function SocketService(socketFactory) {
+   return socketFactory({
+       ioSocket: io.connect(__env.apiUrl)
+   });
+}]);*/

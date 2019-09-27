@@ -212,7 +212,7 @@ angular.module('SecureShare.posts', ['ui.router'])
             popup.modal('hide');
             $scope.editedContent = "";
             $scope.editedPost = "";
-            $state.reload();
+            $scope.getPosts();
           }).catch(function (error){
             console.log(error)
           })
@@ -229,7 +229,7 @@ angular.module('SecureShare.posts', ['ui.router'])
           headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
           console.log(response.data);
-          $state.reload();
+          $scope.getPosts();
         }).catch(function (error){
           console.log(error)
         })
@@ -340,7 +340,7 @@ angular.module('SecureShare.posts', ['ui.router'])
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
           console.log(response.data);
-          $state.reload();
+          $scope.getComments(); 
         }).catch(function (error){
             console.log(error);
         })
@@ -369,7 +369,7 @@ angular.module('SecureShare.posts', ['ui.router'])
             console.log(response.data)
             $scope.editedCommentContent = "";
             $scope.editedCommentId = "";
-            $state.reload();
+            $scope.getComments() 
           }).catch(function (error){
             console.log(error)
           })
@@ -385,7 +385,7 @@ angular.module('SecureShare.posts', ['ui.router'])
           headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
           console.log(response.data);
-          $state.reload();
+          $scope.getComments(); 
         }).catch(function (error){
           console.log(error)
         })
