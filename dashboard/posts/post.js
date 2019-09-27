@@ -5,7 +5,7 @@ angular.module('SecureShare.posts', ['ui.router'])
       url: '/posts',
       templateUrl: 'dashboard/posts/posts.html',
       controller: 'postsController',
-      css: 'post.css'
+      css: 'post.scss'
     })
     $stateProvider.state('dash.post',{
       url: '/posts/?post_id',

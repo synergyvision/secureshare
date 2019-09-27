@@ -28,7 +28,7 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
 
 
 
-.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage,__env,toaster,$filter){
+.controller('navbarController', function ($scope,$localStorage,$http,$location,$state,$window,$sessionStorage,__env,toaster,$filter/*,/SocketService*/){
     $scope.user = $localStorage[$localStorage.uid + '-username']
     var uid = $localStorage.uid;
     $scope.profilePicture = $localStorage.userPicture;
@@ -211,31 +211,28 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
         })
     }
    /* $scope.fireEvents = function (){
-        SocketService.emit('subscribeMessages',uid);
-        SocketService.emit('subscribeRequest',uid);
+        //SocketService.emit('subscribeMessages',uid);
+        //SocketService.emit('subscribeRequest',uid);
     
-        SocketService.emit('subscribeNewChats',uid);
+        //SocketService.emit('subscribeNewChats',uid);
         SocketService.emit('subscribeSurvey',uid);
         
-        SocketService.emit("subscribeChatMessages");
+        //SocketService.emit("subscribeChatMessages");
     }
 
 
 
 
     SocketService.on('updateSurveys',function (id){
-        exists = checkSurveys(id)
-        if (exists == false){
-            toaster.pop({
-                type: 'info',
-                title: 'Notificacion',
-                body: 'Nuevas encuentas disponibles',
-                timeout: 3000
-            });
-        }
-    });
+        toaster.pop({
+            type: 'info',
+            title: 'Notificacion',
+            body: 'Nuevas encuentas disponibles',
+            timeout: 3000
+        })    
+    });*/
 
-    SocketService.on('updateMessages', function (){
+    /*SocketService.on('updateMessages', function (){
         $scope.getMessages();
     })
 
@@ -258,55 +255,5 @@ angular.module('SecureShare.navbar', ['ngRoute','ngStorage','toaster','ngAnimate
     SocketService.on('newChatMessages', function (data){
         update = checkModified(data);
     })*/
-    /*
-    var checkChats = function (id){
-        chats = $localStorage[uid + '-chats'];
-        exists = false;
-        if ($localStorage[uid + '-chats']){
-            for (i = 0; i < chats.length;i++){
-                if (chats[i].chatID == id){
-                    exists = true;
-                }
-            }
-            return exists;
-
-        }else{
-            return false;
-        }
-            
-    }
-
-    var checkSurveys = function (id){
-        if ($localStorage.surveys){
-            surveys = $localStorage.surveys;
-            exists = false;
-            for (i = 0; i < surveys.length;i++){
-                if (surveys[i].id == id){
-                    exists = true;
-                }
-            }
-            return exists;
-         } else{
-            return false;
-        }    
-    }
-
-    var checkModified = function (data){
-        chats = $localStorage[uid + '-chats'];
-        if ($localStorage[uid + '-chats']){
-            for (i = 0; i < chats.length;i++){
-                if (chats[i].chatID == data.chat){
-                    if (chats[i].last_modified != data.last_modified){
-                        toaster.pop({
-                            type: 'info',
-                            title: 'Notificacion',
-                            body: 'Tienes un nuevo mensaje en ' + chats[i].title,
-                            timeout: 3000
-                        });
-                    }
-                }
-            }
-        }
-    }*/
     
 });
