@@ -41,14 +41,14 @@
                   <div class="col align-self-end mr-4 ml-2 mt-3" ng-if="message.data.id_sender == uid">  
                             <p id="sentMessage" class="text-md-right text-break bg-primary text-white pr-4"  style="font-size: 1.1em;">
                                 <small>{{message.data.username}}</small><br>
-                              <span style="font-size: 1.3rem">{{message.data.content}}</span>
+                              <span style="font-size: 1.3rem"><b>{{message.data.content}}</b>></span>
                               <br>
                             <small style="font-size: 0.5em">{{message.sent}}</small></p>
                   </div> 
                   <div class="col align-self-start ml-4 mr-2 mt-2" ng-if="message.data.id_sender != uid"> 
                                 <p id="receivedMessage" class="text-md-left text-break bg-light text-black pl-4" style="font-size: 1.1em;">
                                   <small>{{message.data.username}}</small><br>
-                                 <span style="font-size: 1.3rem">{{message.data.content}}</span>
+                                 <span style="font-size: 1.3rem"><b>{{message.data.content}}</b></span>
                                 <br>
                                 <small style="font-size: 0.5em">{{message.sent}}</small></p>
                   </div>
