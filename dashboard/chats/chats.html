@@ -15,6 +15,11 @@
             </form>
             <button class="btn btn-outline-success" data-toggle="modal" data-target="#newChat" ng-click="getContacts()"><i class="fas fa-plus-circle"></i></button>
       </nav> 
+      <div ng-if="userChats.length == '0'" class="row justify-content-center">
+        <div class="spinner-grow text-info" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+      </div>
       <div class="list-group">
         <a  ng-repeat="chat in userChats | filter: chatSearch"   class="list-group-item list-group-item-action" ng-click="getChat(chat.chatID)">
           <div class="d-flex w-100 justify-content-between">
@@ -25,7 +30,7 @@
     </div>
     <div class="col-6" id="selectedChat" ng-if="idChat">
         <nav class="navbar navbar-expand-md navbar-light justify-content-between" id="chatInfo">
-            <span>{{infoChat.title}} {{$parent.seeButton}} </span>
+            <span>{{infoChat.title}}</span>
             <div class="btn-group" role="group" aria-label="Basic example">
                 <button type="button" ng-if="$parent.seeButton" class="btn btn-primary"  data-toggle="modal" data-target=".addPassphrase"><i class="fas fa-eye"></i></button>
                 <button type="button" class="btn btn-danger" ng-click="deleteChat()"><i class="fas fa-trash"></i></button>
@@ -35,15 +40,15 @@
             <div ng-if="$parent.$parent.seeButton == false"  class="row justify-content-center" ng-repeat="message in chatMessages | orderBy: 'this.data.date_sent'">
                   <div class="col align-self-end mr-4 ml-2 mt-3" ng-if="message.data.id_sender == uid">  
                             <p id="sentMessage" class="text-md-right text-break bg-primary text-white pr-4"  style="font-size: 1.1em;">
-                                <small><b>{{message.data.username}}</b></small><br>
-                              <span ng-if="message.decripted">{{message.data.content}}</span>
+                                <small>{{message.data.username}}</small><br>
+                              <span style="font-size: 1.3rem">{{message.data.content}}</span>
                               <br>
                             <small style="font-size: 0.5em">{{message.sent}}</small></p>
                   </div> 
                   <div class="col align-self-start ml-4 mr-2 mt-2" ng-if="message.data.id_sender != uid"> 
-                                <p ng-if="message.decripted" id="receivedMessage" class="text-md-left text-break bg-light text-black pl-4" style="font-size: 1.1em;">
-                                  <small><b>{{message.data.username}}</b></small><br>
-                                 <span >{{message.data.content}}</span>
+                                <p id="receivedMessage" class="text-md-left text-break bg-light text-black pl-4" style="font-size: 1.1em;">
+                                  <small>{{message.data.username}}</small><br>
+                                 <span style="font-size: 1.3rem">{{message.data.content}}</span>
                                 <br>
                                 <small style="font-size: 0.5em">{{message.sent}}</small></p>
                   </div>

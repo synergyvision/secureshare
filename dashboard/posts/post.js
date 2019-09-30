@@ -23,7 +23,6 @@ angular.module('SecureShare.posts', ['ui.router'])
       var post = $stateParams.post_id;
       $scope.username = $localStorage[uid + '-username'];
       $scope.edit = false;
-
       var translate = $filter('translate')
 
 
@@ -260,7 +259,6 @@ angular.module('SecureShare.posts', ['ui.router'])
       //ask passphrase modal opens
 
       $scope.askPassphrase = function (content){
-        console.log(content)
         $scope.$parent.postContent = content;
         var popup = angular.element('#Passphrase');
         popup.modal('show')
@@ -298,12 +296,13 @@ angular.module('SecureShare.posts', ['ui.router'])
       $scope.decryptPost = function (passphrase){
         var privateKey = getMyDefaultPrivateKey();
         privateKey = decryptKey(privateKey,passphrase);
-        console.log($scope.postContent)
         post = decryptPost(privateKey,passphrase,$scope.postContent)
         post.then (function (content){
+          $scope.decrypted = true;
           var popup = angular.element('#Passphrase');
           popup.modal('hide')
           $scope.post.data.content = content;
+          $scope.post.decrypted = true
           $scope.$apply();
         }).catch(function (error){
             alert(translate('posts.error_passphrase'))

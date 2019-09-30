@@ -2,13 +2,32 @@
         <h2>{{'posts.post_link' | translate}}</h2>
     <div class="row justify-content-center" ng-controller="postsController">   
         <div class="col-12"> 
-            <div class="card" ng-init="loadPost()">
-                <div class="card-header">
+            <div ng-if="!post" class="timeline-wrapper">
+                    <div class="timeline-item">
+                        <div class="animated-background">
+                            <div class="background-masker header-top"></div>
+                            <div class="background-masker header-left"></div>
+                            <div class="background-masker header-right"></div>
+                            <div class="background-masker header-bottom"></div>
+                            <div class="background-masker subheader-left"></div>
+                            <div class="background-masker subheader-right"></div>
+                            <div class="background-masker subheader-bottom"></div>
+                            <div class="background-masker content-top"></div>
+                            <div class="background-masker content-first-end"></div>
+                            <div class="background-masker content-second-line"></div>
+                            <div class="background-masker content-second-end"></div>
+                            <div class="background-masker content-third-line"></div>
+                            <div class="background-masker content-third-end"></div>
+                        </div>
+                    </div>
+            </div>
+            <div class="card" ng-show="post" ng-init="loadPost()">
+            <div class="card-header">
                     <div class="row justify-content-between">
                         <span ng-if="post.userPicture"><img class="img-profile rounded-circle mr-3" ng-src="{{post.userPicture}}" style="height: 60px;width: 60px" onerror="this.src='img/default-user-icon-8.jpg'">{{post.name}} {{'posts.post_published' | translate}}</span>
                         <span ng-if="!post.userPicture"><img class="img-profile rounded-circle mr-3" src="img/default-user-icon-8.jpg" style="height: 60px;width: 60px" onerror="this.src='img/default-user-icon-8.jpg'">{{post.name}} {{'posts.post_published' | translate}}</span>
                         <div class="btn-group" role="group"  ng-if="post.data.user_id == uid" aria-label="Basic example" style="height: 50%">
-                                <button type="button" class="btn btn-primary" ng-if="post.data.public == 'false'" ng-click="askPassphrase(post.data.content)"><i class="far fa-eye"></i></button>
+                            <button type="button" class="btn btn-primary" ng-if="post.data.public == 'false'" ng-disabled="post.decrypted" ng-click="askPassphrase(post.data.content)"><i class="far fa-eye"></i></button>
                             <button type="button" class="btn btn-primary" ng-if="post.data.public == 'true'" ng-click="editPost(post.id,post.data.content)"><i class="fas fa-edit"></i></button>
                             <button type="button" class="btn btn-danger" ng-click="deletePost(post.id)"><i class="fas fa-trash"></i></button>
                         </div>
@@ -36,7 +55,7 @@
                     </div>
                 </div>
             </div> 
-            <div id="comments" class="bg-white w-100" ng-init="getComments()">
+            <div id="comments" ng-if="post" class="bg-white w-100" ng-init="getComments()">
                 <div id="background">
                     <form class="form-inline" id="commentForm">
                         <div class="input-group mb-3 col-md-12 p-0">

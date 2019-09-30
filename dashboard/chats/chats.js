@@ -337,7 +337,6 @@
         var private = getMyPrivateKey($scope.infoChat.members[uid]);
         var privateKey = decryptKey(private,$scope.passphraseChat);
         var popup = angular.element("#decryptingSpinner");
-        //for hide model
         popup.modal('show');
         for (var i = 0; i < messages.length; i++){
             message = await decriptMessage(privateKey,$scope.passphraseChat,messages[i].data.content)
@@ -374,17 +373,17 @@
       //opens modal
 
       $scope.savePass = function (){
-        var popup = angular.element("#addPassphrase");
+        var popup2 = angular.element("#addPassphrase");
         //for hide model
-        popup.modal('hide');
+        popup2.modal('hide');
         var decripted = decryptMessages($scope.chatMessages)
         decripted.then(function (decripted){
+          console.log('here')
           $scope.show = true;
           $scope.chatMessages = decripted;
           $scope.passphraseChat = "";
           $scope.seeButton = false;
           var popup = angular.element("#decryptingSpinner");
-          //for hide model
           popup.modal('hide');
           $scope.$apply();
         }).catch(function(error){
