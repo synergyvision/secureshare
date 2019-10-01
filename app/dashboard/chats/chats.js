@@ -345,6 +345,8 @@
             var sent = new Date(messages[i].data.date_sent);
             messages[i].sent = sent.toLocaleString();
         }
+        var popup = angular.element("#decryptingSpinner");
+        popup.modal('hide');
         return messages
       } 
 
@@ -383,8 +385,6 @@
           $scope.chatMessages = decripted;
           $scope.passphraseChat = "";
           $scope.seeButton = false;
-          var popup = angular.element("#decryptingSpinner");
-          popup.modal('hide');
           $scope.$apply();
         }).catch(function(error){
           alert(translate('chats.pass_error'))
