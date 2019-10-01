@@ -292,6 +292,7 @@
           $scope.passphrase = "";
           $scope.readMessage($rootScope.messageId,$rootScope.status,decrypted)
         }).catch(function (error){
+           $scope.passphrase = "";
             alert(translate('messages.error_pass2'))
         })
       } 

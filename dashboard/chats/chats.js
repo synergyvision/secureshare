@@ -387,6 +387,7 @@
           $scope.seeButton = false;
           $scope.$apply();
         }).catch(function(error){
+          $scope.passphraseChat = "";
           alert(translate('chats.pass_error'))
         })
 
