@@ -380,13 +380,16 @@
         popup2.modal('hide');
         var decripted = decryptMessages($scope.chatMessages)
         decripted.then(function (decripted){
-          console.log('here')
           $scope.show = true;
           $scope.chatMessages = decripted;
           $scope.passphraseChat = "";
           $scope.seeButton = false;
+          var popup = angular.element("#decryptingSpinner");
+          popup.modal('hide');
           $scope.$apply();
         }).catch(function(error){
+          var popup = angular.element("#decryptingSpinner");
+          popup.modal('hide');
           $scope.passphraseChat = "";
           alert(translate('chats.pass_error'))
         })
