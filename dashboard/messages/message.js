@@ -278,14 +278,17 @@
 
       $scope.decrypt = async () => {
         var privateKey = getPrivateKey($rootScope.messageKeyname);
+        console.log(privateKey)
         try {
           privateKey = decryptKey(privateKey,$scope.passphrase);
+          console.log(privateKey)
           var message = decriptMessage(privateKey, $scope.passphrase, $rootScope.messageContent)
+          console.log(message)
         }catch(e){
+          console.log(e);
           alert(translate('messages.error_pass'))
         }
         message.then(function (decrypted){
-          console.log(decrypted)
           $scope.passphrase = "";
           $scope.readMessage($rootScope.messageId,$rootScope.status,decrypted)
         }).catch(function (error){
@@ -385,7 +388,7 @@
         var publishRequest = $.param({
           sender: $scope.data.sender,
           id_sender: $scope.data.id_sender,
-          content: $scope.decrypted
+          content: $stateParams.content
         })
         $http({
           url: __env.apiUrl + __env.messages + uid + '/' + $stateParams.id + '/publish',

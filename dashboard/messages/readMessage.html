@@ -1,10 +1,10 @@
 <div class="container">
   <h2>{{'messages.read' | translate}}</h2>
     <div ng-controller="messagesController">
-      <form id="message">
+      <form id="message" ng-init="getMessage()">
         <div class="form-group">
           <div ng-if="data.sender">
-            <h2for="user">{{'messages.message_from' | translate}} {{data.sender}}</h2>
+            <h2 for="user">{{'messages.message_from' | translate}} {{data.sender}}</h2>
           </div>
           <div ng-if="data.r_username">
               <h2 for="user">{{'messages.message_to' | translate}} {{data.r_username}}</h2>
