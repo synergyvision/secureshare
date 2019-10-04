@@ -187,7 +187,7 @@ angular.module('SecureShare.profile', ['ngRoute','ui.router'])
   //retrieves the users published messages
 
    $scope.getFeedbacks = function(){
-
+    $scope.spinner = true;
     var requestFeedback = $.param({
       user_id: user_id
     })
@@ -198,10 +198,12 @@ angular.module('SecureShare.profile', ['ngRoute','ui.router'])
         data: requestFeedback,
         headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
       }).then(function (response){
+        $scope.spinner =false;
           console.log(response.data.data)
           var feedbacks = response.data.data;
           $scope.feedbacks = getDates(feedbacks);
       }).catch(function(error){
+        $scope.spinner =false;
         console.log(error);
       })
    }

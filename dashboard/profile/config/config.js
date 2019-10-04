@@ -6,6 +6,12 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
     templateUrl: 'dashboard/profile/config/config.html',
     controller: 'configController',
     css: 'config.css'
+  }),
+  $stateProvider.state('dash.config-otp', {
+    url: '/config/otp',
+    templateUrl: 'dashboard/profile/config/otp.html',
+    controller: 'configController',
+    css: 'config.css'
   })
 }])
 
@@ -262,27 +268,55 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
     //signs the user in with github and retrieves the ouath2 token
 
     $scope.getToken = function (){
-      console.log($scope.username,$scope.password)
-      password = encryptPassword($scope.password)
-      password.then(function (password){
-        var loginGit = $.param({
-          username: $scope.username,
-          password: password
-        }) 
-        $http({
-          url: __env.apiUrl + __env.repos + uid + '/getToken',
-          method: 'POST',
-          data: loginGit,
-          headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token} 
-        }).then(function (response){
+      if($scope.password){
+        password = encryptPassword($scope.password)
+        password.then(function (password){
+          var loginGit = $.param({
+            username: $scope.username,
+            password: password
+          }) 
+          $http({
+            url: __env.apiUrl + __env.repos + uid + '/getToken',
+            method: 'POST',
+            data: loginGit,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token} 
+          }).then(function (response){
             console.log(response.data)
-            alert(translate('networks.gh_valid'))
-            $scope.getSocials()
-        }).catch(function (error){
-            console.log(error)
-            alert(translate('networks.gh_invalid'))
+            if (response.data.status == 201){
+              alert(translate('networks.gh_valid'))
+              $scope.getSocials()
+            }else if(response.data.status == 401){
+              $localStorage[uid + '-gituser'] = $scope.username;
+              $localStorage[uid + '-password'] = password
+              $state.go('dash.config-otp')
+            }
+
+          }).catch(function (error){
+              console.log(error)
+              alert(translate('networks.gh_invalid'))
+          })
         })
-      })  
+      }else{
+          var loginGit = $.param({
+            username: $localStorage[uid + '-gituser'],
+            password: $localStorage[uid + '-password'],
+            otp: $scope.otp
+          }) 
+          $http({
+            url: __env.apiUrl + __env.repos + uid + '/getToken',
+            method: 'POST',
+            data: loginGit,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token} 
+          }).then(function (response){
+            if (response.data.status == 'created'){
+              alert(translate('networks.gh_valid'))
+              $scope.go('dash.config')
+            }
+          }).catch(function (error){
+              console.log(error)
+              alert(translate('networks.gh_invalid'))
+          })
+      }    
     }
 
     //function to copy the validation message

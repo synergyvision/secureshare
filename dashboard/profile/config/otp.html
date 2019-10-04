@@ -1,0 +1,26 @@
+<div class="container-fluid" ng-controller="configController">
+    <h2>{{'networks.title' | translate}}</h2>
+    <p>{{'networks.undertitle' | translate}}</p>
+        <div>
+            <div class="card">
+                <div class="card-header">
+                        {{'networks.github' | translate}}
+                </div>
+                <div class="card-body" >
+                    <div class="shadow-sm p-3 mb-5 rounded" id="form">
+                        <div class="alert alert-info" role="alert">
+                                {{'networks.otp_alert' | translate}}  
+                        </div>   
+                        <form ng-submit="getToken()">     
+                                <div class="form-group">
+                                        <label for="name">{{'networks.otp_label' | translate}}</label>
+                                        <input type="text" class="form-control" ng-model="otp" id="username">
+                                </div>
+                                <button type="submit" class="btn btn-primary">{{'networks.send' | translate}}</button>
+                        </form>
+                    </div>          
+            </div>      
+        </div>        
+    </div>        
+</div>
+     

@@ -121,16 +121,19 @@ angular.module('SecureShare.posts', ['ui.router'])
       //retrieves the list of posts
 
       $scope.getPosts = function (){
+        $scope.spinner = true;
         $http({
           url: __env.apiUrl + __env.posts,
           method: 'GET',
           headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
+          $scope.spinner = false;
             var posts = response.data.data;
             console.log(posts)
             $scope.posts = getDates(posts);
             console.log($scope.posts)
         }).catch(function (error){
+          $scope.spinner = false;
             console.log(error)
         })
       }
