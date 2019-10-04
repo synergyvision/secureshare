@@ -29,7 +29,7 @@
         <h2>{{'publications.title' | translate}}</h2>
     </div>
     <div id="published" ng-init="getFeedbacks()">
-        <div ng-if="!feedbacks" class="timeline-wrapper">
+        <div ng-if="spinner" class="timeline-wrapper">
                 <div class="timeline-item">
                     <div class="animated-background">
                         <div class="background-masker header-top"></div>

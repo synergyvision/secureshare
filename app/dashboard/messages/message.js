@@ -317,6 +317,7 @@
       //retrieves lists of messages
 
         $scope.getMessages = function (tray){
+          $scope.spinner = true
           $scope.correos = "";
           var requestMessages = $.param({
             user_id: uid
@@ -327,12 +328,14 @@
               data: requestMessages,
               headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
           }).then(function (response){
+            $scope.spinner = false;
               console.log(response);
               if (response.data.status == 200){
                   var messages = response.data.data;
                   $scope.correos = getDate(messages);
               }
           }).catch(function (error){
+            $scope.spinner = false;
               console.log(error);
           })
       }

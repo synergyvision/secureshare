@@ -165,7 +165,9 @@
         "tw_invalid": "Ha ocurrido un error validando el mensaje, revisa que el mensaje se publicó en twitter o recarga la página para obtener otro mensaje",
         "tw_valid": "Se ha validado la cuenta de twitter exitosamente",
         "gh_valid": "Github asociado exitosamente",
-        "gh_invalid": "Usuario o contraseña inválidos"
+        "gh_invalid": "Usuario o contraseña inválidos",
+        "otp_alert": "Tienes activado 2do factor de autentificación, ingresa el codigo recibido.",
+        "otp_label": "Codigo"
 
     },
     "messages":{

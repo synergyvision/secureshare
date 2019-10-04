@@ -18,6 +18,12 @@
         </ul>
     </div>    
     <div class="list-group " ng-init="getMessages('inbox')">
+            <div ng-if="spinner" class="timeline-wrapper">
+                    <div class="timeline-item">
+                        <div class="animated-background">
+                        </div>
+                    </div>
+            </div>
         <div ng-repeat="correo in correos | orderBy: '-this.data.timestamp'">
             <div ng-if="correo.data.status == 'unread'">
                 <a id="mail" class="list-group-item list-group-item-action w-100">
