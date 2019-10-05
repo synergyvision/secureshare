@@ -308,11 +308,14 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
             data: loginGit,
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token} 
           }).then(function (response){
+            delete $localStorage[uid + '-gituser'];
+            delete $localStorage[uid + '-password']
             if (response.data.status == 'created'){
               alert(translate('networks.gh_valid'))
-              delete $localStorage[uid + '-gituser'];
-              delete $localStorage[uid + '-password']
               $scope.go('dash.config')
+            }else{
+              $scope.go('dash.config')
+              alert(translate('networks.gh_invalid'))
             }
           }).catch(function (error){
               console.log(error)
