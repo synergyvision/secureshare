@@ -310,10 +310,15 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
           }).then(function (response){
             if (response.data.status == 'created'){
               alert(translate('networks.gh_valid'))
+              delete $localStorage[uid + '-gituser'];
+              delete $localStorage[uid + '-password']
               $scope.go('dash.config')
             }
           }).catch(function (error){
               console.log(error)
+              $scope.go('dash.config')
+              delete $localStorage[uid + '-gituser'];
+              delete $localStorage[uid + '-password']
               alert(translate('networks.gh_invalid'))
           })
       }    
