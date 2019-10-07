@@ -46,7 +46,7 @@
       
       $scope.getPublicKey =  function (idUser){
         if (!$scope.message){
-          alert("No puede mandar un mensaje en blanco")
+          alert("No puede mandar un mensaje en blanco")d
         }else{
 
           var keyRequest = $.param({
@@ -164,6 +164,7 @@
       //retrieves the keys for the new message and then passes the content to send messages
 
       $scope.encrypt = function (key,userdata) {
+        if ($scope.chatKey){
             var keyPublic = getPublicKey($scope.chatKey);
             var keyPrivate = getPrivateKey($scope.chatKey);
             userdata[uid] = $scope.chatKey;
@@ -177,6 +178,9 @@
             }).catch(function (error){
               console.log(error)
             })
+          }else{
+            alert(translate('messages.no_keys'))
+          }    
         }
 
         //resets input
