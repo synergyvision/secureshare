@@ -219,7 +219,10 @@
         "decrypting": "Descifrando mensajes",
         "chat_error": "Error en la creación de la conversación, intente de nuevo",
         "chat_pass_error": "Error, verifique que la llave y la clave sean correctos",
-        "pass_error": "Su clave es incorrecta"
+        "pass_error": "Su clave es incorrecta",
+        "no_contacts": "Selecciona al menos un contacto.",
+        "no_title": "Ingresa un título.",
+        "no_keys": "Seleccione una llave"
 
     },
     "suveys":{

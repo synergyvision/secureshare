@@ -71,19 +71,36 @@
 
       }
 
+        var checkError = function(){
+          if ($scope.name.length == 0){
+              alert(filter('chats.no_contacts'))
+              return false
+          }else if(!$scope.chatTitle){
+              alert(filter('chats.no_title'))
+              return false
+          }else if(!$scope.keyname){
+              alert(filter('chats.no_keys'))
+              return false
+          }else{
+              return true;
+          }
+      }
+
       //creates a new chat
 
       $scope.createChat = function (){
-        var participants = {}
-        for (i = 0; i < $scope.name.length; i++){
-            participants[$scope.name[i]] = 'default'
-        }
-        participants[uid] = $scope.keyname;
-        var chatRequest = $.param({
-          title: $scope.title,
-          participants: JSON.stringify(participants)
-        })
-        $http({
+
+          var participants = {}
+          for (i = 0; i < $scope.name.length; i++){
+              participants[$scope.name[i]] = 'default'
+          }
+          participants[uid] = $scope.keyname;
+          var chatRequest = $.param({
+            title: $scope.title,
+            participants: JSON.stringify(participants)
+          })
+          if (checkError()){
+                $http({
                   url: __env.apiUrl + __env.chats + uid,
                   method: "POST",
                   data: chatRequest,
@@ -96,6 +113,7 @@
               console.log(error);
               alert(translate('chats.chat_error'))
             })
+          }
       }
 
       //gets the info of a chat
