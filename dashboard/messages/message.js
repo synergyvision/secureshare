@@ -46,7 +46,7 @@
       
       $scope.getPublicKey =  function (idUser){
         if (!$scope.message){
-          alert("No puede mandar un mensaje en blanco")d
+          alert("No puede mandar un mensaje en blanco")
         }else{
 
           var keyRequest = $.param({
