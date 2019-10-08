@@ -335,7 +335,7 @@ angular.module('SecureShare.posts', ['ui.router'])
           user_id: $scope.uid,
           post_id: post
         })
-        $http({
+       $http({
           url: __env.apiUrl + __env.comments + '/',
           method: 'POST',
           data: commentRequest,

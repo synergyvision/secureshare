@@ -59,7 +59,7 @@
                 <div id="background">
                     <form class="form-inline" id="commentForm">
                         <div class="input-group mb-3 col-md-12 p-0">
-                            <input type="text" class="form-control"  ng-model="newComment" id="newComment"  placeholder="{{'posts.comment_placeholder' | translate}}" aria-describedby="button-addon2">
+                            <input type="text" class="form-control"  ng-model="$parent.newComment" id="newComment"  placeholder="{{'posts.comment_placeholder' | translate}}" aria-describedby="button-addon2">
                             <div class="input-group-append">
                                     <button id="commentButton" class="btn btn-success" ng-click="sendComment()"><i class="fas fa-share"></i></button>
                             </div>
