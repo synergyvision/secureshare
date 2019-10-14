@@ -160,7 +160,7 @@ function encryptKeys(key,seed){
             if (response.data.status == 200){
                 console.log('keys stored succesfully')
                 popup.modal('hide');
-                $state.realod();
+                $state.reload();
             }else{
               alert(response.data.message);
             }
