@@ -14,7 +14,8 @@ function encryptKeys(key,seed){
 
  function translate(phrase){
     var chars={
-		"á":"a", "é":"e", "í":"i", "ó":"o", "ú":"u","ñ":"n"}
+    "á":"a", "é":"e", "í":"i", "ó":"o", "ú":"u","ñ":"n"
+    }
     var expr=/[áàéèíìóòúù]/ig;
     var text= phrase.replace(expr,function(e){return chars[e]});
     return text;
@@ -58,7 +59,7 @@ function encryptKeys(key,seed){
         method: 'GET'
       }).then(function (response){
         if (response.data.status == 200){
-            $scope.phrase = response.data.message;
+            $scope.phrase = translate(response.data.message);
         }else{
           alert(response.data.message);
         }  
@@ -160,7 +161,8 @@ function encryptKeys(key,seed){
             if (response.data.status == 200){
                 console.log('keys stored succesfully')
                 popup.modal('hide');
-                $state.reload();
+                $scope.checkKeys();
+                $scope.$apply()
             }else{
               alert(response.data.message);
             }
@@ -335,8 +337,9 @@ function encryptKeys(key,seed){
     $scope.checkWords = function (){
       var words = translate($scope.phraseRecovery)
       var bytes  = CryptoJS.AES.decrypt($localStorage.recoveryKey.PrivKey,words);
+      var priv = bytes.toString(CryptoJS.enc.Utf8);
+      console.log(priv)
       try {
-        var priv = bytes.toString(CryptoJS.enc.Utf8);
         $localStorage.recoveryKey.PrivKey = priv;
           var popup = angular.element("#changeKey");
           //for hide model

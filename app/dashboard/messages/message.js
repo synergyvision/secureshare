@@ -405,7 +405,8 @@
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
             console.log(response);
-            alert(translate('publish_message'))
+            alert(translate(translate('messages.publish_message')))
+            $state.go('dash.inbox', {'tray': 'inbox'})
         }).catch(function (error){
             console.log(error);
         })

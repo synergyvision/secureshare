@@ -141,27 +141,31 @@ angular.module('SecureShare.posts', ['ui.router'])
       //changes the user reactios to the posts on the local scope
 
       var changeReaction = function(post_id,status){
-        for (var i = 0; i < $scope.posts.length; i++){
-          if ($scope.posts[i].id == post_id){
-            if (!$scope.posts[i].reactions){
-              if (status == 'like'){
+        if ($scope.posts){
+          for (var i = 0; i < $scope.posts.length; i++){
+            if ($scope.posts[i].id == post_id){
+              if (!$scope.posts[i].reactions){
+                if (status == 'like'){
+                  $scope.posts[i].reactions = 'liked'
+                  $scope.posts[i].data.likes += 1;
+                }else{
+                  $scope.posts[i].reactions = 'disliked'
+                  $scope.posts[i].data.dislikes += 1;
+                }
+              } else if ($scope.posts[i].reactions == 'liked' && status != 'like') {
+                  $scope.posts[i].reactions = 'disliked'
+                  $scope.posts[i].data.likes -= 1;
+                  $scope.posts[i].data.dislikes += 1;
+              } else if ($scope.posts[i].reactions == 'disliked' && status == 'like'){
                 $scope.posts[i].reactions = 'liked'
                 $scope.posts[i].data.likes += 1;
-              }else{
-                $scope.posts[i].reactions = 'disliked'
-                $scope.posts[i].data.dislikes += 1;
+                $scope.posts[i].data.dislikes -= 1;
               }
-            } else if ($scope.posts[i].reactions == 'liked' && status != 'like') {
-                $scope.posts[i].reactions = 'disliked'
-                $scope.posts[i].data.likes -= 1;
-                $scope.posts[i].data.dislikes += 1;
-            } else if ($scope.posts[i].reactions == 'disliked' && status == 'like'){
-              $scope.posts[i].reactions = 'liked'
-              $scope.posts[i].data.likes += 1;
-              $scope.posts[i].data.dislikes -= 1;
             }
           }
-        }
+        }else{
+          $scope.loadPost();
+        }  
       }
 
       //functions updates the likes of a publication
@@ -252,6 +256,7 @@ angular.module('SecureShare.posts', ['ui.router'])
           headers: {'Authorization':'Bearer: ' + token} 
         }).then(function (response){
            $scope.$parent.post = response.data.data;
+           $scope.post.reactions = checkLike($scope.$parent.post.data.reactions)
            console.log(response)
         }).catch (function (error){
           console.log(error.code)
@@ -321,7 +326,8 @@ angular.module('SecureShare.posts', ['ui.router'])
           headers: {'Authorization':'Bearer: ' + token}
         }).then(function (response){
             console.log(response.data);
-            $scope.comments = response.data.data
+            $scope.comments = response.data.data;
+  
         }).catch(function (error){
           console.log(error)
         })
@@ -341,8 +347,8 @@ angular.module('SecureShare.posts', ['ui.router'])
           data: commentRequest,
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
-          console.log(response.data);
-          $scope.getComments(); 
+          $scope.newComment = "";
+          $scope.getComments();
         }).catch(function (error){
             console.log(error);
         })
@@ -351,7 +357,7 @@ angular.module('SecureShare.posts', ['ui.router'])
       //commences the process of edit posts
 
       $scope.editComment = function(id,content){
-        console.log(id,content);
+        console.log($scope.comments)
         var popup = angular.element("#editComment");
         if (!$scope.editedCommentContent){
           //for hide model
@@ -368,10 +374,9 @@ angular.module('SecureShare.posts', ['ui.router'])
             data: editRequest,
             headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
           }).then(function (response){
-            console.log(response.data)
-            $scope.editedCommentContent = "";
             $scope.editedCommentId = "";
-            $scope.getComments() 
+            $scope.editedCommentContent = "";
+            $state.reload();
           }).catch(function (error){
             console.log(error)
           })
