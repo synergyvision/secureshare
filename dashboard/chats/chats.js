@@ -73,13 +73,13 @@
 
         var checkError = function(){
           if ($scope.name.length == 0){
-              alert(filter('chats.no_contacts'))
+              alert(translate('chats.no_contacts'))
               return false
-          }else if(!$scope.chatTitle){
-              alert(filter('chats.no_title'))
+          }else if(!$scope.title){
+              alert(translate('chats.no_title'))
               return false
           }else if(!$scope.keyname){
-              alert(filter('chats.no_keys'))
+              alert(translate('chats.no_keys'))
               return false
           }else{
               return true;

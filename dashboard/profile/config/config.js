@@ -312,9 +312,9 @@ angular.module('SecureShare.config', ['ngRoute','ui.router'])
             delete $localStorage[uid + '-password']
             if (response.data.status == 'created'){
               alert(translate('networks.gh_valid'))
-              $scope.go('dash.config')
+              $state.go('dash.config')
             }else{
-              $scope.go('dash.config')
+              $state.go('dash.config')
               alert(translate('networks.gh_invalid'))
             }
           }).catch(function (error){
