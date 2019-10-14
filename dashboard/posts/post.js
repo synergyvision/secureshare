@@ -84,7 +84,7 @@ angular.module('SecureShare.posts', ['ui.router'])
           headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8','Authorization':'Bearer: ' + token}
         }).then(function (response){
           console.log(response);
-          $scope.getPosts();
+          $state.reload();
         }).catch(function (error){
             console.log(error)
         })
