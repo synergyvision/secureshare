@@ -120,7 +120,7 @@
         "pass": "Clave",
         "recovery": "Frase de recuperación",
         "alert": "Debe insertar una frase de doce palabras para resguardar sus llaves, puede usar una frase propia o utilizar la generada por la aplicación.",
-        "alert2": "Debe resguardar la frase en un lugar seguro, si la pierde no podrá recuperar la llave, no deje especios al final de la frase.",
+        "alert2": "Debe resguardar la frase en un lugar seguro, si la pierde no podrá recuperar la llave.",
         "new_key": "Agregar",
         "warning": "Advertencia",
         "delete_warning": "Esta acción es altamente destructiva, al borrar su llave perderá acceso a todo el contenido protegido con esta llave.",
@@ -135,7 +135,8 @@
         "expired_error": "Su sesión ha vencido",
         "error_field": "Por favor llene todos los campos",
         "error_pass": "Clave incorrecta",
-        "success": "Su llave se ha activado exitosamente"
+        "success": "Su llave se ha activado exitosamente",
+        "put_phrase": "Coloca la frase"
     },
     "contacts":{
         "search_title": "Busqueda",
