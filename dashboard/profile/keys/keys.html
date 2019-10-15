@@ -76,12 +76,16 @@
                       <div class="form-group">
                       </div>
                       <div class="input-group mb-3">
-                        <input type="text" class="form-control" ng-model="phrase" id="phrase" required>
+                        <input type="text" class="form-control" ng-model="nmemonic" id="nmemonic" required>
                         <div class="input-group-append">
                           <button class="btn btn-outline-secondary" type="button" id="button-addon2" ng-click="generarPalabras()"><i class="fas fa-sync-alt"></i></button>
                           <button class="btn btn-outline-secondary" type="button" id="clipboard" data-toggle="tooltip" data-placement="top" title="Copiar" ng-click="copy()"><i class="fas fa-clipboard"></i></button>
                         </div>
                       </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="name">{{'keys.put_phrase' | translate}}</label>
+                      <input type="text" class="form-control" ng-model="phrase" id="phrase" required>
                     </div>
                       <button type="submit" data-target=".spinnerModal"class="btn btn-primary">{{'keys.new_key' | translate}}</button>
               </form>

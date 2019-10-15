@@ -59,7 +59,7 @@ function encryptKeys(key,seed){
         method: 'GET'
       }).then(function (response){
         if (response.data.status == 200){
-            $scope.phrase = translate(response.data.message);
+            $scope.nmemonic = translate(response.data.message);
         }else{
           alert(response.data.message);
         }  
@@ -221,11 +221,11 @@ function encryptKeys(key,seed){
                 // encrypt keys on local storage
                 var localPrivateKey = encryptKeys(privkey,$scope.passphrase)
                 localPrivateKey = localPrivateKey.toString();
-                localStorekeys(pubkey,localPrivateKey,$scope.newName);
+                //localStorekeys(pubkey,localPrivateKey,$scope.newName);
                 // encrypt keys and send to cloud
                 var privateKey = encryptKeys(privkey,words)
                 privateKey = privateKey.toString()
-                storekeys(pubkey,privateKey,$scope.newName,popup)
+                //storekeys(pubkey,privateKey,$scope.newName,popup)
                 console.log('keys sent to cloud');
               }).catch(function (error){
                 console.log(error.code + '\n' + error.message);
@@ -396,7 +396,7 @@ function encryptKeys(key,seed){
     }
 
     $scope.copy = function(){
-      var copyText = document.getElementById('phrase');
+      var copyText = document.getElementById('nmemonic');
       copyText.select(); 
       document.execCommand("copy");
     }
